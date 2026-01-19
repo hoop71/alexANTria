@@ -1,0 +1,15 @@
+---
+paths:
+  - "src/agents/**/*"
+  - "prompts/**/*"
+  - "lib/ai/**/*"
+---
+
+# AI/Agent Context
+
+Before modifying AI code, read:
+- [{{AI_GUIDELINES_DOC}}](../../{{AI_GUIDELINES_PATH}})
+
+## Quick Reference
+
+<!-- Add your project's AI patterns here -->

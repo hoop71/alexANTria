@@ -1,0 +1,15 @@
+---
+paths:
+  - "src/server/**/*"
+  - "api/**/*"
+  - "lib/**/*"
+---
+
+# Backend Context
+
+Before modifying server code, read:
+- [{{ARCHITECTURE_DOC}}](../../{{ARCHITECTURE_PATH}})
+
+## Quick Reference
+
+<!-- Add your project's backend patterns here -->

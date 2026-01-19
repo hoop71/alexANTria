@@ -1,0 +1,15 @@
+---
+paths:
+  - "src/components/**/*"
+  - "src/routes/**/*"
+  - "app/**/*"
+---
+
+# Frontend Context
+
+Before modifying UI, read:
+- [{{UX_DOC}}](../../{{UX_PATH}})
+
+## Quick Reference
+
+<!-- Add your project's UI patterns here -->

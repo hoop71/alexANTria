@@ -1,0 +1,25 @@
+# {{PROJECT_NAME}} – Claude Context
+
+## Document Hierarchy
+
+<!-- List your docs in priority order. Higher docs override lower when they conflict. -->
+
+1. **[{{DOC_1}}](./{{PATH_1}})** — {{DESCRIPTION_1}}
+2. **[{{DOC_2}}](./{{PATH_2}})** — {{DESCRIPTION_2}}
+3. **[{{DOC_3}}](./{{PATH_3}})** — {{DESCRIPTION_3}}
+
+## When to Read
+
+| Working on... | Read first |
+|--------------|------------|
+| {{AREA_1}} | [{{DOC_1}}](./{{PATH_1}}) |
+| {{AREA_2}} | [{{DOC_2}}](./{{PATH_2}}) |
+| {{AREA_3}} | [{{DOC_3}}](./{{PATH_3}}) |
+
+## When to Suggest Updates
+
+After completing work, ask:
+
+- "Did I change **{{AREA_1}}**? → Update {{DOC_1}}?"
+- "Did I change **{{AREA_2}}**? → Update {{DOC_2}}?"
+- "Did I change **{{AREA_3}}**? → Update {{DOC_3}}?"
