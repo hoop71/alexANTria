@@ -1,6 +1,5 @@
 # alexANTria
-
-<img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/cdba2148-c8f4-4a7f-af4e-b79e42be12d7" />
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/6e46d18f-1afb-4d45-b3fa-5bf1c0a03b19" />
 
 **A model of intelligence based on coordination, not command.**
 
