@@ -1,158 +1,206 @@
 ---
-description: Scaffold a CLAUDE.md and .claude/rules/ structure for this project
-allowed-tools: Read, Write, Glob, Bash, AskUserQuestion
+description: Crawl project docs and scaffold Claude context files
+allowed-tools: Read, Write, Glob, Grep, Bash, AskUserQuestion
 ---
 
 # Initialize Project Documentation Structure
 
-Help the user set up context automation for this project.
+Automatically detect existing documentation and scaffold context files for Claude Code.
 
-## Steps
+## Phase 1: Crawl
 
-### 1. Understand the Project
+First, discover what documentation already exists.
 
-First, look for existing documentation:
+### Find Documentation Files
 
 ```bash
-# Check for common doc files
-ls -la *.md docs/*.md 2>/dev/null || true
+# Find markdown files in common locations
+find . -maxdepth 3 -name "*.md" -type f 2>/dev/null | grep -v node_modules | grep -v .git | head -50
 ```
 
-Ask the user:
-- What kind of project is this? (web app, CLI, library, API, etc.)
-- What are the main documentation files? (or should we create them?)
-- What's the directory structure for code? (src/? lib/? app/?)
+```bash
+# Check for docs directories
+ls -la docs/ doc/ documentation/ 2>/dev/null || true
+```
 
-### 2. Identify the Document Hierarchy
+```bash
+# Check for existing Claude setup
+ls -la .claude/ CLAUDE.md 2>/dev/null || true
+```
 
-Help the user identify their docs in priority order. Common patterns:
+### Identify Code Structure
 
-**For product/app projects:**
-1. UX/Design constraints (highest priority)
-2. Product brief / business rules
-3. Technical architecture
-4. Decision changelog
+```bash
+# Find main code directories
+ls -d */ 2>/dev/null | head -20
+```
 
-**For libraries/tools:**
-1. API design principles
-2. Contributing guidelines
-3. Architecture docs
-4. Changelog
+```bash
+# Look for common patterns
+ls src/ app/ lib/ packages/ 2>/dev/null || true
+```
 
-**For APIs/services:**
-1. API contracts / OpenAPI spec
-2. Security requirements
-3. Architecture docs
-4. Runbooks
+### Classify Found Docs
 
-### 3. Create CLAUDE.md
+Read each discovered doc file briefly to understand its purpose. Map to the nesting doll layers:
 
-Create a `CLAUDE.md` in the project root with:
+**Layer 1 - Philosophy/Constraints** (look for):
+- Files with "philosophy", "principles", "constraints", "values" in name
+- Content with "always", "never", "must", "non-negotiable"
+- Design systems, UX guidelines
+
+**Layer 2 - Product/Business** (look for):
+- Files with "product", "prd", "requirements", "scope", "brief" in name
+- Content with "users can", "the system should", "features"
+- Business rules, domain logic docs
+
+**Layer 3 - Architecture/Patterns** (look for):
+- Files with "architecture", "patterns", "conventions", "contributing", "api" in name
+- Content with "we use", "structure", "components"
+- Tech stack docs, coding standards
+
+**Layer 4 - Implementation** (look for):
+- CHANGELOG, ADRs, decision records
+- TODO files, roadmaps
+- Code comments (don't need to catalog these)
+
+## Phase 2: Propose
+
+Present findings to the user:
+
+```
+## Found Documentation
+
+I found these docs and mapped them to the hierarchy:
+
+### Layer 1: Philosophy/Constraints
+- [x] docs/ux-philosophy.md — "Design principles"
+
+### Layer 2: Product/Business
+- [x] docs/product-brief.md — "Product requirements"
+- [ ] (none found)
+
+### Layer 3: Architecture/Patterns
+- [x] ARCHITECTURE.md — "System design"
+- [x] CONTRIBUTING.md — "Code conventions"
+
+### Layer 4: Implementation
+- [x] CHANGELOG.md — "Version history"
+
+### Code Structure Detected
+- src/components/ → frontend rules
+- src/server/ → backend rules
+- src/agents/ → agent rules
+
+Does this look right? Should I adjust any mappings?
+```
+
+Use `AskUserQuestion` to confirm or let them adjust.
+
+## Phase 3: Generate
+
+Create the context files based on confirmed mappings.
+
+### Create CLAUDE.md
+
+Generate a project-level CLAUDE.md with:
 
 ```markdown
 # [Project Name] – Claude Context
 
-## Document Hierarchy (Highest to Lowest Priority)
+## Document Hierarchy
 
-1. **[doc-name.md](./path)** — [What it governs]
-2. **[doc-name.md](./path)** — [What it governs]
-3. ...
+<!-- Outer layers override inner layers when they conflict -->
+
+### Layer 1: Philosophy/Constraints
+- **[doc-name.md](./path)** — What it governs
+
+### Layer 2: Product/Business
+- **[doc-name.md](./path)** — What it governs
+
+### Layer 3: Architecture/Patterns
+- **[doc-name.md](./path)** — What it governs
+
+### Layer 4: Implementation
+- **[CHANGELOG.md](./CHANGELOG.md)** — Version history
 
 ## When to Read
 
 | Working on... | Read first |
 |--------------|------------|
-| [area] | [doc link] |
-| [area] | [doc link] |
+| UI changes | Layer 1 philosophy + Layer 3 patterns |
+| New features | Layer 2 product brief |
+| Refactoring | Layer 3 architecture |
+| Bug fixes | Layer 3 patterns |
 
-## When to Suggest Updates
+## After Completing Work
 
-After completing work that affects:
-- [area] → update [doc]
-- [area] → update [doc]
+Ask yourself:
+- Did I establish a **new pattern**? → Suggest updating Layer 3 docs
+- Did I change **product behavior**? → Suggest updating Layer 2 docs
+- Did I violate a **constraint**? → Discuss with user before proceeding
 ```
 
-### 4. Create .claude/rules/
-
-Create path-specific rules based on the project structure:
+### Create .claude/rules/
 
 ```bash
 mkdir -p .claude/rules
 ```
 
-For each major code area, create a rule file:
+Generate rule files for each detected code domain. Each rule should:
+1. Have correct path globs in frontmatter
+2. Reference the relevant docs from the hierarchy
+3. Include a brief "Quick Reference" with key points from those docs
 
-**`.claude/rules/frontend.md`** (if applicable)
+**Example: `.claude/rules/frontend.md`**
+
 ```markdown
 ---
 paths:
-  - "src/components/**/*.tsx"
-  - "src/routes/**/*.tsx"
+  - "src/components/**"
   - "app/**/*.tsx"
 ---
 
 # Frontend Context
 
 Before modifying UI, read:
-- [Link to UX/design constraints doc]
+- [ux-philosophy.md](../../docs/ux-philosophy.md) — Design constraints
 
 ## Quick Reference
-- [Key UI guidelines from the project]
+<!-- Pull 3-5 key points from the philosophy doc -->
+- Key point 1
+- Key point 2
 ```
 
-**`.claude/rules/backend.md`** (if applicable)
-```markdown
----
-paths:
-  - "src/server/**/*.ts"
-  - "api/**/*.ts"
-  - "lib/**/*.ts"
----
+Only create rules for code directories that actually exist.
 
-# Backend Context
+## Phase 4: Summary
 
-Before modifying server code, read:
-- [Link to architecture doc]
-
-## Quick Reference
-- [Key backend patterns from the project]
-```
-
-**`.claude/rules/agents.md`** (if applicable, for AI/LLM projects)
-```markdown
----
-paths:
-  - "src/agents/**/*.ts"
-  - "prompts/**/*"
----
-
-# Agent Context
-
-Before modifying agents/prompts, read:
-- [Link to agent behavior doc]
-
-## Quick Reference
-- [Key agent guidelines from the project]
-```
-
-### 5. Confirm Setup
-
-After creating files, show the user what was created:
+Show what was created:
 
 ```
 Created:
-  CLAUDE.md              - Document hierarchy and reading instructions
-  .claude/rules/         - Path-specific context rules
-    ├── frontend.md      - UI component guidance
-    ├── backend.md       - Server code guidance
-    └── ...
+  CLAUDE.md                    — Document hierarchy (4 docs mapped)
+  .claude/rules/
+    ├── frontend.md            — For src/components/**
+    ├── backend.md             — For src/server/**
+    └── agents.md              — For src/agents/**
 
-Next: Review CLAUDE.md and customize the "When to Read" table for your docs.
+The hierarchy is:
+  Layer 1: docs/ux-philosophy.md
+  Layer 2: docs/product-brief.md
+  Layer 3: ARCHITECTURE.md, CONTRIBUTING.md
+  Layer 4: CHANGELOG.md
+
+Next steps:
+  1. Review CLAUDE.md and adjust if needed
+  2. Check .claude/rules/ quick references
+  3. Run /init-docs again anytime to update
 ```
 
 ## Notes
 
-- Don't create docs that don't exist — just reference existing ones
-- Keep rules files short — they should point to docs, not duplicate them
-- Ask about the project rather than assuming structure
-- If the user already has a CLAUDE.md, offer to enhance it rather than replace it
+- **Don't create docs that don't exist** — only reference what's there
+- **Keep rules files short** — they point to docs, not duplicate them
+- **Respect existing setup** — if CLAUDE.md exists, offer to enhance not replace
+- **When uncertain, ask** — use AskUserQuestion rather than guessing

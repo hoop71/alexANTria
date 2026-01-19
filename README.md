@@ -2,9 +2,35 @@
 
 <img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/cdba2148-c8f4-4a7f-af4e-b79e42be12d7" />
 
-**Shareable context automation for Claude Code.**
+**A starter template for coding agent context automation.**
 
-Alexandria helps you set up consistent, reusable documentation patterns that Claude Code understands. Instead of manually typing context every session, your project docs become living instructions that Claude reads on-demand and keeps in sync.
+Alexandria is a scaffold you clone and run once to set up documentation patterns that Claude Code understands. Fork it, customize the templates to match your workflow, then install to your `~/.claude/` directory. From there, any project you work on gets the same documentation-first approach.
+
+> **This is not a library or dependency.** Think [shadcn/ui](https://ui.shadcn.com/) for Claude Code context — you own the code, customize freely, no upstream to track.
+
+## The Goal: A Knowledge Library for Coding Agents
+
+Alexandria helps you build a **living knowledge library** that coding agents (Claude Code, Cursor, etc.) can hook into. Instead of re-explaining your architecture every session, your docs become the source of truth that agents read automatically.
+
+**What you're building toward:**
+
+```
+Your Project
+├── CLAUDE.md                    # Entry point - tells agents what to read
+├── docs/
+│   ├── philosophy.md            # Layer 1: Non-negotiables
+│   ├── product-brief.md         # Layer 2: What we're building
+│   └── ...
+├── ARCHITECTURE.md              # Layer 3: How we build
+└── .claude/rules/               # Auto-loaded context by file path
+    ├── frontend.md
+    ├── backend.md
+    └── ...
+```
+
+When Claude Code opens a file in `src/components/`, it automatically loads `frontend.md` which points to your design philosophy. The agent works within your constraints without you having to repeat them.
+
+See [SCHEMA.md](./SCHEMA.md) for the full "Russian Nesting Doll" pattern.
 
 ## Philosophy
 
@@ -43,19 +69,34 @@ CLAUDE.md stays lean. Instead of copying entire docs into context:
 
 ## Quick Start
 
-### 1. Install (one-time)
+### 1. Fork & Clone
 
 ```bash
-git clone https://github.com/yourname/alexandria
+# Fork this repo on GitHub first, then:
+git clone https://github.com/YOUR_USERNAME/alexandria
 cd alexandria
+```
+
+### 2. Customize (optional but recommended)
+
+Before installing, review and edit:
+- `user-level/CLAUDE.md` — Your universal philosophy for all projects
+- `user-level/commands/init-docs.md` — How project scaffolding works
+- `templates/` — Starting points for project-level docs
+
+Delete what doesn't fit your workflow. Add what's missing.
+
+### 3. Install
+
+```bash
 ./install.sh
 ```
 
-This creates `~/.claude/` with:
-- Universal philosophy (applies to all projects)
+This copies your customized files to `~/.claude/`:
+- Universal philosophy (applies to all your projects)
 - `/init-docs` command to scaffold new projects
 
-### 2. Set Up a Project
+### 4. Set Up a Project
 
 ```bash
 cd /path/to/your/project
@@ -67,10 +108,12 @@ Then in Claude Code, run:
 ```
 
 Claude will:
-1. Ask what kind of project this is
-2. Ask what documentation files exist
-3. Create a `CLAUDE.md` with your doc hierarchy
-4. Create `.claude/rules/` with path-specific rules
+1. **Crawl** — Find existing markdown files and code directories
+2. **Classify** — Map docs to the hierarchy (philosophy → product → architecture → implementation)
+3. **Propose** — Show you the mapping and ask for confirmation
+4. **Generate** — Create `CLAUDE.md` and `.claude/rules/` based on what exists
+
+The command discovers what you have rather than asking you to describe it.
 
 ## What Gets Installed
 
@@ -157,6 +200,31 @@ The `templates/` directory contains starting points you can customize:
 | `rules/backend.md.template` | Server/API rules |
 | `rules/ai.md.template` | AI/LLM agent rules |
 
+## Growing Your Knowledge Library
+
+Start simple with 4 layers. As your system evolves, you can expand to a full 5-layer model:
+
+| Level | What It Contains | When to Add |
+|-------|------------------|-------------|
+| ⚛️ Atomic | Raw docs from individual services | Start here |
+| 🧪 Molecular | Aggregated architecture, API flows | 3+ services |
+| 🔬 Compound | AI-synthesized cross-service insights | Patterns emerge |
+| 🦠 Organism | Audience-specific views (eng, product) | Stakeholders diverge |
+| 🌐 Meta | Executive strategic analysis | Vision gaps matter |
+
+See [SCHEMA.md](./SCHEMA.md) for the full pattern.
+
+## Bring Your Own
+
+Alexandria is designed for customization:
+
+- **Templates** — Edit `templates/` before install to change what gets generated
+- **Rules** — Add new `templates/rules/*.template` for your domains (data layer, infra, security)
+- **Commands** — Modify `user-level/commands/init-docs.md` to change the scaffolding workflow
+- **Philosophy** — Edit `user-level/CLAUDE.md` to change how Claude approaches all your projects
+
+See [templates/README.md](./templates/README.md) for customization details.
+
 ## Optional: Session Start Hook
 
 Add a reminder at the start of each Claude Code session in `~/.claude/settings.json`:
@@ -178,6 +246,17 @@ Add a reminder at the start of each Claude Code session in `~/.claude/settings.j
   }
 }
 ```
+
+## Other Coding Agents
+
+While this starter is built for Claude Code, the pattern works with any agent that reads markdown:
+
+- **Cursor** — Use `.cursorrules` or project-level instructions
+- **GitHub Copilot** — Use `.github/copilot-instructions.md`
+- **Windsurf** — Use project rules
+- **Aider** — Use conventions files
+
+The knowledge library pattern (layered docs + path-specific rules) transfers. Only the hook mechanism differs.
 
 ## License
 
