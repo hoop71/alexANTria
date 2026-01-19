@@ -1,5 +1,7 @@
 # Alexandria
 
+<img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/cdba2148-c8f4-4a7f-af4e-b79e42be12d7" />
+
 **Shareable context automation for Claude Code.**
 
 Alexandria helps you set up consistent, reusable documentation patterns that Claude Code understands. Instead of manually typing context every session, your project docs become living instructions that Claude reads on-demand and keeps in sync.
