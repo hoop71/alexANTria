@@ -1,10 +1,12 @@
-# Alexandria Schema
+# alexANTria Schema
 
 The standard pattern for documentation hierarchy. Use this as a reference when customizing your setup.
 
 ## The Nesting Doll Principle
 
-Documentation forms layers. Each layer builds on the previous, and outer layers constrain inner ones:
+Documentation forms layers. Each layer builds on the previous, and outer layers constrain inner ones.
+
+Like pheromone trails in an ant colony, each layer is a signal that guides behavior:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -29,7 +31,7 @@ Documentation forms layers. Each layer builds on the previous, and outer layers 
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**Conflict resolution:** Outer layers override inner layers.
+**Conflict resolution:** Outer layers override inner layers. No central brain decides—the constraint hierarchy does.
 
 ## Starting Simple
 
@@ -44,15 +46,44 @@ Most projects start with 4 layers (the basic starter pattern):
 
 As your system grows, you can expand to the full 5-layer model:
 
-| Level | What It Contains | When to Add |
-|-------|------------------|-------------|
-| ⚛️ Atomic | Raw docs from individual services/repos | Start here |
-| 🧪 Molecular | Static rollups (architecture, API flows) | When you have 3+ services |
-| 🔬 Compound | AI-synthesized cross-service insights | When patterns emerge |
-| 🦠 Organism | Audience-specific views (eng, product, marketing) | When stakeholders diverge |
-| 🌐 Meta | Executive/strategic analysis | When vision-to-execution gaps matter |
+| Level | What It Contains | Who Consumes It | When to Add |
+|-------|------------------|-----------------|-------------|
+| ⚛️ Atomic | Raw docs from individual services/repos | Individual contributors, Agents | Start here |
+| 🧪 Molecular | Static rollups (architecture, API flows) | Engineers, Senior developers | When you have 3+ services |
+| 🔬 Compound | Cross-service insights | Architects, Staff engineers, Tech leads | When patterns emerge |
+| 🦠 Organism | Audience-specific views (eng, product, marketing) | Department leads, Product managers | When stakeholders diverge |
+| 🌐 Meta | Executive/strategic analysis | Leadership, Executives | When vision-to-execution gaps matter |
 
 The `/init-docs` command sets up the basic 4-layer structure. You can evolve from there.
+
+## Bidirectional Flow
+
+Knowledge flows both directions through your documentation layers. This is how the colony stays aligned.
+
+**Upward (Code → Insights):** Implementation patterns bubble up to inform architectural decisions, which surface system health metrics, which shape strategic understanding.
+
+**Downward (Vision → Priorities):** Strategic decisions constrain department goals, which guide architectural choices, which direct implementation.
+
+```
+        ↑ Signals                    ↓ Constraints
+
+Code patterns reveal debt    →    Strategic pivots reshape
+Workarounds signal problems  →    architecture requirements
+Velocity metrics emerge      →    Implementation choices follow
+```
+
+When both flows work, organizations stay aligned. When either breaks, silos form. Structure your docs to maintain both flows.
+
+## The Repair Principle
+
+Every action that changes reality must repair the map.
+
+This is the core behavior loop:
+1. **Read** the relevant context
+2. **Act** within the constraints
+3. **Repair** any docs affected by the change
+
+Small repairs accumulate into coherent documentation. No single change needs to be perfect. Consistency emerges from accumulation, not authority.
 
 ## Standard Document Types
 
@@ -119,7 +150,7 @@ The actual code, plus:
 
 **Characteristics:**
 - Changes frequently
-- Records what happened
+- Records what happened (history matters)
 - Says "this does" and "changed because"
 
 ## Path-Specific Rules
@@ -161,3 +192,44 @@ To customize:
 3. **Add new rule templates** — Create `templates/rules/your-domain.md.template`
 
 The schema is a pattern, not a prison. Adapt it to your workflow.
+
+## Growing the Colony
+
+alexANTria starts as a coding agent scaffold but can grow into an organizational knowledge framework.
+
+### The Path from Starter to Full Organization
+
+**Stage 1: Single Project**
+- Atomic docs (READMEs, code comments)
+- Basic 4-layer hierarchy (Philosophy → Product → Architecture → Implementation)
+- Coding agents as the primary consumer
+
+**Stage 2: Multiple Services**
+- Add Molecular layer (architecture rollups, API documentation)
+- Engineers and agents both benefit
+- Cross-service patterns start to emerge
+
+**Stage 3: Pattern Recognition**
+- Add Compound layer (cross-cutting analysis)
+- Architects can see system-wide concerns
+- Technical debt becomes visible across boundaries
+
+**Stage 4: Stakeholder Divergence**
+- Add Organism layer (audience-specific views)
+- Product, Engineering, and other leads get tailored perspectives
+- Same underlying knowledge, different presentations
+
+**Stage 5: Strategic Alignment**
+- Add Meta layer (executive analysis)
+- Leadership sees vision-to-execution alignment
+- Organizational coherence becomes measurable
+
+### You Don't Need All Five Layers
+
+Most projects never need the full model. The value is knowing the structure exists so you can:
+
+1. **Start simple** — Use the 4-layer starter pattern
+2. **Recognize when to expand** — Add layers when their audience emerges
+3. **Maintain coherence** — Outer layers constrain inner ones at any scale
+
+See [FRAMEWORK.md](./FRAMEWORK.md) for the full organizational knowledge framework.

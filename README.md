@@ -1,22 +1,64 @@
-# Alexandria
+# alexANTria
 
 <img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/cdba2148-c8f4-4a7f-af4e-b79e42be12d7" />
 
-**A starter template for coding agent context automation.**
+**A model of intelligence based on coordination, not command.**
 
-Alexandria is a scaffold you clone and run once to set up documentation patterns that coding agents understand. Fork it, customize the templates to match your workflow, then install. From there, any project you work on gets the same documentation-first approach.
+## Philosophy
 
-> **This is not a library or dependency.** Think [shadcn/ui](https://ui.shadcn.com/) for coding agent context — you own the code, customize freely, no upstream to track.
+Intelligence does not come from a single, all-knowing agent.
+It emerges from many small, well-scoped actions operating over shared context.
 
-## The Goal: A Knowledge Library for Coding Agents
+alexANTria treats documentation as **living memory**:
+- not static instructions,
+- not one-off prompts,
+- but shared state that must be read, used, and maintained.
 
-Alexandria helps you build a **living knowledge library** that coding agents (Claude Code, Cursor, etc.) can hook into. Instead of re-explaining your architecture every session, your docs become the source of truth that agents read automatically.
+Like an ant colony, the system works because:
+- each action is local,
+- each contribution is small,
+- and the shared map is continuously repaired.
 
-**What you're building toward:**
+## Core Principles
+
+### 1. Context is load-bearing
+Documentation is not optional. It is the substrate intelligence walks on.
+If context is wrong or stale, behavior will be wrong.
+
+### 2. Read, then act — then repair
+Every action assumes existing context.
+If an action changes reality, the context must change too.
+
+### 3. Small actions scale
+No single change needs to be perfect.
+Consistency emerges from accumulation, not authority.
+
+### 4. No central brain
+There is no master prompt, no god agent.
+Alignment comes from shared constraints, not top-down control.
+
+### 5. History matters
+Past decisions are not clutter.
+They explain why the system looks the way it does.
+
+## What alexANTria Rejects
+
+- **One-shot intelligence** — context must persist
+- **Hidden state** — if it matters, it's documented
+- **Orphaned documentation** — docs that no one reads or maintains
+- **"Magic" behavior** — every action traceable to context
+
+If a system acts without updating shared memory, it is drifting.
+
+---
+
+## The Structure
+
+alexANTria gives your coding agents (Claude Code, Cursor, etc.) a shared map to walk on. Instead of re-explaining your architecture every session, your docs become the living memory that agents read automatically.
 
 ```
 Your Project
-├── CLAUDE.md                    # Entry point - tells agents what to read
+├── CLAUDE.md                    # Entry point — the colony's pheromone trail
 ├── docs/
 │   ├── philosophy.md            # Layer 1: Non-negotiables
 │   ├── product-brief.md         # Layer 2: What we're building
@@ -28,24 +70,23 @@ Your Project
     └── ...
 ```
 
-When your agent opens a file in `src/components/`, it automatically loads `frontend.md` which points to your design philosophy. The agent works within your constraints without you having to repeat them.
+When an agent opens a file in `src/components/`, it automatically loads `frontend.md` which points to your design philosophy. The agent works within your constraints without you having to repeat them.
 
-See [SCHEMA.md](./SCHEMA.md) for the full "Russian Nesting Doll" pattern.
+See [SCHEMA.md](./SCHEMA.md) for the full nesting pattern.
 
-## Philosophy
+## The Behavior Loop
 
-### Read Before You Act
+Every agent action follows the same pattern:
 
-Every project has documentation that guides decisions. Alexandria teaches your agent to:
+1. **Read** — Identify the area, load relevant docs from the hierarchy
+2. **Act** — Implement with context, decisions align with documented constraints
+3. **Repair** — If the change affects higher-level docs, update them
 
-1. **Identify the area** — UI? Backend? Agent behavior?
-2. **Read relevant docs** — Check the hierarchy, load what matters
-3. **Implement with context** — Decisions align with documented constraints
-4. **Suggest updates** — When changes affect higher-level docs, ask about updating them
+This is how the colony maintains its map. No single agent needs to understand everything. Each one reads what's relevant, acts locally, and repairs what it touched.
 
-### Document Hierarchy
+## Document Hierarchy
 
-Most projects have layered documentation:
+Documentation forms layers. Each layer builds on the previous, and outer layers constrain inner ones:
 
 ```
 Philosophy/Constraints  ← Overrides everything below
@@ -54,18 +95,10 @@ Product/Business Rules  ← Informs features
     ↓
 Technical Patterns      ← Guides implementation
     ↓
-Changelog/History       ← Records decisions
+Changelog/History       ← Records decisions (history matters)
 ```
 
-When you change something at a lower level that affects a higher level, the agent suggests updating the upstream doc.
-
-### References, Not Imports
-
-CLAUDE.md stays lean. Instead of copying entire docs into context:
-
-- Use `[readable descriptions](./path.md)` — the agent reads them when relevant
-- `.claude/rules/` auto-loads domain-specific guidance — only when editing matching paths
-- Hierarchy is codified — the agent knows what to read and when to suggest updates
+When you change something at a lower level that affects a higher level, repair the upstream doc.
 
 ## Quick Start
 
@@ -73,8 +106,8 @@ CLAUDE.md stays lean. Instead of copying entire docs into context:
 
 ```bash
 # Fork this repo on GitHub first, then:
-git clone https://github.com/YOUR_USERNAME/alexandria
-cd alexandria
+git clone https://github.com/YOUR_USERNAME/alexANTria
+cd alexANTria
 ```
 
 ### 2. Customize (optional but recommended)
@@ -121,7 +154,7 @@ The command discovers what you have rather than asking you to describe it.
 
 ```
 ~/.claude/
-├── CLAUDE.md              # Universal "how to manage docs" philosophy
+├── CLAUDE.md              # Universal "read, act, repair" philosophy
 └── commands/
     └── init-docs.md       # Scaffolds project structure
 ```
@@ -157,7 +190,7 @@ Before modifying UI, read:
 - [ux-philosophy.md](../../docs/ux-philosophy.md)
 ```
 
-When you edit a file matching those paths, the rule auto-loads.
+When you edit a file matching those paths, the rule auto-loads. The agent walks on the right substrate automatically.
 
 ### Doc Hierarchy in CLAUDE.md
 
@@ -172,7 +205,7 @@ Your project's CLAUDE.md tells the agent what to read and when:
 | Product scope | [product-brief.md](./docs/product-brief.md) |
 | Implementation | [ARCHITECTURE.md](./ARCHITECTURE.md) |
 
-## When to Suggest Updates
+## When to Repair
 
 After completing work that affects:
 - Design patterns → update ux-philosophy.md
@@ -180,14 +213,14 @@ After completing work that affects:
 - Technical patterns → update ARCHITECTURE.md
 ```
 
-### Update Propagation
+### The Repair Loop
 
 After completing work, the agent checks:
 - "Did I change a **UX pattern**? → Should we update the constraints doc?"
 - "Did I change **product scope**? → Should we update the product doc?"
 - "Did I add **technical patterns**? → Should we update architecture?"
 
-This keeps docs in sync without manual effort.
+This keeps the map accurate. Small repairs accumulate into coherent documentation.
 
 ## Templates
 
@@ -200,15 +233,15 @@ The `templates/` directory contains starting points you can customize:
 | `rules/backend.md.template` | Server/API rules |
 | `rules/ai.md.template` | AI/LLM agent rules |
 
-## Growing Your Knowledge Library
+## Growing the Colony
 
-Start simple with 4 layers. As your system evolves, you can expand to a full 5-layer model:
+Start simple. As your system evolves, expand:
 
 | Level | What It Contains | When to Add |
 |-------|------------------|-------------|
 | ⚛️ Atomic | Raw docs from individual services | Start here |
 | 🧪 Molecular | Aggregated architecture, API flows | 3+ services |
-| 🔬 Compound | AI-synthesized cross-service insights | Patterns emerge |
+| 🔬 Compound | Cross-service insights | Patterns emerge |
 | 🦠 Organism | Audience-specific views (eng, product) | Stakeholders diverge |
 | 🌐 Meta | Executive strategic analysis | Vision gaps matter |
 
@@ -216,36 +249,14 @@ See [SCHEMA.md](./SCHEMA.md) for the full pattern.
 
 ## Bring Your Own
 
-Alexandria is designed for customization:
+alexANTria is designed for customization:
 
 - **Templates** — Edit `templates/` before install to change what gets generated
 - **Rules** — Add new `templates/rules/*.template` for your domains (data layer, infra, security)
 - **Commands** — Modify `user-level/commands/init-docs.md` to change the scaffolding workflow
-- **Philosophy** — Edit `user-level/CLAUDE.md` to change how the agent approaches all your projects
+- **Philosophy** — Edit `user-level/CLAUDE.md` to change how agents approach all your projects
 
 See [templates/README.md](./templates/README.md) for customization details.
-
-## Optional: Session Start Hook
-
-Add a reminder at the start of each session in `~/.claude/settings.json`:
-
-```json
-{
-  "hooks": {
-    "SessionStart": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "echo 'Read relevant docs before making changes. See CLAUDE.md for the document hierarchy.'"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
 
 ## Other Coding Agents
 
@@ -256,7 +267,35 @@ The pattern works with any agent that reads markdown:
 - **Windsurf** — Use project rules
 - **Aider** — Use conventions files
 
-The knowledge library pattern (layered docs + path-specific rules) transfers. Only the hook mechanism differs.
+The living memory pattern (layered docs + path-specific rules) transfers. Only the hook mechanism differs.
+
+## Beyond Coding Agents
+
+Coding agents are just one type of worker in the colony. The same structure that helps agents understand your code can help your entire organization share knowledge.
+
+Product managers reading strategy docs, engineers reviewing architecture, executives tracking platform health—these are all context engines consuming knowledge at different layers.
+
+The scaffolding you set up for coding agents becomes the foundation for org-wide knowledge:
+
+- Start with **atomic** documentation for your agents
+- Add **molecular** architecture docs when services multiply
+- Add **compound** analysis when cross-cutting patterns emerge
+- Add **organism** views when stakeholders need different perspectives
+- Add **meta** synthesis when strategic alignment matters
+
+See [FRAMEWORK.md](./FRAMEWORK.md) for the full organizational knowledge framework.
+
+---
+
+## The Goal
+
+alexANTria exists to make intelligence **maintainable**.
+
+Not smarter in isolation.
+Smarter over time.
+Through coordination, not command.
+
+---
 
 ## License
 

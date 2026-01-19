@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Alexandria installer
+# alexANTria installer
 # Sets up user-level coding agent context automation
 
 set -e
@@ -8,7 +8,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CLAUDE_DIR="$HOME/.claude"
 
-echo "Installing Alexandria to $CLAUDE_DIR..."
+echo "Installing alexANTria to $CLAUDE_DIR..."
 
 # Create ~/.claude if it doesn't exist
 mkdir -p "$CLAUDE_DIR"
