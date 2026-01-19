@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Alexandria installer
-# Sets up user-level Claude Code context automation
+# Sets up user-level coding agent context automation
 
 set -e
 
@@ -36,6 +36,6 @@ echo "  $CLAUDE_DIR/commands/init-docs.md"
 echo ""
 echo "Next steps:"
 echo "  1. cd into any project"
-echo "  2. Run /init-docs in Claude Code to scaffold project docs"
+echo "  2. Run /init-docs to scaffold project docs"
 echo ""
 echo "Done."

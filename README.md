@@ -4,9 +4,9 @@
 
 **A starter template for coding agent context automation.**
 
-Alexandria is a scaffold you clone and run once to set up documentation patterns that Claude Code understands. Fork it, customize the templates to match your workflow, then install to your `~/.claude/` directory. From there, any project you work on gets the same documentation-first approach.
+Alexandria is a scaffold you clone and run once to set up documentation patterns that coding agents understand. Fork it, customize the templates to match your workflow, then install. From there, any project you work on gets the same documentation-first approach.
 
-> **This is not a library or dependency.** Think [shadcn/ui](https://ui.shadcn.com/) for Claude Code context — you own the code, customize freely, no upstream to track.
+> **This is not a library or dependency.** Think [shadcn/ui](https://ui.shadcn.com/) for coding agent context — you own the code, customize freely, no upstream to track.
 
 ## The Goal: A Knowledge Library for Coding Agents
 
@@ -28,7 +28,7 @@ Your Project
     └── ...
 ```
 
-When Claude Code opens a file in `src/components/`, it automatically loads `frontend.md` which points to your design philosophy. The agent works within your constraints without you having to repeat them.
+When your agent opens a file in `src/components/`, it automatically loads `frontend.md` which points to your design philosophy. The agent works within your constraints without you having to repeat them.
 
 See [SCHEMA.md](./SCHEMA.md) for the full "Russian Nesting Doll" pattern.
 
@@ -36,7 +36,7 @@ See [SCHEMA.md](./SCHEMA.md) for the full "Russian Nesting Doll" pattern.
 
 ### Read Before You Act
 
-Every project has documentation that guides decisions. Alexandria teaches Claude to:
+Every project has documentation that guides decisions. Alexandria teaches your agent to:
 
 1. **Identify the area** — UI? Backend? Agent behavior?
 2. **Read relevant docs** — Check the hierarchy, load what matters
@@ -57,15 +57,15 @@ Technical Patterns      ← Guides implementation
 Changelog/History       ← Records decisions
 ```
 
-When you change something at a lower level that affects a higher level, Claude suggests updating the upstream doc.
+When you change something at a lower level that affects a higher level, the agent suggests updating the upstream doc.
 
 ### References, Not Imports
 
 CLAUDE.md stays lean. Instead of copying entire docs into context:
 
-- Use `[readable descriptions](./path.md)` — Claude reads them when relevant
+- Use `[readable descriptions](./path.md)` — the agent reads them when relevant
 - `.claude/rules/` auto-loads domain-specific guidance — only when editing matching paths
-- Hierarchy is codified — Claude knows what to read and when to suggest updates
+- Hierarchy is codified — the agent knows what to read and when to suggest updates
 
 ## Quick Start
 
@@ -102,12 +102,12 @@ This copies your customized files to `~/.claude/`:
 cd /path/to/your/project
 ```
 
-Then in Claude Code, run:
+Then run:
 ```
 /init-docs
 ```
 
-Claude will:
+The agent will:
 1. **Crawl** — Find existing markdown files and code directories
 2. **Classify** — Map docs to the hierarchy (philosophy → product → architecture → implementation)
 3. **Propose** — Show you the mapping and ask for confirmation
@@ -161,7 +161,7 @@ When you edit a file matching those paths, the rule auto-loads.
 
 ### Doc Hierarchy in CLAUDE.md
 
-Your project's CLAUDE.md tells Claude what to read and when:
+Your project's CLAUDE.md tells the agent what to read and when:
 
 ```markdown
 ## When to Read
@@ -182,7 +182,7 @@ After completing work that affects:
 
 ### Update Propagation
 
-After Claude completes work, it checks:
+After completing work, the agent checks:
 - "Did I change a **UX pattern**? → Should we update the constraints doc?"
 - "Did I change **product scope**? → Should we update the product doc?"
 - "Did I add **technical patterns**? → Should we update architecture?"
@@ -221,13 +221,13 @@ Alexandria is designed for customization:
 - **Templates** — Edit `templates/` before install to change what gets generated
 - **Rules** — Add new `templates/rules/*.template` for your domains (data layer, infra, security)
 - **Commands** — Modify `user-level/commands/init-docs.md` to change the scaffolding workflow
-- **Philosophy** — Edit `user-level/CLAUDE.md` to change how Claude approaches all your projects
+- **Philosophy** — Edit `user-level/CLAUDE.md` to change how the agent approaches all your projects
 
 See [templates/README.md](./templates/README.md) for customization details.
 
 ## Optional: Session Start Hook
 
-Add a reminder at the start of each Claude Code session in `~/.claude/settings.json`:
+Add a reminder at the start of each session in `~/.claude/settings.json`:
 
 ```json
 {
@@ -249,7 +249,7 @@ Add a reminder at the start of each Claude Code session in `~/.claude/settings.j
 
 ## Other Coding Agents
 
-While this starter is built for Claude Code, the pattern works with any agent that reads markdown:
+The pattern works with any agent that reads markdown:
 
 - **Cursor** — Use `.cursorrules` or project-level instructions
 - **GitHub Copilot** — Use `.github/copilot-instructions.md`

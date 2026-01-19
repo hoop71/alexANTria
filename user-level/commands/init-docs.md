@@ -1,11 +1,11 @@
 ---
-description: Crawl project docs and scaffold Claude context files
+description: Crawl project docs and scaffold context files
 allowed-tools: Read, Write, Glob, Grep, Bash, AskUserQuestion
 ---
 
 # Initialize Project Documentation Structure
 
-Automatically detect existing documentation and scaffold context files for Claude Code.
+Automatically detect existing documentation and scaffold context files for coding agents.
 
 ## Phase 1: Crawl
 
@@ -24,7 +24,7 @@ ls -la docs/ doc/ documentation/ 2>/dev/null || true
 ```
 
 ```bash
-# Check for existing Claude setup
+# Check for existing setup
 ls -la .claude/ CLAUDE.md 2>/dev/null || true
 ```
 
@@ -106,7 +106,7 @@ Create the context files based on confirmed mappings.
 Generate a project-level CLAUDE.md with:
 
 ```markdown
-# [Project Name] – Claude Context
+# [Project Name] – Context
 
 ## Document Hierarchy
 
