@@ -4,6 +4,26 @@
 
 ![alexANTria](image.png)
 
+---
+
+## 📝 Latest: Guardrails for Gas Town
+
+**Can you run 30 agents without burning down production?**
+
+Steve Yegge's Gas Town proved you can orchestrate chaos and still ship. But even at Stage 8—swarming 30 agents with perfect work coordination—he hit every context problem: plan dementia, re-explanations, becoming the bottleneck.
+
+**The insight:** Work memory ≠ context memory.
+
+Orchestrators like Gas Town coordinate *what* to do. Issue trackers like Beads track dependencies and status. But when 20 agents need to know *how you work*—your conventions, constraints, architectural decisions—that knowledge needs somewhere persistent to live.
+
+**Read the full post:** [Guardrails for Gas Town: Why Orchestration Needs Context Infrastructure](./BLOG-gastown-context-infrastructure.md)
+
+**Key claim:** "Context infrastructure isn't about writing artisanal code. It's about not letting chaos become catastrophic."
+
+*This is a living document (v0.1.0). We're documenting what we're learning as we build. [Help us figure it out](https://github.com/hoop71/alexANTria/discussions).*
+
+---
+
 ## Philosophy
 
 Intelligence does not come from a single, all-knowing agent.
@@ -20,6 +40,60 @@ Like an ant colony, the system works because:
 - each action is local,
 - each contribution is small,
 - and the shared map is continuously repaired.
+
+## The Problem
+
+**Every coding session starts from scratch.**
+
+You're working with Claude Code (or Cursor, or Windsurf). You explain your architecture. You describe your conventions. The session compacts. You start over. You explain it again.
+
+Tomorrow, a teammate asks their coding assistant the same questions. Yesterday's explanations are gone.
+
+Next week, you switch to a different part of the codebase. You repeat yourself about auth patterns, testing conventions, why the database is structured this way.
+
+**The pain:**
+
+- **Context lives in your head** — Every session, every teammate, every area of the codebase: you're the oracle
+- **Explanations don't persist** — What you told Claude yesterday is gone after compaction
+- **Documentation goes stale** — You write docs once, they drift, nobody maintains them
+- **No shared understanding** — Your assistant makes one choice, your teammate's makes another
+
+This gets worse as you:
+- Work on larger codebases
+- Collaborate with teammates
+- Run multiple sessions (frontend + backend + tests)
+- Try to scale to agent swarms or orchestrators
+
+**The root problem:** Context is the bottleneck. Your coding assistants need to know *how you work*—your architectural decisions, your constraints, your "why"—but that knowledge has nowhere persistent to live.
+
+## The Solution
+
+**alexANTria is living memory for your codebase.**
+
+Think of it as the shared map your coding assistants walk on. Instead of re-explaining your architecture every session, your documentation becomes persistent context that:
+
+- **Survives sessions** — Explanations persist across compactions, restarts, tomorrow's work
+- **Layers with precedence** — Philosophy overrides implementation; constraints guide decisions
+- **Evolves with your code** — Assistants read it, use it, and help maintain it
+- **Works solo or at scale** — One developer with one assistant, or teams with orchestrated swarms
+
+**Agents leave trails. Trails fade. Trails get reinforced.**
+
+Just as ant colonies navigate via pheromone trails—chemical markers that persist and require maintenance—your coding assistants need institutional memory that outlives any individual session.
+
+**What you get:**
+
+| Before | After |
+|--------|-------|
+| "Let me explain our auth approach again..." | Your assistant reads the persistent context |
+| Context bloats every prompt (5,000+ tokens) | Shared infrastructure, assistants load what's relevant |
+| Your teammate's assistant contradicts yours | Shared understanding across all sessions |
+| Documentation rots | Living memory, maintained as you work (with discipline) |
+| Scales to 3 assistants, then hits a wall | Most effective at 5-30 assistants; patterns under exploration for larger swarms |
+
+**This isn't about writing artisanal code. It's about not repeating yourself.**
+
+Whether you're solo with a few Claude sessions, or scaling to orchestrated swarms, alexANTria provides shared context infrastructure. We're learning what works at each stage.
 
 ## Core Principles
 
