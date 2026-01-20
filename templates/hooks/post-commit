@@ -1,0 +1,20 @@
+#!/bin/bash
+# alexANTria post-commit hook
+# Records commits for worker ant processing
+
+ALEXANTRIA_DIR=".alexantria"
+PENDING_FILE="$ALEXANTRIA_DIR/pending.log"
+
+# Ensure directory exists
+mkdir -p "$ALEXANTRIA_DIR"
+
+# Get commit info
+COMMIT_HASH=$(git rev-parse --short HEAD)
+COMMIT_MSG=$(git log -1 --pretty=format:"%s" | tr '|' '-')  # escape pipes
+TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+# Append to pending log (simple, fast, no dependencies)
+echo "${TIMESTAMP}|${COMMIT_HASH}|${COMMIT_MSG}" >> "$PENDING_FILE"
+
+# Silent success - don't slow down commits
+exit 0

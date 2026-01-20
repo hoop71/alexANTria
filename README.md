@@ -170,7 +170,8 @@ The command discovers what you have rather than asking you to describe it.
 ~/.claude/
 ├── CLAUDE.md              # Universal "read, act, repair" philosophy
 └── commands/
-    └── ant-init.md       # Scaffolds project structure
+    ├── ant-init.md        # Scaffolds project structure
+    └── ant-update.md      # Worker ant: processes pending commits
 ```
 
 ### Project-Level (after `/ant-init`)
@@ -178,11 +179,16 @@ The command discovers what you have rather than asking you to describe it.
 ```
 your-project/
 ├── CLAUDE.md              # Doc hierarchy + "when to read" table
-└── .claude/
-    └── rules/
-        ├── frontend.md    # Auto-loads for src/components/**
-        ├── backend.md     # Auto-loads for src/server/**
-        └── ...
+├── .claude/
+│   └── rules/
+│       ├── frontend.md    # Auto-loads for src/components/**
+│       ├── backend.md     # Auto-loads for src/server/**
+│       └── ...
+├── .alexantria/
+│   ├── manifest.json      # Worker ant tracking
+│   └── pending.log        # Pending commits (from git hook)
+└── .git/hooks/
+    └── post-commit        # Records commits for worker ants
 ```
 
 ## How It Works
@@ -271,6 +277,35 @@ alexANTria is designed for customization:
 - **Philosophy** — Edit `user-level/CLAUDE.md` to change how agents approach all your projects
 
 See [templates/README.md](./templates/README.md) for customization details.
+
+## Worker Ants
+
+The `/ant-update` command spawns a worker ant that keeps atomic docs in sync.
+
+**The flow:**
+```
+You commit (manually or via agent)
+        ↓
+Git hook records it to .alexantria/pending.log
+        ↓
+Next time you run /ant-update
+        ↓
+Worker ant processes all pending commits
+        ↓
+Updates local READMEs if needed
+        ↓
+Clears the pending log
+```
+
+**Why this pattern?**
+- Manual commits get tracked (git hook is fast, no Claude needed)
+- Agent commits get tracked too
+- No expensive Claude spawning on every commit
+- Worker ant catches up in batches
+
+**The pending log** is simple: `TIMESTAMP|HASH|MESSAGE` per line. No dependencies, pure bash.
+
+**The manifest** (`.alexantria/manifest.json`) tracks what the worker ant has processed—your paper trail for future "phone home" syncing to higher-level docs.
 
 ## Other Coding Agents
 

@@ -198,6 +198,49 @@ Initialize the manifest for worker ants:
 }
 ```
 
+### Install Git Hook
+
+Ask the user if they want automatic commit tracking:
+
+```
+Would you like to install the git hook for automatic commit tracking?
+
+This adds a post-commit hook that records commits for /ant-update to process.
+Manual commits will be tracked and processed next time you run /ant-update.
+```
+
+If yes, install the hook:
+
+```bash
+# Create hooks directory if needed
+mkdir -p .git/hooks
+
+# Install the post-commit hook
+cat > .git/hooks/post-commit << 'HOOK'
+#!/bin/bash
+# alexANTria post-commit hook
+# Records commits for worker ant processing
+
+ALEXANTRIA_DIR=".alexantria"
+PENDING_FILE="$ALEXANTRIA_DIR/pending.log"
+
+mkdir -p "$ALEXANTRIA_DIR"
+
+COMMIT_HASH=$(git rev-parse --short HEAD)
+COMMIT_MSG=$(git log -1 --pretty=format:"%s" | tr '|' '-')
+TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+echo "${TIMESTAMP}|${COMMIT_HASH}|${COMMIT_MSG}" >> "$PENDING_FILE"
+
+exit 0
+HOOK
+
+# Make it executable
+chmod +x .git/hooks/post-commit
+```
+
+If no, skip the hook installation. The user can always run `/ant-update` manually.
+
 ## Phase 4: Summary
 
 Show what was created:
@@ -212,7 +255,10 @@ Created:
     ├── backend.md             — For src/server/**
     └── agents.md              — For src/agents/**
   .alexantria/
-    └── manifest.json          — Worker ant tracking
+    ├── manifest.json          — Worker ant tracking
+    └── pending.log            — Pending commits queue (created by hook)
+  .git/hooks/
+    └── post-commit            — Auto-tracks commits (if installed)
 
 The hierarchy is:
   Layer 1: docs/ux-philosophy.md
@@ -223,7 +269,7 @@ The hierarchy is:
 Next steps:
   1. Review CLAUDE.md and adjust if needed
   2. Check .claude/rules/ quick references
-  3. After commits, run /ant-update to keep docs fresh
+  3. After commits, run /ant-update to process pending and keep docs fresh
 ```
 
 ## Notes
