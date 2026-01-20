@@ -170,6 +170,93 @@ Speed becomes destruction. The cleanup takes longer than the original work. Cont
 
 Acceptable chaos happens *above* the guardrails. Catastrophic chaos happens when there are no guardrails.
 
+### The Third Kind: User Experience Drift
+
+But there's a third kind of chaos that's even more insidious: **building a technically perfect, completely unusable product.**
+
+Gas Town proved you can generate features at 10x speed. But velocity without product coherence creates a different kind of disaster: **users can't figure out how to use what you built.**
+
+**The failure mode nobody talks about:**
+
+Your 20 agents are building. Fast. Merge conflicts are resolved. Tests are passing. Code is shipping.
+
+But from the user's perspective:
+- The checkout flow contradicts the cart flow (two agents, two interpretations)
+- Settings are split across three different places (no one coordinated)
+- Terminology is inconsistent (one agent calls them "projects", another calls them "workspaces")
+- The onboarding tutorial teaches a workflow that doesn't match the actual UI
+
+**None of this creates merge conflicts.** All of it is technically correct. The Refinery merges it cleanly.
+
+**And your product is broken.**
+
+**This isn't acceptable chaos.** Bugs get fixed. Redundant code gets refactored. But **incoherent user experience doesn't self-correct**—it accumulates.
+
+**Real examples of UX debt at agent speed:**
+
+- **Navigation chaos:** Agent A adds a feature to the sidebar. Agent B adds it to the top nav. Agent C puts it in settings. Users can't find anything.
+
+- **Terminology drift:** Agent 1 implements "archive project". Agent 2 implements "delete project". Agent 3 implements "hide project". Users don't know which does what.
+
+- **Workflow contradictions:** Agent A builds "save draft first, then publish". Agent B builds "publish immediately, no drafts". Same product, two mental models.
+
+- **Accessibility inconsistencies:** Agent A follows WCAG guidelines. Agent B doesn't know they exist. Half your product is accessible, half isn't.
+
+**Why UX chaos compounds differently:**
+
+Code chaos is self-correcting:
+- Bugs get filed and fixed
+- Redundancy shows up in code review
+- Performance issues get profiled
+
+**UX chaos accumulates:**
+- Users adapt to broken patterns (learned helplessness)
+- New features build on inconsistent foundations
+- Each agent copies the nearest example, spreading inconsistency
+- You end up with 5 different design systems, 3 navigation patterns, 2 mental models
+
+**At agent speed, you can destroy product-market fit in a week.**
+
+**What gets lost without Layer 2:**
+
+Layer 2 isn't just "what are we building?" It's:
+- **Who is this for?** (user personas, use cases)
+- **What problem does this solve for them?** (user pain points)
+- **How should this feel to use?** (UX principles, interaction patterns)
+- **What are we explicitly NOT doing?** (scope constraints)
+
+Without Layer 2 in shared context:
+- Every agent interprets "make it user-friendly" differently
+- No one knows if the feature serves the actual user need
+- Agents optimize for "technically correct" not "user can accomplish their goal"
+- Product becomes feature soup: lots of capabilities, no coherent experience
+
+**Steve's pain point, reframed:**
+
+> "Execs don't know what was built, when. Product isn't able to influence."
+
+This isn't a reporting problem. It's a **user experience crisis.**
+
+If product can't steer what agents build, you get:
+- Features users didn't ask for (built because they "seemed good")
+- Features that contradict each other (no one coordinated)
+- Features that don't fit the user mental model (agents guessed)
+- **A product users can't figure out how to use**
+
+**The claim:**
+
+You can build fast with Gas Town. You can coordinate work with Beads. But if your agents don't know **what problem users are trying to solve and how they expect to solve it**, you'll build a lot of features users can't use.
+
+**Layer 1 prevents catastrophic technical chaos** (secrets, force-push, DB drops).
+
+**Layer 2 prevents user experience chaos** (incoherent product, confused users, destroyed PMF).
+
+Both are guardrails. Both scale when you can't review every agent decision.
+
+**Without Layer 2, you're not building the wrong product. You're building 20 different products that happen to share a codebase.**
+
+And users notice. Fast.
+
 ---
 
 ## Part 4: What Context Infrastructure Gets You (Even in Chaos)
@@ -239,6 +326,10 @@ These aren't "conventions." They're **safety constraints that scale when you can
 
 **From Steve's own pain:**
 > "Execs don't know what was built, when. Product isn't able to influence. The vision goes beyond code but code is the first step."
+
+This isn't just about visibility. **It's about product steering at agent speed.**
+
+When product can't influence Layer 2 context, agents guess about user needs. And 20 agents guessing independently creates 20 inconsistent user experiences. As we saw in the [User Experience Drift](#the-third-kind-user-experience-drift) section, this destroys product coherence faster than any technical debt.
 
 **Gas Town/Beads focus on dev workflow:**
 - Convoys, MRs, merge queues
@@ -530,8 +621,11 @@ We're actively working on these problems. Each challenge has an open discussion�
 **Open questions:**
 - Can agents bootstrap Layer 1 from interviews with humans?
 - What's minimum viable context for a new project?
-- Should we provide "starter philosophies" for common use cases?
-- How do you validate initial context is useful?
+- Should we provide "starter philosophies" for common use cases (web app, CLI tool, library)?
+- How do you validate initial context is useful (not just verbose)?
+- **How do we bootstrap Layer 2 for user-facing products?** (personas, user journey maps, UX principles)
+- What if the existing code doesn't reflect best practices (legacy codebase)?
+- How do you handle greenfield (no existing docs or code)?
 
 ---
 
@@ -578,8 +672,9 @@ That's how colonies scale intelligence.
 
 **What we're sharing:**
 - Framed context infrastructure as complementary to orchestration (Gas Town/Beads)
-- Introduced "acceptable vs catastrophic chaos" distinction
+- Introduced three kinds of chaos: acceptable, catastrophic, and **user experience drift**
 - Identified work memory ≠ context memory as core insight
+- **Key insight:** Layer 2 prevents UX chaos (agents building incoherent products at speed)
 - Documented 5 known challenges we're actively exploring
 - Technical hints: manifest-based discovery, merge-to-main pattern promotion
 
