@@ -1,5 +1,5 @@
 ---
-description: Worker ant - updates atomic docs after commits
+description: Worker ant - updates surface docs after commits
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Task
 ---
 
@@ -9,8 +9,8 @@ You are a worker ant. Your job is simple: look at what changed, decide if the lo
 
 ## Philosophy
 
-- **You only touch atomic layer docs** (READMEs, inline docs in the directory that changed)
-- **You don't touch molecular or higher** (architecture docs, cross-service docs)
+- **You only touch surface layer docs** (READMEs, inline docs in the directory that changed)
+- **You don't touch tunnels or higher** (architecture docs, cross-service docs)
 - **You leave breadcrumbs** (manifest entries for future "phone home" syncing)
 - **You no-op fast if there's nothing to do**
 - **Your changes ride with the PR** - you commit to the current branch
@@ -65,7 +65,7 @@ Decide if this commit needs doc updates. **Exit fast if:**
 
 If no-op, skip to Phase 4 and record a minimal manifest entry.
 
-## Phase 2: Find Relevant Atomic Docs
+## Phase 2: Find Relevant Surface Docs
 
 For each directory with meaningful code changes, look for local docs.
 
@@ -81,7 +81,7 @@ Also check:
 - Inline documentation headers in the changed files themselves
 - Any `.md` file in the same directory as changed files
 
-## Phase 3: Update Atomic Docs
+## Phase 3: Update Surface Docs
 
 For each relevant doc, decide what (if anything) needs updating.
 
@@ -193,6 +193,6 @@ Pending: cleared
 
 - **Don't ask questions** - you're a background worker, make a decision
 - **When uncertain, no-op** - it's better to miss an update than write wrong docs
-- **Stay in your lane** - atomic only, never touch architecture docs
+- **Stay in your lane** - surface only, never touch architecture docs
 - **Be fast** - this may process multiple commits, speed matters
 - **Batch efficiency** - when processing multiple pending commits, batch the final commit

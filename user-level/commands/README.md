@@ -7,7 +7,7 @@ Slash commands for alexANTria. These get installed to `~/.claude/commands/` and 
 | Command | Purpose |
 |---------|---------|
 | `/ant-init` | Scout and establish colony structure in a project |
-| `/ant-update` | Worker ant: process pending commits, update atomic docs |
+| `/ant-update` | Worker ant: process pending commits, update surface docs |
 
 ## Command Structure
 
@@ -50,7 +50,7 @@ The scout ant. Enters a new project and establishes the colony:
 
 ## ant-update
 
-The worker ant. Processes commits and keeps atomic docs fresh:
+The worker ant. Processes commits and keeps surface docs fresh:
 
 1. **Check pending** - Read `.alexantria/pending.log`
 2. **Assess** - For each commit, decide if docs need updating

@@ -1,6 +1,6 @@
-# alexANTria: Organizational Knowledge Framework
+# ANT-FRAMEWORK: Organizational Knowledge Framework
 
-The nesting doll pattern isn't just for code. It's an organizational pattern.
+The anthill pattern isn't just for code. It's an organizational pattern.
 
 ## The Core Insight
 
@@ -23,67 +23,59 @@ An ant colony has no central brain. No master ant directs traffic. Yet the colon
 
 Organizations work the same way. The documentation hierarchy is your pheromone trail.
 
-## The Five-Layer Model
+## The Five-Layer Anthill
+
+Every anthill starts as a small mound. Stack layers as the colony grows:
 
 ```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│  🌐 META: Strategic Intelligence                                             │
-│  Audience: Leadership, Board, Investors                                      │
-│  Contains: Vision gaps, platform health, strategic analysis                  │
-│  ┌─────────────────────────────────────────────────────────────────────┐    │
-│  │  🦠 ORGANISM: Audience-Specific Views                               │    │
-│  │  Audience: Product leads, Engineering leads, Marketing leads        │    │
-│  │  Contains: Department perspectives, cross-functional synthesis      │    │
-│  │  ┌─────────────────────────────────────────────────────────────┐    │    │
-│  │  │  🔬 COMPOUND: Cross-Cutting Insights                        │    │    │
-│  │  │  Audience: Architects, Staff engineers, Tech leads          │    │    │
-│  │  │  Contains: Patterns across services, system-wide analysis   │    │    │
-│  │  │  ┌─────────────────────────────────────────────────────┐    │    │    │
-│  │  │  │  🧪 MOLECULAR: Aggregated Documentation              │    │    │    │
-│  │  │  │  Audience: Engineers, Senior developers              │    │    │    │
-│  │  │  │  Contains: Architecture rollups, API flows, guides   │    │    │    │
-│  │  │  │  ┌─────────────────────────────────────────────────┐ │    │    │    │
-│  │  │  │  │  ⚛️ ATOMIC: Raw Service Documentation            │ │    │    │    │
-│  │  │  │  │  Audience: Individual contributors, Agents       │ │    │    │    │
-│  │  │  │  │  Contains: READMEs, code comments, inline docs   │ │    │    │    │
-│  │  │  │  └─────────────────────────────────────────────────┘ │    │    │    │
-│  │  │  └─────────────────────────────────────────────────────┘    │    │    │
-│  │  └─────────────────────────────────────────────────────────────┘    │    │
-│  └─────────────────────────────────────────────────────────────────────┘    │
-└─────────────────────────────────────────────────────────────────────────────┘
+                    ╱╲
+                   ╱  ╲
+                  ╱ 👑 ╲
+                 ╱QUEEN ╲            ← Strategic alignment
+                ╱────────╲              Leadership, Executives
+               ╱   NEST   ╲          ← Org-wide views
+              ╱────────────╲            Department leads
+             ╱   CHAMBERS   ╲        ← Cross-cutting patterns
+            ╱────────────────╲          Architects, Tech leads
+           ╱     TUNNELS      ╲      ← Service connections
+          ╱────────────────────╲        Engineers, Senior devs
+         ╱       SURFACE        ╲    ← Individual docs
+        ╱────────────────────────╲      Contributors, Agents
+═══════════════════════════════════════
+              🌱 ground 🌱
 ```
 
 ### Layer Details
 
 | Layer | Audience | Key Questions Answered |
 |-------|----------|----------------------|
-| 🌐 Meta | Leadership | "Are we building the right thing? What's our strategic position?" |
-| 🦠 Organism | Department Leads | "How does my area connect to others? What's the cross-functional picture?" |
-| 🔬 Compound | Architects | "What patterns span systems? Where are the integration points?" |
-| 🧪 Molecular | Engineers | "How do these services work together? What's the architecture?" |
-| ⚛️ Atomic | Contributors / Agents | "How does this specific service work? What's the implementation?" |
+| 👑 **Queen** | Leadership | "Are we building the right thing? What's our strategic position?" |
+| 🐜 **Nest** | Department Leads | "How does my area connect to others? What's the cross-functional picture?" |
+| 🏛️ **Chambers** | Architects | "What patterns span systems? Where are the integration points?" |
+| 🚇 **Tunnels** | Engineers | "How do these services work together? What's the architecture?" |
+| 🌱 **Surface** | Contributors / Agents | "How does this specific service work? What's the implementation?" |
 
 ## Bidirectional Flow
 
-Knowledge flows both directions through the layers.
+Knowledge flows both directions through the anthill.
 
-### Upward: Code → Insights
+### Upward: Surface → Queen
 
 ```
-Implementation details    →  Architectural patterns  →  System health  →  Strategic position
-(Atomic)                     (Molecular/Compound)       (Organism)        (Meta)
+Implementation details  →  Architectural patterns  →  System health  →  Strategic position
+(Surface)                  (Tunnels/Chambers)         (Nest)            (Queen)
 ```
 
-What happens in code bubbles up. A proliferation of workarounds in the atomic layer signals architectural debt at the compound layer, which manifests as velocity problems at the organism layer, which becomes a strategic concern at the meta layer.
+What happens at the surface bubbles up. A proliferation of workarounds at the surface signals architectural debt in the chambers, which manifests as velocity problems at the nest level, which becomes a strategic concern for the queen.
 
-### Downward: Vision → Priorities
+### Downward: Queen → Surface
 
 ```
 Strategic priorities  →  Department goals  →  Architectural decisions  →  Implementation choices
-(Meta)                   (Organism)           (Compound/Molecular)         (Atomic)
+(Queen)                  (Nest)               (Chambers/Tunnels)           (Surface)
 ```
 
-Vision constrains execution. A strategic pivot at the meta layer reshapes department priorities at the organism layer, which redefines acceptable architectures at the compound layer, which guides implementation at the atomic layer.
+Vision constrains execution. A strategic pivot at the queen level reshapes department priorities at the nest, which redefines acceptable architectures in the chambers, which guides implementation at the surface.
 
 ### The Feedback Loop
 
@@ -97,18 +89,18 @@ When either flow breaks down, organizations fragment. Engineers build the wrong 
 
 ## Context Engines
 
-Different consumers access different layers. Each is a "context engine" that processes knowledge for a specific purpose.
+Different consumers access different layers of the anthill. Each is a "context engine" that processes knowledge for a specific purpose.
 
 | Context Engine | Primary Layers | What It Does |
 |----------------|----------------|--------------|
-| Coding Agent | Atomic, Molecular | Implements features within architectural constraints |
-| Engineer | Atomic, Molecular, Compound | Designs solutions that fit system patterns |
-| Architect | Compound, Molecular | Evolves system design based on emerging patterns |
-| Product Lead | Organism, Compound | Makes roadmap decisions with technical context |
-| Engineering Lead | Organism, Compound | Allocates resources based on system health |
-| Executive | Meta, Organism | Sets strategy based on organizational reality |
+| Coding Agent | Surface, Tunnels | Implements features within architectural constraints |
+| Engineer | Surface, Tunnels, Chambers | Designs solutions that fit system patterns |
+| Architect | Chambers, Tunnels | Evolves system design based on emerging patterns |
+| Product Lead | Nest, Chambers | Makes roadmap decisions with technical context |
+| Engineering Lead | Nest, Chambers | Allocates resources based on system health |
+| Executive | Queen, Nest | Sets strategy based on organizational reality |
 
-Each engine needs **different context at different granularity**. The atomic layer would overwhelm a CEO. The meta layer won't help an engineer fix a bug. The nesting doll structure lets each consumer access the appropriate level.
+Each engine needs **different context at different granularity**. The surface layer would overwhelm a CEO. The queen layer won't help an engineer fix a bug. The anthill structure lets each consumer access the appropriate level.
 
 ## Why Coding Agents Are Just the Start
 
@@ -121,44 +113,49 @@ The same patterns that help an agent understand your codebase can help:
 - **Architects** understand emergent patterns
 - **Executives** understand platform health
 
-The scaffolding you set up for coding agents becomes the foundation for org-wide knowledge. Start with atomic documentation for your agents. As your system grows, the structure naturally extends upward.
+The scaffolding you set up for coding agents becomes the foundation for org-wide knowledge. Start with surface documentation for your agents. As your system grows, the anthill naturally extends upward.
 
 ## Growing from Starter to Organization
 
 ```
-Start here                          Grow to this
-─────────────                       ────────────
+Start here                          Build to this
+─────────────                       ─────────────
 
-┌─────────────┐                     ┌─────────────┐
-│ ⚛️ Atomic   │                     │ 🌐 Meta     │  ← Leadership dashboards
-│ (Code docs) │                     ├─────────────┤
-└─────────────┘                     │ 🦠 Organism │  ← Department views
-                                    ├─────────────┤
-      ↓                             │ 🔬 Compound │  ← Cross-cutting analysis
-                                    ├─────────────┤
-┌─────────────┐                     │ 🧪 Molecular│  ← Architecture rollups
-│ 🧪 Molecular│                     ├─────────────┤
-│ (Arch docs) │                     │ ⚛️ Atomic   │  ← Service docs + agents
-└─────────────┘                     └─────────────┘
+    ╱╲                                   ╱╲
+   ╱  ╲                                 ╱👑╲  ← Queen: Strategic
+  ╱    ╲                               ╱────╲
+ ╱ 🌱  ╲                             ╱ NEST ╲  ← Department views
+╱SURFACE╲                           ╱────────╲
+──────────                         ╱ CHAMBERS ╲  ← Cross-cutting
+                                  ╱────────────╲
+     ↓                           ╱   TUNNELS    ╲  ← Architecture
+                                ╱────────────────╲
+    ╱╲                         ╱     SURFACE      ╲  ← Service docs
+   ╱  ╲                       ╱────────────────────╲
+  ╱🚇 ╲                      ══════════════════════════
+ ╱TNLS╲
+╱──────╲
+╱SURFACE╲
+──────────
 ```
 
 The path:
 
-1. **Atomic** — Start with service-level docs that help coding agents
-2. **Molecular** — Add architecture docs when services need coordination
-3. **Compound** — Add cross-cutting analysis when patterns emerge across services
-4. **Organism** — Add audience-specific views when stakeholders need different perspectives
-5. **Meta** — Add strategic analysis when vision-to-execution alignment matters
+1. **Surface** — Start with service-level docs that help coding agents
+2. **Tunnels** — Add architecture docs when services connect
+3. **Chambers** — Add cross-cutting analysis when patterns emerge across services
+4. **Nest** — Add audience-specific views when stakeholders need different perspectives
+5. **Queen** — Add strategic analysis when vision-to-execution alignment matters
 
-You don't need all five layers on day one. The structure scales with your organization's complexity.
+You don't need all five layers on day one. The anthill scales with your organization's complexity.
 
 ## The Constraint Principle
 
-Outer layers constrain inner layers. This is fundamental.
+Higher layers constrain lower layers. This is fundamental.
 
-A strategic decision at the meta layer ("we're pivoting to enterprise") constrains organism-level priorities ("product focuses on security features"), which constrains compound-level architecture ("we need audit logging everywhere"), which constrains molecular-level design ("here's the logging pattern"), which constrains atomic-level implementation ("this service implements the pattern").
+A strategic decision at the queen level ("we're pivoting to enterprise") constrains nest-level priorities ("product focuses on security features"), which constrains chamber-level architecture ("we need audit logging everywhere"), which constrains tunnel-level design ("here's the logging pattern"), which constrains surface-level implementation ("this service implements the pattern").
 
-When conflicts arise between layers, outer layers win. This isn't bureaucracy—it's coherence. An organization where implementation decisions override strategic direction is an organization at war with itself.
+When conflicts arise between layers, higher layers win. This isn't bureaucracy—it's coherence. An organization where implementation decisions override strategic direction is an organization at war with itself.
 
 ## The Repair Principle
 
@@ -166,10 +163,10 @@ Every action that changes reality must repair the map.
 
 In a healthy colony:
 - Code changes trigger doc reviews
-- Architecture decisions update the molecular layer
-- Cross-cutting patterns get documented at the compound layer
-- Department priorities reflect in the organism layer
-- Strategic shifts cascade down through all layers
+- Architecture decisions update the tunnels layer
+- Cross-cutting patterns get documented in chambers
+- Department priorities reflect at the nest level
+- Strategic shifts cascade down from the queen through all layers
 
 If a system acts without updating shared memory, it is drifting.
 
@@ -187,13 +184,13 @@ Alignment comes from shared constraints, not top-down control.
 
 alexANTria provides a template for organizational knowledge, not just code documentation:
 
-- **Five layers** map to organizational audiences
+- **Five layers** (Surface → Tunnels → Chambers → Nest → Queen) map to organizational audiences
 - **Bidirectional flow** maintains alignment between vision and execution
 - **Context engines** consume knowledge at appropriate granularity
-- **Outer constrains inner** ensures coherent decision-making
+- **Higher constrains lower** ensures coherent decision-making
 - **Read, act, repair** keeps the map accurate
 
-Start with coding agents. The same structure scales to your entire organization.
+Start with coding agents. The same anthill scales to your entire organization.
 
 ---
 

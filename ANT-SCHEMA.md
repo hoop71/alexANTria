@@ -1,37 +1,32 @@
-# alexANTria Schema
+# ANT-SCHEMA
 
 The standard pattern for documentation hierarchy. Use this as a reference when customizing your setup.
 
-## The Nesting Doll Principle
+## The Anthill Principle
 
-Documentation forms layers. Each layer builds on the previous, and outer layers constrain inner ones.
+Documentation forms layers. Each layer builds on the previous, and higher layers constrain lower ones.
 
-Like pheromone trails in an ant colony, each layer is a signal that guides behavior:
+Every anthill starts as a small mound. Stack layers as the colony grows:
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│  🌐 Meta: Strategic Intelligence                            │
-│  Vision gaps, platform health, executive analysis           │
-│  ┌─────────────────────────────────────────────────────┐    │
-│  │  🦠 Organism: Audience-Specific Views               │    │
-│  │  Product, Engineering, Marketing perspectives       │    │
-│  │  ┌─────────────────────────────────────────────┐    │    │
-│  │  │  🔬 Compound: Cross-Cutting Insights        │    │    │
-│  │  │  Patterns across services, AI synthesis     │    │    │
-│  │  │  ┌─────────────────────────────────────┐    │    │    │
-│  │  │  │  🧪 Molecular: Aggregated Docs       │    │    │    │
-│  │  │  │  Architecture rollups, API flows     │    │    │    │
-│  │  │  │  ┌─────────────────────────────┐    │    │    │    │
-│  │  │  │  │  ⚛️ Atomic: Raw Service Docs │    │    │    │    │
-│  │  │  │  │  READMEs, code comments      │    │    │    │    │
-│  │  │  │  └─────────────────────────────┘    │    │    │    │
-│  │  │  └─────────────────────────────────────┘    │    │    │
-│  │  └─────────────────────────────────────────────┘    │    │
-│  └─────────────────────────────────────────────────────┘    │
-└─────────────────────────────────────────────────────────────┘
+                    ╱╲
+                   ╱  ╲
+                  ╱ 👑 ╲
+                 ╱QUEEN ╲            ← Strategic alignment
+                ╱────────╲
+               ╱   NEST   ╲          ← Org-wide views
+              ╱────────────╲
+             ╱   CHAMBERS   ╲        ← Cross-cutting patterns
+            ╱────────────────╲
+           ╱     TUNNELS      ╲      ← Service connections
+          ╱────────────────────╲
+         ╱       SURFACE        ╲    ← Individual docs
+        ╱────────────────────────╲
+═══════════════════════════════════════
+              🌱 ground 🌱
 ```
 
-**Conflict resolution:** Outer layers override inner layers. No central brain decides—the constraint hierarchy does.
+**Conflict resolution:** Higher layers override lower layers. No central brain decides—the constraint hierarchy does.
 
 ## Starting Simple
 
@@ -44,35 +39,35 @@ Most projects start with 4 layers (the basic starter pattern):
 | Architecture | How we build | `ARCHITECTURE.md`, `PATTERNS.md` |
 | Implementation | The actual code | `CHANGELOG.md`, code comments |
 
-As your system grows, you can expand to the full 5-layer model:
+As your system grows, you can expand to the full 5-layer anthill:
 
-| Level | What It Contains | Who Consumes It | When to Add |
-|-------|------------------|-----------------|-------------|
-| ⚛️ Atomic | Raw docs from individual services/repos | Individual contributors, Agents | Start here |
-| 🧪 Molecular | Static rollups (architecture, API flows) | Engineers, Senior developers | When you have 3+ services |
-| 🔬 Compound | Cross-service insights | Architects, Staff engineers, Tech leads | When patterns emerge |
-| 🦠 Organism | Audience-specific views (eng, product, marketing) | Department leads, Product managers | When stakeholders diverge |
-| 🌐 Meta | Executive/strategic analysis | Leadership, Executives | When vision-to-execution gaps matter |
+| Layer | What Lives Here | Who Consumes It | When to Build |
+|-------|-----------------|-----------------|---------------|
+| 🌱 **Surface** | Raw docs from individual services/repos | Individual contributors, Agents | Start here |
+| 🚇 **Tunnels** | Architecture rollups, API flows | Engineers, Senior developers | When services connect |
+| 🏛️ **Chambers** | Cross-service insights | Architects, Staff engineers, Tech leads | When patterns emerge |
+| 🐜 **Nest** | Audience-specific views (eng, product, marketing) | Department leads, Product managers | When stakeholders diverge |
+| 👑 **Queen** | Executive/strategic analysis | Leadership, Executives | When vision gaps matter |
 
 The `/ant-init` command sets up the basic 4-layer structure. You can evolve from there.
 
 ## Bidirectional Flow
 
-Knowledge flows both directions through your documentation layers. This is how the colony stays aligned.
+Knowledge flows both directions through your anthill. This is how the colony stays aligned.
 
-**Upward (Code → Insights):** Implementation patterns bubble up to inform architectural decisions, which surface system health metrics, which shape strategic understanding.
+**Upward (Surface → Queen):** Implementation patterns bubble up through tunnels, surface in chambers as cross-cutting insights, shape nest-level views, and inform queen-level strategy.
 
-**Downward (Vision → Priorities):** Strategic decisions constrain department goals, which guide architectural choices, which direct implementation.
+**Downward (Queen → Surface):** Strategic decisions constrain nest priorities, which guide chamber-level patterns, which direct tunnel architecture, which shapes surface implementation.
 
 ```
         ↑ Signals                    ↓ Constraints
 
-Code patterns reveal debt    →    Strategic pivots reshape
-Workarounds signal problems  →    architecture requirements
-Velocity metrics emerge      →    Implementation choices follow
+Surface patterns reveal debt  →    Queen pivots reshape
+Tunnel bottlenecks emerge     →    Nest priorities
+Chamber insights surface      →    Tunnel architecture follows
 ```
 
-When both flows work, organizations stay aligned. When either breaks, silos form. Structure your docs to maintain both flows.
+When both flows work, the colony stays aligned. When either breaks, silos form. Structure your docs to maintain both flows.
 
 ## The Repair Principle
 
@@ -193,43 +188,43 @@ To customize:
 
 The schema is a pattern, not a prison. Adapt it to your workflow.
 
-## Growing the Colony
+## Growing the Anthill
 
 alexANTria starts as a coding agent scaffold but can grow into an organizational knowledge framework.
 
-### The Path from Starter to Full Organization
+### The Path from Mound to Mountain
 
-**Stage 1: Single Project**
-- Atomic docs (READMEs, code comments)
+**Stage 1: Surface Only**
+- Surface docs (READMEs, code comments)
 - Basic 4-layer hierarchy (Philosophy → Product → Architecture → Implementation)
 - Coding agents as the primary consumer
 
-**Stage 2: Multiple Services**
-- Add Molecular layer (architecture rollups, API documentation)
+**Stage 2: Digging Tunnels**
+- Add Tunnels layer (architecture rollups, API documentation)
 - Engineers and agents both benefit
 - Cross-service patterns start to emerge
 
-**Stage 3: Pattern Recognition**
-- Add Compound layer (cross-cutting analysis)
+**Stage 3: Building Chambers**
+- Add Chambers layer (cross-cutting analysis)
 - Architects can see system-wide concerns
 - Technical debt becomes visible across boundaries
 
-**Stage 4: Stakeholder Divergence**
-- Add Organism layer (audience-specific views)
+**Stage 4: Organizing the Nest**
+- Add Nest layer (audience-specific views)
 - Product, Engineering, and other leads get tailored perspectives
 - Same underlying knowledge, different presentations
 
-**Stage 5: Strategic Alignment**
-- Add Meta layer (executive analysis)
+**Stage 5: Queen's View**
+- Add Queen layer (executive analysis)
 - Leadership sees vision-to-execution alignment
 - Organizational coherence becomes measurable
 
 ### You Don't Need All Five Layers
 
-Most projects never need the full model. The value is knowing the structure exists so you can:
+Most projects never need the full anthill. The value is knowing the structure exists so you can:
 
-1. **Start simple** — Use the 4-layer starter pattern
-2. **Recognize when to expand** — Add layers when their audience emerges
-3. **Maintain coherence** — Outer layers constrain inner ones at any scale
+1. **Start with a mound** — Use the 4-layer starter pattern
+2. **Build higher when needed** — Add layers when their audience emerges
+3. **Maintain coherence** — Higher layers constrain lower ones at any scale
 
 See [ANT-FRAMEWORK.md](./ANT-FRAMEWORK.md) for the full organizational knowledge framework.
