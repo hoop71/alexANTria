@@ -54,7 +54,7 @@ As your system grows, you can expand to the full 5-layer model:
 | 🦠 Organism | Audience-specific views (eng, product, marketing) | Department leads, Product managers | When stakeholders diverge |
 | 🌐 Meta | Executive/strategic analysis | Leadership, Executives | When vision-to-execution gaps matter |
 
-The `/init-docs` command sets up the basic 4-layer structure. You can evolve from there.
+The `/ant-init` command sets up the basic 4-layer structure. You can evolve from there.
 
 ## Bidirectional Flow
 
@@ -168,7 +168,7 @@ Rules in `.claude/rules/` auto-load based on file paths. Standard domains:
 
 ## Mapping Your Docs
 
-When running `/init-docs`, the crawler looks for your existing docs and maps them to layers:
+When running `/ant-init`, the crawler looks for your existing docs and maps them to layers:
 
 ```
 Your docs              →  Layer
@@ -232,4 +232,4 @@ Most projects never need the full model. The value is knowing the structure exis
 2. **Recognize when to expand** — Add layers when their audience emerges
 3. **Maintain coherence** — Outer layers constrain inner ones at any scale
 
-See [FRAMEWORK.md](./FRAMEWORK.md) for the full organizational knowledge framework.
+See [ANT-FRAMEWORK.md](./ANT-FRAMEWORK.md) for the full organizational knowledge framework.

@@ -1,10 +1,10 @@
 # Templates
 
-These are starting points for the files `/init-docs` generates. **Edit them before running install.sh** to match your workflow.
+These are starting points for the files `/ant-init` generates. **Edit them before running install.sh** to match your workflow.
 
 ## How Templates Work
 
-When `/init-docs` runs in a project, it uses these templates as scaffolds. Placeholders like `{{UX_DOC}}` get replaced with actual values based on what docs exist in the target project.
+When `/ant-init` runs in a project, it uses these templates as scaffolds. Placeholders like `{{UX_DOC}}` get replaced with actual values based on what docs exist in the target project.
 
 ## Customizing Templates
 
@@ -96,7 +96,7 @@ Common placeholders used in templates:
 | `{{PRODUCT_DOC}}` | Detected product/PRD doc |
 | `{{PRODUCT_PATH}}` | Path to product doc |
 
-If a placeholder's doc isn't found, `/init-docs` will either omit that section or ask you what to reference instead.
+If a placeholder's doc isn't found, `/ant-init` will either omit that section or ask you what to reference instead.
 
 ## Sharing Templates
 

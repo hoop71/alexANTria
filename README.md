@@ -49,6 +49,20 @@ They explain why the system looks the way it does.
 
 If a system acts without updating shared memory, it is drifting.
 
+## Naming Convention
+
+Everything in the colony follows the `ANT-*` or `ant-*` naming pattern:
+
+| Type | Pattern | Examples |
+|------|---------|----------|
+| **Conceptual docs** | `ANT-*.md` | `ANT-SCHEMA.md`, `ANT-FRAMEWORK.md` |
+| **Commands** | `ant-*` | `/ant-init`, `/ant-update` |
+| **State directory** | `.alexantria/` | `.alexantria/manifest.json` |
+
+**Exception:** `README.md` stays as-is (GitHub convention for discoverability).
+
+This makes alexANTria files immediately recognizable in any project.
+
 ---
 
 ## The Structure
@@ -71,7 +85,7 @@ Your Project
 
 When an agent opens a file in `src/components/`, it automatically loads `frontend.md` which points to your design philosophy. The agent works within your constraints without you having to repeat them.
 
-See [SCHEMA.md](./SCHEMA.md) for the full nesting pattern.
+See [ANT-SCHEMA.md](./ANT-SCHEMA.md) for the full nesting pattern.
 
 ## The Behavior Loop
 
@@ -113,7 +127,8 @@ cd alexANTria
 
 Before installing, review and edit:
 - `user-level/CLAUDE.md` — Your universal philosophy for all projects
-- `user-level/commands/init-docs.md` — How project scaffolding works
+- `user-level/commands/ant-init.md` — How project scaffolding works
+- `user-level/commands/ant-update.md` — Worker ant post-commit updates
 - `templates/` — Starting points for project-level docs
 
 Delete what doesn't fit your workflow. Add what's missing.
@@ -126,7 +141,7 @@ Delete what doesn't fit your workflow. Add what's missing.
 
 This copies your customized files to `~/.claude/`:
 - Universal philosophy (applies to all your projects)
-- `/init-docs` command to scaffold new projects
+- `/ant-init` command to scaffold new projects
 
 ### 4. Set Up a Project
 
@@ -136,7 +151,7 @@ cd /path/to/your/project
 
 Then run:
 ```
-/init-docs
+/ant-init
 ```
 
 The agent will:
@@ -155,10 +170,10 @@ The command discovers what you have rather than asking you to describe it.
 ~/.claude/
 ├── CLAUDE.md              # Universal "read, act, repair" philosophy
 └── commands/
-    └── init-docs.md       # Scaffolds project structure
+    └── ant-init.md       # Scaffolds project structure
 ```
 
-### Project-Level (after `/init-docs`)
+### Project-Level (after `/ant-init`)
 
 ```
 your-project/
@@ -244,7 +259,7 @@ Start simple. As your system evolves, expand:
 | 🦠 Organism | Audience-specific views (eng, product) | Stakeholders diverge |
 | 🌐 Meta | Executive strategic analysis | Vision gaps matter |
 
-See [SCHEMA.md](./SCHEMA.md) for the full pattern.
+See [ANT-SCHEMA.md](./ANT-SCHEMA.md) for the full pattern.
 
 ## Bring Your Own
 
@@ -252,7 +267,7 @@ alexANTria is designed for customization:
 
 - **Templates** — Edit `templates/` before install to change what gets generated
 - **Rules** — Add new `templates/rules/*.template` for your domains (data layer, infra, security)
-- **Commands** — Modify `user-level/commands/init-docs.md` to change the scaffolding workflow
+- **Commands** — Modify `user-level/commands/ant-init.md` to change the scaffolding workflow
 - **Philosophy** — Edit `user-level/CLAUDE.md` to change how agents approach all your projects
 
 See [templates/README.md](./templates/README.md) for customization details.
@@ -282,7 +297,7 @@ The scaffolding you set up for coding agents becomes the foundation for org-wide
 - Add **organism** views when stakeholders need different perspectives
 - Add **meta** synthesis when strategic alignment matters
 
-See [FRAMEWORK.md](./FRAMEWORK.md) for the full organizational knowledge framework.
+See [ANT-FRAMEWORK.md](./ANT-FRAMEWORK.md) for the full organizational knowledge framework.
 
 ---
 

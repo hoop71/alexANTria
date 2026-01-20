@@ -201,4 +201,4 @@ Start with coding agents. The same structure scales to your entire organization.
 
 ---
 
-See [SCHEMA.md](./SCHEMA.md) for the technical implementation of this pattern.
+See [ANT-SCHEMA.md](./ANT-SCHEMA.md) for the technical implementation of this pattern.

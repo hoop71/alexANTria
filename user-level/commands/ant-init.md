@@ -3,9 +3,16 @@ description: Crawl project docs and scaffold context files
 allowed-tools: Read, Write, Glob, Grep, Bash, AskUserQuestion
 ---
 
-# Initialize Project Documentation Structure
+# 🐜 Ant Init: Establish the Colony
 
 Automatically detect existing documentation and scaffold context files for coding agents.
+
+## Philosophy
+
+You are the first ant entering new territory. Your job is to:
+- Scout what documentation already exists
+- Map it to the colony's hierarchy
+- Lay down the initial pheromone trails (CLAUDE.md, rules)
 
 ## Phase 1: Crawl
 
@@ -174,17 +181,38 @@ Before modifying UI, read:
 
 Only create rules for code directories that actually exist.
 
+### Create .alexantria/
+
+```bash
+mkdir -p .alexantria
+```
+
+Initialize the manifest for worker ants:
+
+```json
+{
+  "version": "0.1",
+  "repo": "[project-name]",
+  "last_sync": null,
+  "changes": []
+}
+```
+
 ## Phase 4: Summary
 
 Show what was created:
 
 ```
+🐜 Colony Established
+
 Created:
   CLAUDE.md                    — Document hierarchy (4 docs mapped)
   .claude/rules/
     ├── frontend.md            — For src/components/**
     ├── backend.md             — For src/server/**
     └── agents.md              — For src/agents/**
+  .alexantria/
+    └── manifest.json          — Worker ant tracking
 
 The hierarchy is:
   Layer 1: docs/ux-philosophy.md
@@ -195,7 +223,7 @@ The hierarchy is:
 Next steps:
   1. Review CLAUDE.md and adjust if needed
   2. Check .claude/rules/ quick references
-  3. Run /init-docs again anytime to update
+  3. After commits, run /ant-update to keep docs fresh
 ```
 
 ## Notes
