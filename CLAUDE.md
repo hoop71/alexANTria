@@ -18,6 +18,8 @@ This is a meta-repo: a documentation framework that documents itself.
 - **[templates/README.md](./templates/README.md)** — How templates and placeholders work
 
 ### Layer 4: Implementation
+- **[user-level/README.md](./user-level/README.md)** — User-level config overview
+- **[user-level/commands/README.md](./user-level/commands/README.md)** — How to write commands
 - **[user-level/commands/ant-init.md](./user-level/commands/ant-init.md)** — Colony initialization command
 - **[user-level/commands/ant-update.md](./user-level/commands/ant-update.md)** — Worker ant update command
 - **[user-level/CLAUDE.md](./user-level/CLAUDE.md)** — User-level agent instructions
@@ -28,17 +30,19 @@ This is a meta-repo: a documentation framework that documents itself.
 |--------------|------------|
 | Philosophy or principles | ANT-FRAMEWORK.md |
 | Documentation patterns | ANT-SCHEMA.md |
-| Command behavior | The specific command in user-level/commands/ |
+| Command behavior | user-level/commands/README.md, then the specific command |
 | Template customization | templates/README.md |
-| User-level behavior | user-level/CLAUDE.md |
+| User-level config | user-level/README.md |
+| Agent instructions | user-level/CLAUDE.md |
 
 ## After Completing Work
 
 Ask yourself:
 - Did I change the **colony philosophy**? → Update ANT-FRAMEWORK.md
 - Did I change the **schema pattern**? → Update ANT-SCHEMA.md
-- Did I add a **new command**? → Follow `ant-*` naming, update README.md
+- Did I add a **new command**? → Follow `ant-*` naming, update user-level/commands/README.md
 - Did I change **how templates work**? → Update templates/README.md
+- Did I change **user-level config**? → Update user-level/README.md
 
 ## Naming Convention
 
