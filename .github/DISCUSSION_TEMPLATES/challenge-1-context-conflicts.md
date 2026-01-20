@@ -1,6 +1,7 @@
 # Challenge 1: Context Conflicts at Agent Speed
 
-**From the blog post:** [Guardrails for GasTown - Challenge 1](https://github.com/hoop71/alexANTria/blob/main/BLOG-gastown-context-infrastructure.md#challenge-1-context-conflicts-at-agent-speed)
+**From the blog post:** [Guardrails for Gas Town - Challenge 1](https://github.com/hoop71/alexANTria/blob/main/BLOG-gastown-context-infrastructure.md#challenge-1-context-conflicts-at-agent-speed)
+**Discussion:** #2
 
 ## The Problem
 

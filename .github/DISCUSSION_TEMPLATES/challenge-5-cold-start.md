@@ -1,6 +1,7 @@
 # Challenge 5: Cold Start / Bootstrap
 
 **From the blog post:** [Guardrails for Gas Town - Challenge 5](https://github.com/hoop71/alexANTria/blob/main/BLOG-gastown-context-infrastructure.md#challenge-5-cold-start--bootstrap)
+**Discussion:** #6
 
 ## The Problem
 

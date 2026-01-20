@@ -1,6 +1,7 @@
 # Challenge 2: Agent Maintenance Discipline
 
 **From the blog post:** [Guardrails for Gas Town - Challenge 2](https://github.com/hoop71/alexANTria/blob/main/BLOG-gastown-context-infrastructure.md#challenge-2-agent-maintenance-discipline)
+**Discussion:** #3
 
 ## The Problem
 

@@ -435,7 +435,7 @@ Could Beads add knowledge issues? Yes, technically. It would be awkward (mixing 
 We're actively working on these problems. Each challenge has an open discussion—please share your experiences.
 
 ### Challenge 1: Context Conflicts at Agent Speed
-[💬 Join the discussion](https://github.com/hoop71/alexANTria/discussions/1)
+[💬 Join the discussion](https://github.com/hoop71/alexANTria/discussions/2)
 
 **The problem:** When 20 agents update context in parallel, merge conflicts happen in `ANT-*.md` files. Who arbitrates truth when two agents assert contradictory principles?
 
@@ -454,7 +454,7 @@ We're actively working on these problems. Each challenge has an open discussion�
 ---
 
 ### Challenge 2: Agent Maintenance Discipline
-[💬 Join the discussion](https://github.com/hoop71/alexANTria/discussions/2)
+[💬 Join the discussion](https://github.com/hoop71/alexANTria/discussions/3)
 
 **The problem:** Agents skip trail maintenance when under context pressure. From Steve's own article: agents disavow work and cut corners when nearing compaction limits.
 
@@ -474,7 +474,7 @@ We're actively working on these problems. Each challenge has an open discussion�
 ---
 
 ### Challenge 3: Economic Break-Even Point
-[💬 Join the discussion](https://github.com/hoop71/alexANTria/discussions/3)
+[💬 Join the discussion](https://github.com/hoop71/alexANTria/discussions/4)
 
 **The problem:** At what agent count does context infrastructure overhead pay off vs just repeating context in prompts?
 
@@ -495,7 +495,7 @@ We're actively working on these problems. Each challenge has an open discussion�
 ---
 
 ### Challenge 4: Governance Model
-[💬 Join the discussion](https://github.com/hoop71/alexANTria/discussions/4)
+[💬 Join the discussion](https://github.com/hoop71/alexANTria/discussions/5)
 
 **The problem:** Who owns Layer 1 truth? How are conflicts resolved? How do you prevent Layer 1 from becoming a political document?
 
@@ -516,7 +516,7 @@ We're actively working on these problems. Each challenge has an open discussion�
 ---
 
 ### Challenge 5: Cold Start / Bootstrap
-[💬 Join the discussion](https://github.com/hoop71/alexANTria/discussions/5)
+[💬 Join the discussion](https://github.com/hoop71/alexANTria/discussions/6)
 
 **The problem:** New project, empty alexANTria. How do you prime it without creating garbage context?
 

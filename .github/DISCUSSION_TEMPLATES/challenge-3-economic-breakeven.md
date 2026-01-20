@@ -1,6 +1,7 @@
 # Challenge 3: Economic Break-Even Point
 
 **From the blog post:** [Guardrails for Gas Town - Challenge 3](https://github.com/hoop71/alexANTria/blob/main/BLOG-gastown-context-infrastructure.md#challenge-3-economic-break-even-point)
+**Discussion:** #4
 
 ## The Problem
 

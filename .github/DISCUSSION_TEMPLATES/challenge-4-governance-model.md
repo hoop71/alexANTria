@@ -1,6 +1,7 @@
 # Challenge 4: Governance Model
 
 **From the blog post:** [Guardrails for Gas Town - Challenge 4](https://github.com/hoop71/alexANTria/blob/main/BLOG-gastown-context-infrastructure.md#challenge-4-governance-model)
+**Discussion:** #5
 
 ## The Problem
 
