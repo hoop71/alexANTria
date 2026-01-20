@@ -47,29 +47,50 @@ ls -d */ 2>/dev/null | head -20
 ls src/ app/ lib/ packages/ 2>/dev/null || true
 ```
 
+### Detect External Context Feeds
+
+```bash
+# Find ANT-EXTERNAL.md markers
+find . -name "ANT-EXTERNAL.md" -type f 2>/dev/null | grep -v node_modules | grep -v .git
+```
+
+Any directories containing `ANT-EXTERNAL.md` are external context feeds and should be excluded from layer mapping.
+
 ### Classify Found Docs
 
-Read each discovered doc file briefly to understand its purpose. Map to the nesting doll layers:
+Read each discovered doc file briefly to understand its purpose. Map to the 5-layer anthill:
 
-**Layer 1 - Philosophy/Constraints** (look for):
-- Files with "philosophy", "principles", "constraints", "values" in name
+**👑 Queen - Strategic Alignment** (look for):
+- Files with "strategy", "vision", "mission", "philosophy" in name
 - Content with "always", "never", "must", "non-negotiable"
-- Design systems, UX guidelines
+- Core principles, security constraints, company values
+- Examples: `PHILOSOPHY.md`, `PRINCIPLES.md`, main `CLAUDE.md`
 
-**Layer 2 - Product/Business** (look for):
+**🐜 Nest - Product/Business Context** (look for):
 - Files with "product", "prd", "requirements", "scope", "brief" in name
 - Content with "users can", "the system should", "features"
 - Business rules, domain logic docs
+- Examples: `product-brief.md`, `REQUIREMENTS.md`, `business-rules.md`
 
-**Layer 3 - Architecture/Patterns** (look for):
+**🏛️ Chambers - Cross-Cutting Patterns** (look for):
+- Design systems, shared component libraries
+- Cross-service patterns, integration guides
+- Org-wide conventions that span multiple services
+- Examples: Design system docs, shared API patterns
+
+**🚇 Tunnels - Architecture/Service Connections** (look for):
 - Files with "architecture", "patterns", "conventions", "contributing", "api" in name
 - Content with "we use", "structure", "components"
-- Tech stack docs, coding standards
+- Tech stack docs, coding standards, service boundaries
+- Examples: `ARCHITECTURE.md`, `CONTRIBUTING.md`, `API.md`
 
-**Layer 4 - Implementation** (look for):
-- CHANGELOG, ADRs, decision records
-- TODO files, roadmaps
-- Code comments (don't need to catalog these)
+**🌱 Surface - Individual Service Docs** (look for):
+- README files, package-specific documentation
+- Per-app/per-package CLAUDE.md files
+- Service-level implementation details
+- Examples: `apps/*/README.md`, `packages/*/CLAUDE.md`
+
+**Note:** Skip any directories marked with `ANT-EXTERNAL.md` - these are external context feeds, not local docs to manage.
 
 ## Phase 2: Propose
 
@@ -78,26 +99,35 @@ Present findings to the user:
 ```
 ## Found Documentation
 
-I found these docs and mapped them to the hierarchy:
+I found these docs and mapped them to the 5-layer anthill:
 
-### Layer 1: Philosophy/Constraints
-- [x] docs/ux-philosophy.md — "Design principles"
-
-### Layer 2: Product/Business
-- [x] docs/product-brief.md — "Product requirements"
+### 👑 Queen: Strategic Alignment
+- [x] CLAUDE.md "Core Principles" — Non-negotiables
 - [ ] (none found)
 
-### Layer 3: Architecture/Patterns
-- [x] ARCHITECTURE.md — "System design"
-- [x] CONTRIBUTING.md — "Code conventions"
+### 🐜 Nest: Product/Business Context
+- [x] docs/product-brief.md — Product requirements
+- [ ] (none found)
 
-### Layer 4: Implementation
-- [x] CHANGELOG.md — "Version history"
+### 🏛️ Chambers: Cross-Cutting Patterns
+- [x] packages/design-system/ — Shared UI components
+- [ ] (none found)
+
+### 🚇 Tunnels: Architecture/Service Connections
+- [x] ARCHITECTURE.md — System design
+- [x] CONTRIBUTING.md — Code conventions
+
+### 🌱 Surface: Individual Service Docs
+- [x] apps/*/README.md — Per-app documentation
+- [x] packages/*/CLAUDE.md — Per-package context
+
+### External Context Feeds (ANT-EXTERNAL)
+- [x] docs/alexandria/ — Platform-wide intelligence (read-only)
 
 ### Code Structure Detected
 - src/components/ → frontend rules
 - src/server/ → backend rules
-- src/agents/ → agent rules
+- packages/ → monorepo structure
 
 Does this look right? Should I adjust any mappings?
 ```
@@ -115,37 +145,51 @@ Generate a project-level CLAUDE.md with:
 ```markdown
 # [Project Name] – Context
 
-## Document Hierarchy
+## The Anthill
 
-<!-- Outer layers override inner layers when they conflict -->
+This project uses the 5-layer anthill structure. Higher layers constrain lower layers.
 
-### Layer 1: Philosophy/Constraints
-- **[doc-name.md](./path)** — What it governs
+### 👑 Queen: Strategic Alignment
+- **[doc-name.md](./path)** — Non-negotiable principles
 
-### Layer 2: Product/Business
-- **[doc-name.md](./path)** — What it governs
+### 🐜 Nest: Product/Business Context
+- **[doc-name.md](./path)** — What we're building
 
-### Layer 3: Architecture/Patterns
-- **[doc-name.md](./path)** — What it governs
+### 🏛️ Chambers: Cross-Cutting Patterns
+- **[doc-name.md](./path)** — Patterns that span services
 
-### Layer 4: Implementation
-- **[CHANGELOG.md](./CHANGELOG.md)** — Version history
+### 🚇 Tunnels: Architecture/Service Connections
+- **[doc-name.md](./path)** — How services connect
+
+### 🌱 Surface: Individual Service Docs
+- **[doc-name.md](./path)** — Per-service implementation
+
+## External Context Feeds
+
+These directories contain read-only context from external sources:
+
+- **[path/to/external/](./)** (ANT-EXTERNAL)
+  - Source: [Generator name]
+  - Update: [Frequency]
+  - Purpose: [What it provides]
 
 ## When to Read
 
 | Working on... | Read first |
 |--------------|------------|
-| UI changes | Layer 1 philosophy + Layer 3 patterns |
-| New features | Layer 2 product brief |
-| Refactoring | Layer 3 architecture |
-| Bug fixes | Layer 3 patterns |
+| Strategic decisions | Queen layer |
+| New features | Nest + Chambers |
+| Cross-service patterns | Chambers + Tunnels |
+| Service implementation | Tunnels + Surface |
+| Bug fixes | Surface + Tunnels |
 
 ## After Completing Work
 
 Ask yourself:
-- Did I establish a **new pattern**? → Suggest updating Layer 3 docs
-- Did I change **product behavior**? → Suggest updating Layer 2 docs
+- Did I establish a **new pattern**? → Suggest updating Chambers/Tunnels
+- Did I change **product behavior**? → Suggest updating Nest layer
 - Did I violate a **constraint**? → Discuss with user before proceeding
+- Did implementation diverge from architecture? → Update Surface or Tunnels
 ```
 
 ### Create .claude/rules/
@@ -249,27 +293,32 @@ Show what was created:
 🐜 Colony Established
 
 Created:
-  CLAUDE.md                    — Document hierarchy (4 docs mapped)
+  CLAUDE.md                    — 5-layer anthill hierarchy
   .claude/rules/
     ├── frontend.md            — For src/components/**
     ├── backend.md             — For src/server/**
-    └── agents.md              — For src/agents/**
+    └── [domain].md            — For detected code domains
   .alexantria/
     ├── manifest.json          — Worker ant tracking
     └── pending.log            — Pending commits queue (created by hook)
   .git/hooks/
     └── post-commit            — Auto-tracks commits (if installed)
 
-The hierarchy is:
-  Layer 1: docs/ux-philosophy.md
-  Layer 2: docs/product-brief.md
-  Layer 3: ARCHITECTURE.md, CONTRIBUTING.md
-  Layer 4: CHANGELOG.md
+The anthill structure:
+  👑 Queen: [Strategic docs]
+  🐜 Nest: [Product docs]
+  🏛️ Chambers: [Cross-cutting patterns]
+  🚇 Tunnels: [Architecture docs]
+  🌱 Surface: [Per-service docs]
+
+External context feeds (read-only):
+  [path/to/external/] (ANT-EXTERNAL) - [Description]
 
 Next steps:
-  1. Review CLAUDE.md and adjust if needed
+  1. Review CLAUDE.md and adjust layer mappings if needed
   2. Check .claude/rules/ quick references
   3. After commits, run /ant-update to process pending and keep docs fresh
+  4. External feeds are consumed but not managed - changes tracked via manifest
 ```
 
 ## Notes

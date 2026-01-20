@@ -161,6 +161,90 @@ Rules in `.claude/rules/` auto-load based on file paths. Standard domains:
 | `agents.md` | `src/agents/**`, `prompts/**` | AI/LLM behavior |
 | `infra.md` | `terraform/**`, `.github/**`, `docker/**` | Infrastructure |
 
+## External Context Feeds
+
+Some documentation comes from external sources and should not be managed by the local anthill. Mark these with `ANT-EXTERNAL.md`:
+
+### The ANT-EXTERNAL Marker
+
+Place an `ANT-EXTERNAL.md` file in any directory that contains read-only external context:
+
+```
+docs/alexandria/
+├── ANT-EXTERNAL.md          ← Marker file
+├── SERVICE_CONTEXT.md
+└── INTEGRATION_CONTRACTS.md
+```
+
+**Location-agnostic:** The marker works anywhere in your project tree.
+
+```
+project/
+├── docs/platform-intelligence/
+│   └── ANT-EXTERNAL.md
+├── vendor/partner-docs/
+│   └── ANT-EXTERNAL.md
+└── .claude/external-feeds/
+    └── ANT-EXTERNAL.md
+```
+
+### ANT-EXTERNAL.md Template
+
+```markdown
+# External Context Feed
+
+This directory contains read-only context from an external source.
+
+- **Source**: [Name of generator/source]
+- **Update Frequency**: [How often it updates]
+- **Ownership**: External (do not modify locally)
+- **Purpose**: [What this context provides]
+
+## ant-init Behavior
+
+- **Reads**: Yes (for context awareness)
+- **Manages**: No (excluded from anthill maintenance)
+- **References**: Listed in CLAUDE.md as external context
+
+## Feedback Loop
+
+Changes to local documentation that reference this context are tracked
+via `.alexantria/manifest.json` and can phone home to improve future
+generations.
+```
+
+### How ant-init Handles External Context
+
+1. **During crawl**: Detects `ANT-EXTERNAL.md` markers
+2. **Excludes from layers**: Does not map external docs to anthill layers
+3. **References in CLAUDE.md**: Lists external feeds for awareness
+4. **Tracks usage**: Notes when local docs reference external context
+
+**Example CLAUDE.md output:**
+
+```markdown
+## External Context Feeds
+
+These directories contain read-only context from external sources:
+
+- **docs/alexandria/** - Platform-wide intelligence
+  - Source: Alexandria Hub
+  - Update: Nightly automated generation
+  - Purpose: Cross-service architectural context
+```
+
+### Why External Feeds Matter
+
+External context feeds solve a critical problem: some knowledge is generated at a different scope or lifecycle than your local docs.
+
+**Use cases:**
+- **Platform-wide intelligence** (Alexandria) generated from multiple repos
+- **Vendor documentation** that updates independently
+- **Generated API specs** from other teams
+- **Compliance documentation** managed by legal/security teams
+
+The anthill **consumes** external context but doesn't try to **maintain** it. Changes flow through the manifest phone-home mechanism.
+
 ## Mapping Your Docs
 
 When running `/ant-init`, the crawler looks for your existing docs and maps them to layers:

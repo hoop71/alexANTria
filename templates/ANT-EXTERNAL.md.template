@@ -1,0 +1,30 @@
+# External Context Feed
+
+This directory contains read-only context from an external source.
+
+- **Source**: {{SOURCE_NAME}}
+- **Update Frequency**: {{UPDATE_FREQUENCY}}
+- **Ownership**: External (do not modify locally)
+- **Purpose**: {{PURPOSE}}
+
+## ant-init Behavior
+
+- **Reads**: Yes (for context awareness)
+- **Manages**: No (excluded from anthill maintenance)
+- **References**: Listed in CLAUDE.md as external context
+
+## Feedback Loop
+
+Changes to local documentation that reference this context are tracked
+via `.alexantria/manifest.json` and can phone home to improve future
+generations.
+
+## Contents
+
+{{CONTENT_DESCRIPTION}}
+
+---
+
+**ANT-EXTERNAL Marker**: This file signals to `/ant-init` that this
+directory should be treated as read-only external context, not managed
+as part of the local anthill.
