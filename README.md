@@ -105,7 +105,7 @@ When you change something at a lower level that affects a higher level, repair t
 
 ```bash
 # Fork this repo on GitHub first, then:
-git clone https://github.com/YOUR_USERNAME/alexANTria
+git clone https://github.com/hoop71/alexANTria
 cd alexANTria
 ```
 
