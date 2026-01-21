@@ -28,28 +28,21 @@ Every anthill starts as a small mound. Stack layers as the colony grows:
 
 **Conflict resolution:** Higher layers override lower layers. No central brain decides—the constraint hierarchy does.
 
-## Starting Simple
+## The 5-Layer Structure
 
-Most projects start with 4 layers (the basic starter pattern):
-
-| Layer | Purpose | Example Files |
-|-------|---------|---------------|
-| Philosophy | Non-negotiable constraints | `PRINCIPLES.md`, `ux-philosophy.md` |
-| Product | What we're building | `product-brief.md`, `PRD.md` |
-| Architecture | How we build | `ARCHITECTURE.md`, `PATTERNS.md` |
-| Implementation | The actual code | `CHANGELOG.md`, code comments |
-
-As your system grows, you can expand to the full 5-layer anthill:
+alexANTria uses the same layered context pattern as Claude Code, extended to organizational scale:
 
 | Layer | What Lives Here | Who Consumes It | When to Build |
 |-------|-----------------|-----------------|---------------|
-| 🌱 **Surface** | Raw docs from individual services/repos | Individual contributors, Agents | Start here |
-| 🚇 **Tunnels** | Architecture rollups, API flows | Engineers, Senior developers | When services connect |
-| 🏛️ **Chambers** | Cross-service insights | Architects, Staff engineers, Tech leads | When patterns emerge |
-| 🐜 **Nest** | Audience-specific views (eng, product, marketing) | Department leads, Product managers | When stakeholders diverge |
-| 👑 **Queen** | Executive/strategic analysis | Leadership, Executives | When vision gaps matter |
+| 🌱 **Surface** | Per-service docs, READMEs, code comments | Individual contributors, Agents | Start here |
+| 🚇 **Tunnels** | Architecture patterns, API contracts, service boundaries | Engineers, Senior developers | When services connect |
+| 🏛️ **Chambers** | Cross-cutting patterns, shared conventions, integration points | Architects, Staff engineers, Tech leads | When patterns emerge |
+| 🐜 **Nest** | Audience-specific views (engineering, product, business context) | Department leads, Product managers, Cross-functional teams | When stakeholders diverge |
+| 👑 **Queen** | Strategic alignment, vision-to-execution, organizational coherence | Leadership, Executives, C-suite | When vision gaps matter |
 
-The `/ant-init` command sets up the basic 4-layer structure. You can evolve from there.
+**Key difference from engineering-only patterns:** Surface → Tunnels → Chambers aligns with typical engineering documentation (like Claude Code's modular rules). **Nest and Queen extend to organizational scale**—product context, business rules, strategic alignment that affects the entire org, not just engineering.
+
+The `/ant-init` command scaffolds all 5 layers based on what it finds in your project.
 
 ## Bidirectional Flow
 
@@ -303,11 +296,22 @@ alexANTria starts as a coding agent scaffold but can grow into an organizational
 - Leadership sees vision-to-execution alignment
 - Organizational coherence becomes measurable
 
-### You Don't Need All Five Layers
+### You Don't Need All Five Layers on Day One
 
-Most projects never need the full anthill. The value is knowing the structure exists so you can:
+The anthill grows with your organization:
 
-1. **Start with a mound** — Use the 4-layer starter pattern
+**Start here (engineering focus):**
+- **Surface** — Service docs, READMEs
+- **Tunnels** — Architecture docs
+- Works great for coding agents and engineering teams
+
+**Add when you scale organizationally:**
+- **Chambers** — When cross-cutting patterns emerge across teams
+- **Nest** — When product/business/eng need different views of the same system
+- **Queen** — When strategic alignment matters (vision-to-execution coherence)
+
+The value is knowing the structure exists so you can:
+1. **Start with engineering context** — Surface + Tunnels (aligns with Claude Code patterns)
 2. **Build higher when needed** — Add layers when their audience emerges
 3. **Maintain coherence** — Higher layers constrain lower ones at any scale
 

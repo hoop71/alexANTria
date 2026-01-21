@@ -13,18 +13,24 @@
 
 ## 👑 The Core Insight (30 seconds)
 
-Steve Yegge's [Gas Town](https://steve-yegge.medium.com/welcome-to-gas-town-4f25ee16dd04) proved you can orchestrate 20-30 agents in chaos and still ship. It's the future of development: agent swarms moving at "creation and correction at the speed of thought."
-
-**But even Steve ran headfirst into every context problem:** Plan dementia (605 markdown files). "Death by a thousand re-explanations." Becoming the bottleneck context oracle for 30 agents.
+Steve Yegge's [Gas Town](https://steve-yegge.medium.com/welcome-to-gas-town-4f25ee16dd04) proved you can orchestrate 20-30 agents in chaos and still ship. **But even Steve ran headfirst into every context problem:** Plan dementia. "Death by a thousand re-explanations." Becoming the bottleneck context oracle.
 
 **The insight:** **Work memory ≠ context memory.**
 
 - **[Beads](https://steve-yegge.medium.com/introducing-beads-a-coding-agent-memory-system-637d7d92514a)** tracks *what* to do (tasks, dependencies, status)
 - **alexANTria** tracks *how* to do it (conventions, constraints, why)
 
-Gas Town coordinates work. Beads remembers tasks. alexANTria provides institutional knowledge. You need all three.
+**Gas Town is the proof point at extreme scale (30 agents).** But the same context problems hit you at **1 agent, 5 agents, or 30 agents**:
+- "Let me explain our architecture again..."
+- "Wait, which auth approach did we pick?"
+- "Why is the database structured this way?"
 
-**Context infrastructure isn't about writing artisanal code. It's about not letting chaos become catastrophic.**
+**You don't need Gas Town to need context infrastructure.** You need it the moment you:
+- Work across multiple sessions (context doesn't persist)
+- Collaborate with teammates (each agent learns independently)
+- Scale beyond 3-5 concurrent agents (re-explanations compound)
+
+**Context infrastructure isn't about writing artisanal code. It's about not repeating yourself.**
 
 *Stop here if you just need the headline. Keep reading for why this matters.*
 
@@ -153,6 +159,21 @@ When a polecat claims a convoy in Gas Town:
 4. **Repairs trails** → Updates `frontend/README.md` if pattern is new
 
 Without alexANTria, you're the context oracle for 20 polecats simultaneously.
+
+### The Adoption Ramp
+
+Gas Town is the extreme proof point, but you don't need 30 agents to benefit:
+
+| Stage | Setup | What alexANTria Provides |
+|-------|-------|-----------------------------|
+| **1-2 agents** | Single Claude session, or frontend + backend | Persistent context across sessions, stops re-explaining architecture |
+| **3-5 agents** | Parallel workflows (UI, API, tests, docs) | Shared context prevents contradictory implementations |
+| **5-10 agents** | Multiple teammates, concurrent work | Team-wide institutional memory, onboarding acceleration |
+| **10-30 agents** | Orchestration layer (Gas Town) | Context infrastructure scales beneath orchestration |
+
+**You feel the pain earliest at 1-2 agents** (re-explanations after compaction). **You hit the wall at 5-10 agents** (contradictory decisions, becoming the oracle). **Gas Town proves it's critical at 30 agents.**
+
+alexANTria provides the on-ramp from day one through to swarm scale.
 
 *Stop here if you're convinced. Deep dives below are optional.*
 

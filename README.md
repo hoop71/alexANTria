@@ -272,7 +272,8 @@ The command discovers what you have rather than asking you to describe it.
 ├── CLAUDE.md              # Universal "read, act, repair" philosophy
 └── commands/
     ├── ant-init.md        # Scaffolds project structure
-    └── ant-update.md      # Worker ant: processes pending commits
+    ├── ant-update.md      # Worker ant: processes pending commits
+    └── ant-validate.md    # Health check: validates installation
 ```
 
 ### Project-Level (after `/ant-init`)
@@ -287,9 +288,9 @@ your-project/
 │       └── ...
 ├── .alexantria/
 │   ├── manifest.json      # Worker ant tracking
-│   └── pending.log        # Pending commits (from git hook)
+│   └── pending.log        # Pending commits (optional, from git hook)
 └── .git/hooks/
-    └── post-commit        # Records commits for worker ants
+    └── post-commit        # OPTIONAL: Records commits for batch processing
 ```
 
 ## How It Works
@@ -400,6 +401,23 @@ alexANTria is designed for customization:
 
 See [templates/README.md](./templates/README.md) for customization details.
 
+## Validation
+
+The `/ant-validate` command checks your alexANTria installation:
+
+```
+/ant-validate
+```
+
+Reports on:
+- Core structure (CLAUDE.md, .claude/rules/, .alexantria/)
+- Hierarchy completeness (all 5 layers present in CLAUDE.md)
+- Rule files (frontmatter, path globs)
+- Manifest validity (JSON structure, required fields)
+- Git hook status (installed, executable, valid)
+
+Returns health status: **HEALTHY**, **DEGRADED**, or **BROKEN** with specific recommendations for any issues found.
+
 ## Worker Ants
 
 The `/ant-update` command spawns a worker ant that keeps surface docs in sync.
@@ -422,12 +440,13 @@ Clears the pending log
 
 **Why this pattern?**
 
+- Git hook is optional—install only if you want batch processing
 - Manual commits get tracked (git hook is fast, no Claude needed)
 - Agent commits get tracked too
 - No expensive Claude spawning on every commit
-- Worker ant catches up in batches
+- Worker ant catches up in batches when you run `/ant-update`
 
-**The pending log** is simple: `TIMESTAMP|HASH|MESSAGE` per line. No dependencies, pure bash.
+**The pending log** is simple: `TIMESTAMP|HASH|MESSAGE` per line. No dependencies, pure bash. **Safe to ignore if you prefer manual `/ant-update` runs** (it will just process HEAD).
 
 **The manifest** (`.alexantria/manifest.json`) tracks what the worker ant has processed—your paper trail for future "phone home" syncing to higher-level docs.
 

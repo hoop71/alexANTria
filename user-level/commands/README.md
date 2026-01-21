@@ -8,6 +8,7 @@ Slash commands for alexANTria. These get installed to `~/.claude/commands/` and 
 |---------|---------|
 | `/ant-init` | Scout and establish colony structure in a project |
 | `/ant-update` | Worker ant: process pending commits, update surface docs |
+| `/ant-validate` | Verify alexANTria installation and configuration |
 
 ## Command Structure
 
@@ -57,6 +58,16 @@ The worker ant. Processes commits and keeps surface docs fresh:
 3. **Update** - Make minimal changes to local READMEs
 4. **Record** - Log to `.alexantria/manifest.json`
 5. **Clear** - Remove processed entries from pending
+
+## ant-validate
+
+The scout ant health check. Verifies alexANTria installation:
+
+1. **Check structure** - Verify CLAUDE.md, .claude/rules/, .alexantria/ exist
+2. **Validate content** - Check CLAUDE.md has 5-layer hierarchy
+3. **Check rules** - Verify frontmatter and path globs in rule files
+4. **Validate manifest** - Check JSON structure and required fields
+5. **Report health** - Generate pass/fail report with recommendations
 
 ## Writing New Commands
 

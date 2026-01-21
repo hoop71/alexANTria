@@ -242,15 +242,21 @@ Initialize the manifest for worker ants:
 }
 ```
 
-### Install Git Hook
+### Install Git Hook (Optional)
 
 Ask the user if they want automatic commit tracking:
 
 ```
 Would you like to install the git hook for automatic commit tracking?
 
-This adds a post-commit hook that records commits for /ant-update to process.
-Manual commits will be tracked and processed next time you run /ant-update.
+This adds a post-commit hook that records commits to .alexantria/pending.log.
+You can run /ant-update anytime to process pending commits and update surface docs.
+
+Note: If you skip the hook, you can still run /ant-update manually - it will
+process the most recent commit (HEAD). The hook just enables batch processing
+of multiple commits.
+
+The pending.log is safe to ignore if you prefer manual /ant-update runs.
 ```
 
 If yes, install the hook:
