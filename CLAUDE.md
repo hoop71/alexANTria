@@ -2,67 +2,99 @@
 
 This is a meta-repo: a documentation framework that documents itself.
 
-## The Anthill
+## Meta Documentation (Defines the Pattern)
 
-This project uses the 5-layer anthill structure. Higher layers constrain lower layers.
+These docs explain HOW the 5-layer pattern works:
+
+- **[ANT-FRAMEWORK.md](./ANT-FRAMEWORK.md)** — Coordination model (intelligence through coordination)
+- **[ANT-SCHEMA.md](./ANT-SCHEMA.md)** — 5-layer nesting doll pattern
+- **[README.md](./README.md)** — User-facing overview
+
+## Implementation (alexANTria Documenting Itself)
+
+These docs USE the 5-layer pattern to document alexANTria itself. Higher layers constrain lower layers.
 
 ### 👑 Queen: Strategic Alignment
-- **[ANT-FRAMEWORK.md](./ANT-FRAMEWORK.md)** — Intelligence through coordination, not command
-- **[README.md#philosophy](./README.md)** — Core principles (context is load-bearing, read-act-repair, etc.)
+- **[.alexantria/ANT-QUEEN.md](./.alexantria/ANT-QUEEN.md)** — alexANTria's core principles and constraints
+  - ANT-* only principle
+  - Read-act-repair pattern
+  - No central brain
+  - Automation boundary
+  - Cost constraints
 
 ### 🐜 Nest: Product/Business Context
-- **[README.md](./README.md)** — What alexANTria does, the problem it solves
-- **[blog/gastown-context-infrastructure.md](./blog/gastown-context-infrastructure.md)** — Why orchestration needs context infrastructure
+- **[.alexantria/ANT-NEST.md](./.alexantria/ANT-NEST.md)** — alexANTria's product context
+  - What we solve (context drift, Gastown, adoption friction)
+  - Key features (adoption ramp, guardians, clean removal)
+  - Use cases (greenfield, brownfield, large teams)
+  - User workflows
+  - Success metrics
 
 ### 🏛️ Chambers: Cross-Cutting Patterns
-- **[ANT-SCHEMA.md](./ANT-SCHEMA.md)** — The nesting doll documentation pattern
-- **[templates/README.md](./templates/README.md)** — How templates and placeholders work
+- **[.alexantria/ANT-CHAMBERS.md](./.alexantria/ANT-CHAMBERS.md)** — alexANTria's internal patterns
+  - Naming conventions (ant-*, ANT-*, .alexantria/)
+  - Command structure pattern
+  - Guardian pattern
+  - Validation pattern
+  - Error handling pattern
 
 ### 🚇 Tunnels: Architecture/Service Connections
-- **[user-level/README.md](./user-level/README.md)** — User-level config overview
-- **[user-level/commands/README.md](./user-level/commands/README.md)** — How to write commands
-- **[user-level/CLAUDE.md](./user-level/CLAUDE.md)** — User-level agent instructions
+- **[.alexantria/ANT-TUNNELS.md](./.alexantria/ANT-TUNNELS.md)** — alexANTria's architecture
+  - System architecture
+  - Service boundaries
+  - Data flows (init, commit, validation)
+  - Technology stack
+  - Automation boundary
 
 ### 🌱 Surface: Individual Service Docs
-- **[user-level/commands/ant-init.md](./user-level/commands/ant-init.md)** — Colony initialization command
-- **[user-level/commands/ant-update.md](./user-level/commands/ant-update.md)** — Worker ant update command
-- **[user-level/commands/ant-validate.md](./user-level/commands/ant-validate.md)** — Colony health check command
+- **[user-level/commands/ANT-SURFACE.md](./user-level/commands/ANT-SURFACE.md)** — Commands documentation
+- **[templates/ANT-SURFACE.md](./templates/ANT-SURFACE.md)** — Templates documentation
 
 ## When to Read
 
 | Working on... | Read first |
 |--------------|------------|
-| Strategic vision, core principles | Queen layer (ANT-FRAMEWORK.md, README.md) |
-| Product positioning, use cases | Nest layer (README.md, blog/) |
-| Documentation patterns, templates | Chambers layer (ANT-SCHEMA.md, templates/) |
-| Command architecture, user config | Tunnels layer (user-level/README.md, commands/README.md) |
-| Specific command implementation | Surface layer (ant-init.md, ant-update.md, ant-validate.md) |
+| Understanding the pattern | Meta docs (ANT-FRAMEWORK.md, ANT-SCHEMA.md) |
+| Strategic decisions for alexANTria | Queen layer (.alexantria/ANT-QUEEN.md) |
+| Product features, use cases | Nest layer (.alexantria/ANT-NEST.md) |
+| Internal patterns, conventions | Chambers layer (.alexantria/ANT-CHAMBERS.md) |
+| Architecture, data flows | Tunnels layer (.alexantria/ANT-TUNNELS.md) |
+| Specific commands or templates | Surface layer (ANT-SURFACE.md in directories) |
 
 ## Before Committing Code
 
-**Spawn a worker ant sub-agent to maintain docs:**
+**Use `/ant-commit` for automated workflow:**
 
 When you're ready to commit code changes:
 
-1. Stage your changes: `git add <files>`
-2. Spawn worker ant sub-agent using Task tool (blocking)
-3. Worker ant analyzes staged changes, updates surface docs, updates manifest
-4. Worker ant stages its changes, exits
-5. Task tool returns (worker ant done)
-6. Commit everything together: `git commit -m "your message"`
+```
+Run: /ant-commit "your commit message"
+```
 
-**See:** [user-level/agent-commit-pattern.md](./user-level/agent-commit-pattern.md) for detailed implementation.
+This command:
+1. Checks staging area (stages files if needed)
+2. Spawns worker ant sub-agent (blocking)
+3. Worker ant:
+   - Runs bash validation checks (naming, structure, JSON)
+   - Spawns guardians for affected layers (if validation enabled)
+   - Updates ANT-* docs at or below starting_level
+   - Detects higher-layer impacts
+   - Updates manifest (changes + validation_log)
+   - Stages everything
+4. Creates single commit (code + docs + manifest)
+5. Shows commit results
 
-**Why:** This ensures docs and manifest stay in sync automatically. Everything rides in one commit. The Task tool blocks until the worker ant finishes, so you're guaranteed everything is staged before committing.
+**Why:** This ensures docs and manifest stay in sync automatically. Everything rides in one commit. Worker ant completes before committing (blocking).
 
 ## After Completing Work
 
 Ask yourself:
-- Did I change the **strategic vision or core principles**? → Update Queen layer (ANT-FRAMEWORK.md)
-- Did I change **product positioning or use cases**? → Update Nest layer (README.md, blog/)
-- Did I change the **schema pattern or template system**? → Update Chambers layer (ANT-SCHEMA.md, templates/)
-- Did I add a **new command or change user-level config**? → Update Tunnels layer (user-level/)
-- Did I change **specific command implementation**? → Update Surface layer (command .md files)
+- Did I change the **coordination model or 5-layer pattern**? → Update meta docs (ANT-FRAMEWORK.md, ANT-SCHEMA.md)
+- Did I change **core principles or constraints**? → Update Queen layer (.alexantria/ANT-QUEEN.md)
+- Did I change **product features or use cases**? → Update Nest layer (.alexantria/ANT-NEST.md)
+- Did I change **internal patterns or conventions**? → Update Chambers layer (.alexantria/ANT-CHAMBERS.md)
+- Did I change **architecture or data flows**? → Update Tunnels layer (.alexantria/ANT-TUNNELS.md)
+- Did I change **specific commands or templates**? → Update Surface layer (ANT-SURFACE.md in directories)
 
 ## Naming Convention
 
