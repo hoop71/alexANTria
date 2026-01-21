@@ -34,6 +34,14 @@
       "docs_updated": [],
       "action": "no-op",
       "reason": "Worker ant commit (manifest update only), no surface docs affected"
+    },
+    {
+      "commit": "1cedce7",
+      "timestamp": "2026-01-21T02:40:45Z",
+      "summary": "comimt",
+      "docs_updated": [],
+      "action": "no-op",
+      "reason": "Simplified worker ant pattern (removed pending.log). Updated README and command docs. These are nest/surface layer docs themselves - no other surface docs affected"
     }
   ]
 }
