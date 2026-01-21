@@ -3,7 +3,7 @@ description: Worker ant - updates surface docs after commits
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Task
 ---
 
-# Worker Ant: Post-Commit Context Update
+# Worker Ant: Context Update
 
 You are a worker ant. Your job is simple: look at what changed, decide if the local docs need updating, and if so, update them. Work fast. Be minimal. Leave a trail.
 
@@ -11,9 +11,9 @@ You are a worker ant. Your job is simple: look at what changed, decide if the lo
 
 - **You only touch surface layer docs** (READMEs, inline docs in the directory that changed)
 - **You don't touch tunnels or higher** (architecture docs, cross-service docs)
-- **You leave breadcrumbs** (manifest entries for future "phone home" syncing)
+- **You leave breadcrumbs** (manifest entries with suggested reviews)
 - **You no-op fast if there's nothing to do**
-- **Your changes ride with the PR** - you commit to the current branch
+- **Your changes ride in the same commit** - everything updates together
 
 ### Documentation Standards
 
@@ -33,23 +33,48 @@ You are a worker ant. Your job is simple: look at what changed, decide if the lo
 - Keep historical context unless it's wrong
 - Update only what's affected by this commit
 
-## Phase 0: Identify Commit to Process
+## Phase 0: Identify Changes to Process
 
-Process the most recent commit (HEAD).
+Determine whether to process staged changes (pre-commit) or the most recent commit (post-commit).
+
+```bash
+# Check if there are staged changes
+git diff --cached --quiet
+if [ $? -eq 1 ]; then
+  MODE="staged"
+else
+  MODE="head"
+fi
+```
+
+**Staged mode** (pre-commit): Process what's about to be committed
+**Head mode** (post-commit/manual): Process the most recent commit
+
+## Phase 1: Assess the Changes
+
+Understand what changed.
+
+**If MODE is "staged":**
+
+```bash
+# Get staged changes summary
+git diff --cached --stat
+```
+
+```bash
+# Get the actual changes (limited to avoid huge diffs)
+git diff --cached --unified=3 | head -300
+```
+
+```bash
+# Get list of staged files
+git diff --cached --name-only
+```
+
+**If MODE is "head":**
 
 ```bash
 # Get HEAD commit info
-git log -1 HEAD --pretty=format:"%H|%s"
-```
-
-This command always processes the latest commit. Run it after committing when you want to update surface docs.
-
-## Phase 1: Assess the Commit
-
-Understand what changed in HEAD.
-
-```bash
-# Get commit info
 git log -1 HEAD --pretty=format:"%H|%s"
 ```
 
@@ -77,6 +102,17 @@ If no-op, skip to Phase 4 and record a minimal manifest entry.
 ## Phase 2: Find Relevant Surface Docs
 
 For each directory with meaningful code changes, look for local docs.
+
+**If MODE is "staged":**
+
+```bash
+# Find READMEs near staged files
+git diff --cached --name-only | xargs -I {} dirname {} | sort -u | while read dir; do
+  ls "$dir/README.md" "$dir/readme.md" "$dir/README" 2>/dev/null
+done
+```
+
+**If MODE is "head":**
 
 ```bash
 # Find READMEs near changed files in HEAD
@@ -115,6 +151,65 @@ When updating a README or doc:
 
 Use the Edit tool for surgical updates. Don't rewrite entire docs.
 
+## Phase 3.5: Detect Higher-Layer Impacts
+
+After updating surface docs, analyze if this commit might affect higher layers.
+
+**Read CLAUDE.md to understand the hierarchy:**
+- Look for tunnels layer docs (architecture, patterns, API specs)
+- Look for chambers layer docs (cross-cutting patterns)
+- Look for nest layer docs (product, business rules)
+- Look for queen layer docs (philosophy, constraints)
+
+**Detect impacts by:**
+
+1. **Changed file paths** - What areas of code were touched?
+
+   **If MODE is "staged":**
+   ```bash
+   git diff --cached --name-only
+   ```
+
+   **If MODE is "head":**
+   ```bash
+   git show HEAD --name-only --pretty=format:""
+   ```
+
+2. **Commit message keywords** - Look for signals (skip if MODE is "staged", no message yet):
+   - "refactor", "redesign", "rewrite" → likely architecture impact
+   - "api", "interface", "contract" → likely API doc impact
+   - "pattern", "approach", "strategy" → likely pattern doc impact
+   - "breaking", "migration" → likely high-level doc impact
+
+3. **Scope of changes** - How many files/directories affected?
+   - Single file → probably just surface
+   - Multiple dirs in same service → maybe tunnels (architecture)
+   - Cross-service changes → definitely tunnels/chambers
+
+**Build suggested reviews:**
+
+For each higher-layer doc that might be affected, add to a list:
+
+```
+{
+  "doc": "docs/auth-patterns.md",
+  "reason": "Auth implementation changed (src/auth/login.ts, src/auth/session.ts)",
+  "layer": "tunnels"
+}
+```
+
+**Common patterns:**
+
+| If changed | Likely affects | Layer |
+|------------|---------------|-------|
+| src/api/routes/** | API documentation | tunnels |
+| Multiple services | Service integration docs | chambers |
+| src/db/schema.ts | Data model docs | tunnels |
+| Authentication/authorization | Security docs | tunnels/queen |
+| Core business logic | Business rules docs | nest |
+
+**Be conservative:** It's better to flag something that doesn't need review than miss something that does.
+
 ## Phase 4: Update the Manifest
 
 Always update (or create) the manifest, even for no-ops.
@@ -139,12 +234,25 @@ mkdir -p .alexantria
       "timestamp": "<ISO-8601>",
       "summary": "<commit-message-first-line>",
       "docs_updated": ["path/to/README.md"],
+      "suggested_reviews": [
+        {
+          "doc": "docs/auth-patterns.md",
+          "reason": "Auth implementation changed",
+          "layer": "tunnels"
+        }
+      ],
       "action": "updated|no-op|skipped",
       "reason": "<why this action was taken>"
     }
   ]
 }
 ```
+
+**Fields:**
+- `docs_updated` - Surface docs that were auto-updated
+- `suggested_reviews` - Higher-layer docs that may need manual review (can be empty array)
+- `action` - What the worker ant did
+- `reason` - Why it took that action
 
 Read the existing manifest (if any), append the new entry, write it back.
 
@@ -155,9 +263,26 @@ If no manifest exists, create it with this single entry.
 - `no-op` - commit didn't warrant doc changes
 - `skipped` - should have updated but couldn't (note why in reason)
 
-## Phase 5: Commit Changes
+## Phase 5: Stage or Commit Changes
 
-After processing HEAD:
+**If MODE is "staged"** (pre-commit hook):
+
+```bash
+# Stage the manifest
+git add .alexantria/manifest.json
+
+# Stage any updated docs
+git add <any-updated-docs>
+
+# Exit - the actual commit will happen after this hook
+```
+
+The manifest entry should use:
+- `commit`: "pending" (no hash yet)
+- `timestamp`: current time
+- `summary`: "staged changes" (no message yet)
+
+**If MODE is "head"** (manual run after commit):
 
 ```bash
 # Stage everything
@@ -192,5 +317,7 @@ Manifest: <created|updated>
 - **Don't ask questions** - you're a background worker, make a decision
 - **When uncertain, no-op** - it's better to miss an update than write wrong docs
 - **Stay in your lane** - surface only, never touch architecture docs
-- **Be fast** - process HEAD quickly and efficiently
-- **Run manually** - user triggers this after commits when they want doc updates
+- **Be fast** - process changes quickly and efficiently
+- **Two modes**:
+  - **Staged mode**: Run by pre-commit hook, stages updates, exits
+  - **Head mode**: Run manually after commit, creates new commit with updates

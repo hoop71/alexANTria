@@ -62,6 +62,8 @@ your-project/
 
 When agents edit `src/components/Button.tsx`, they auto-load `frontend.md` which points to your design philosophy. They work within your constraints automatically.
 
+**Drop-in philosophy:** alexANTria only auto-updates files it owns (`ANT-*` pattern, `.alexantria/`). Your docs (README.md, docs/, etc.) are never touched unless you explicitly opt-in. Safe to test, easy to remove.
+
 ---
 
 ## Commands

@@ -38,6 +38,23 @@ This project uses the 5-layer anthill structure. Higher layers constrain lower l
 | Command architecture, user config | Tunnels layer (user-level/README.md, commands/README.md) |
 | Specific command implementation | Surface layer (ant-init.md, ant-update.md, ant-validate.md) |
 
+## Before Committing Code
+
+**Spawn a worker ant sub-agent to maintain docs:**
+
+When you're ready to commit code changes:
+
+1. Stage your changes: `git add <files>`
+2. Spawn worker ant sub-agent using Task tool (blocking)
+3. Worker ant analyzes staged changes, updates surface docs, updates manifest
+4. Worker ant stages its changes, exits
+5. Task tool returns (worker ant done)
+6. Commit everything together: `git commit -m "your message"`
+
+**See:** [user-level/agent-commit-pattern.md](./user-level/agent-commit-pattern.md) for detailed implementation.
+
+**Why:** This ensures docs and manifest stay in sync automatically. Everything rides in one commit. The Task tool blocks until the worker ant finishes, so you're guaranteed everything is staged before committing.
+
 ## After Completing Work
 
 Ask yourself:

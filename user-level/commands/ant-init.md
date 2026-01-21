@@ -260,42 +260,73 @@ Initialize the manifest for worker ants:
 }
 ```
 
-### Install Git Hook (Optional)
+Create config for worker ant behavior:
 
-Ask the user if they want to install a placeholder post-commit hook:
+```json
+{
+  "version": "0.1",
+  "worker_ant": {
+    "enabled": true,
+    "mode": "auto",
+    "auto_update_ant_files": true
+  },
+  "commit_tracking": {
+    "enabled": true,
+    "require_manifest_updates": false
+  }
+}
+```
+
+### Configure Worker Ant (Optional)
+
+Ask the user how they want worker ant to behave:
 
 ```
-Would you like to install a placeholder post-commit hook?
+🐜 Worker Ant Configuration
 
-This installs a disabled hook file for future use. Currently, /ant-update
-works by processing the most recent commit (HEAD) when you run it manually.
+How should worker ant maintain docs when you commit?
 
-You can enable automatic tracking later by editing .git/hooks/post-commit.
+1. Auto (recommended)
+   - Agents spawn worker ant before commit (sub-agent pattern)
+   - Humans get reminder if worker ant hasn't run
+   - Pre-commit hook detects if agent already ran
+
+2. Agent-only
+   - Only agents spawn worker ant (sub-agent pattern)
+   - Humans warned to commit via agent or run /ant-update after
+   - Good for teams standardizing on agent commits
+
+3. Manual
+   - No automatic behavior
+   - Always run /ant-update manually after committing
+   - Good for testing or minimal adoption
+
+Choose mode [1-3]:
 ```
 
-If yes, install the placeholder hook:
+Based on selection, set `config.json` mode to "auto", "agent-only", or "manual".
+
+### Install Pre-Commit Hook
+
+If worker ant enabled, install smart pre-commit hook:
 
 ```bash
 # Create hooks directory if needed
 mkdir -p .git/hooks
 
-# Install placeholder hook
-cat > .git/hooks/post-commit << 'HOOK'
-#!/bin/bash
-# alexANTria post-commit hook
-# Placeholder - hook disabled in favor of manual /ant-update runs
-#
-# This hook is installed but does nothing. Run /ant-update manually
-# after commits when you want to update surface docs.
-
-exit 0
-HOOK
+# Copy pre-commit hook template
+cp ~/.claude/alexantria/templates/hooks/pre-commit .git/hooks/pre-commit
 
 # Make it executable
-chmod +x .git/hooks/post-commit
+chmod +x .git/hooks/pre-commit
 ```
 
-If no, skip the hook installation. The user can always run `/ant-update` manually to process HEAD.
+**What the hook does:**
+1. Checks if worker ant already ran (manifest staged with pending entry)
+2. If yes: Skips (agent already did the work)
+3. If no: Follows mode from config (warn, try to spawn, or skip)
+
+This ensures partial adoption doesn't break the system - hook is smart about agent vs human commits.
 
 ## Phase 4: Summary
 

@@ -1,0 +1,107 @@
+#!/bin/bash
+# alexANTria pre-commit hook
+# Smart worker ant detection and spawning
+
+set -e
+
+ALEXANTRIA_DIR=".alexantria"
+CONFIG_FILE="$ALEXANTRIA_DIR/config.json"
+MANIFEST_FILE="$ALEXANTRIA_DIR/manifest.json"
+
+# Colors for output
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
+# Check if alexANTria is initialized
+if [ ! -d "$ALEXANTRIA_DIR" ]; then
+  exit 0  # Not initialized, skip silently
+fi
+
+# Load config (if exists)
+WORKER_ANT_ENABLED=true
+WORKER_ANT_MODE="auto"
+
+if [ -f "$CONFIG_FILE" ]; then
+  # Parse JSON config (using grep/sed for simplicity, no jq dependency)
+  WORKER_ANT_ENABLED=$(grep -o '"enabled":\s*[^,}]*' "$CONFIG_FILE" | grep -o 'true\|false' | head -1)
+  WORKER_ANT_MODE=$(grep -o '"mode":\s*"[^"]*"' "$CONFIG_FILE" | sed 's/.*"\([^"]*\)".*/\1/' | head -1)
+fi
+
+# If worker ant disabled, skip
+if [ "$WORKER_ANT_ENABLED" = "false" ]; then
+  exit 0
+fi
+
+# Check if worker ant already ran (manifest staged with pending entry)
+if git diff --cached --quiet -- "$MANIFEST_FILE"; then
+  : # Manifest not staged, continue
+else
+  # Manifest is staged, check for pending entry
+  if git diff --cached "$MANIFEST_FILE" | grep -q '"commit":\s*"pending"'; then
+    # Worker ant already ran (agent spawned it), we're done
+    exit 0
+  fi
+fi
+
+# Worker ant hasn't run yet, decide what to do based on mode
+case "$WORKER_ANT_MODE" in
+  "auto")
+    # Try to spawn worker ant
+    echo "🐜 alexANTria: Spawning worker ant..."
+
+    # Check if we're in a Claude Code session
+    if [ -n "$CLAUDE_SESSION" ] || command -v claude-code &> /dev/null; then
+      # Attempt to spawn via background process
+      # This is a placeholder - actual implementation depends on Claude Code CLI
+      echo -e "${YELLOW}⚠️  Auto-spawn not yet implemented${NC}"
+      echo "   Run: /ant-update manually after committing"
+      echo "   Or: Use agent commit pattern (spawn worker ant before commit)"
+      sleep 2
+    else
+      echo -e "${YELLOW}⚠️  Worker ant couldn't run (not in Claude Code session)${NC}"
+      echo "   Run: /ant-update manually after committing"
+      echo "   Or: Commit via agent using sub-agent pattern"
+      sleep 2
+    fi
+
+    # Initialize manifest entry if it doesn't exist
+    if [ ! -f "$MANIFEST_FILE" ]; then
+      mkdir -p "$ALEXANTRIA_DIR"
+      REPO_NAME=$(basename $(git rev-parse --show-toplevel))
+      echo '{"version":"0.1","repo":"'$REPO_NAME'","last_sync":null,"changes":[]}' > "$MANIFEST_FILE"
+    fi
+
+    # Add basic tracking entry (minimal, since full worker ant didn't run)
+    COMMIT_HASH="pending-hook"
+    TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+    # Note: We're not doing full doc updates or impact detection here
+    # Just ensuring manifest exists for the commit
+
+    exit 0
+    ;;
+
+  "manual")
+    # Manual mode - just remind user
+    echo -e "${YELLOW}ℹ️  alexANTria: This repo uses manual mode${NC}"
+    echo "   Remember to run: /ant-update after committing"
+    sleep 1
+    exit 0
+    ;;
+
+  "agent-only")
+    # Agent-only mode - warn if human is committing
+    echo -e "${YELLOW}⚠️  alexANTria: This repo uses agent-only commits${NC}"
+    echo "   Please commit via agent (sub-agent pattern)"
+    echo "   Or run: /ant-update after this commit"
+    sleep 2
+    exit 0
+    ;;
+
+  *)
+    # Unknown mode, skip
+    exit 0
+    ;;
+esac

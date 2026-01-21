@@ -42,6 +42,31 @@
       "docs_updated": [],
       "action": "no-op",
       "reason": "Simplified worker ant pattern (removed pending.log). Updated README and command docs. These are nest/surface layer docs themselves - no other surface docs affected"
+    },
+    {
+      "commit": "pending",
+      "timestamp": "2026-01-21T03:52:46Z",
+      "summary": "staged changes",
+      "docs_updated": [],
+      "suggested_reviews": [
+        {
+          "doc": "ANT-FRAMEWORK.md",
+          "reason": "New agent commit pattern changes how agents coordinate doc maintenance (CLAUDE.md, agent-commit-pattern.md, worker-ant-prompt.md)",
+          "layer": "queen"
+        },
+        {
+          "doc": "user-level/commands/README.md",
+          "reason": "ant-update command significantly expanded with staged/head modes and impact detection (ant-update.md)",
+          "layer": "tunnels"
+        },
+        {
+          "doc": "user-level/README.md",
+          "reason": "New agent-commit-pattern.md and worker-ant-prompt.md files added to user-level/",
+          "layer": "tunnels"
+        }
+      ],
+      "action": "no-op",
+      "reason": "Added worker ant sub-agent architecture (agent-commit-pattern.md, worker-ant-prompt.md). No ANT-* files in changed directories to auto-update. Suggested reviews for higher-layer docs that describe these new files."
     }
   ]
 }

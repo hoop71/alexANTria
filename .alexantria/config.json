@@ -1,0 +1,12 @@
+{
+  "version": "0.1",
+  "worker_ant": {
+    "enabled": true,
+    "mode": "auto",
+    "auto_update_ant_files": true
+  },
+  "commit_tracking": {
+    "enabled": true,
+    "require_manifest_updates": false
+  }
+}
