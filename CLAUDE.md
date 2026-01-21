@@ -12,7 +12,7 @@ This project uses the 5-layer anthill structure. Higher layers constrain lower l
 
 ### 🐜 Nest: Product/Business Context
 - **[README.md](./README.md)** — What alexANTria does, the problem it solves
-- **[BLOG-gastown-context-infrastructure.md](./BLOG-gastown-context-infrastructure.md)** — Positioning and use cases
+- **[blog/gastown-context-infrastructure.md](./blog/gastown-context-infrastructure.md)** — Why orchestration needs context infrastructure
 
 ### 🏛️ Chambers: Cross-Cutting Patterns
 - **[ANT-SCHEMA.md](./ANT-SCHEMA.md)** — The nesting doll documentation pattern
@@ -26,23 +26,23 @@ This project uses the 5-layer anthill structure. Higher layers constrain lower l
 ### 🌱 Surface: Individual Service Docs
 - **[user-level/commands/ant-init.md](./user-level/commands/ant-init.md)** — Colony initialization command
 - **[user-level/commands/ant-update.md](./user-level/commands/ant-update.md)** — Worker ant update command
-- **[POSITIONING-SUMMARY.md](./POSITIONING-SUMMARY.md)** — Project positioning notes
+- **[user-level/commands/ant-validate.md](./user-level/commands/ant-validate.md)** — Colony health check command
 
 ## When to Read
 
 | Working on... | Read first |
 |--------------|------------|
-| Strategic vision, core philosophy | Queen layer (ANT-FRAMEWORK.md, README.md) |
-| Product positioning, use cases | Nest layer (README.md, BLOG) |
+| Strategic vision, core principles | Queen layer (ANT-FRAMEWORK.md, README.md) |
+| Product positioning, use cases | Nest layer (README.md, blog/) |
 | Documentation patterns, templates | Chambers layer (ANT-SCHEMA.md, templates/) |
 | Command architecture, user config | Tunnels layer (user-level/README.md, commands/README.md) |
-| Specific command implementation | Surface layer (ant-init.md, ant-update.md) |
+| Specific command implementation | Surface layer (ant-init.md, ant-update.md, ant-validate.md) |
 
 ## After Completing Work
 
 Ask yourself:
 - Did I change the **strategic vision or core principles**? → Update Queen layer (ANT-FRAMEWORK.md)
-- Did I change **product positioning or use cases**? → Update Nest layer (README.md, BLOG)
+- Did I change **product positioning or use cases**? → Update Nest layer (README.md, blog/)
 - Did I change the **schema pattern or template system**? → Update Chambers layer (ANT-SCHEMA.md, templates/)
 - Did I add a **new command or change user-level config**? → Update Tunnels layer (user-level/)
 - Did I change **specific command implementation**? → Update Surface layer (command .md files)
@@ -60,9 +60,7 @@ Exception: `README.md` (GitHub convention)
 
 alexANTria is a universal framework. This project uses Claude Code as the implementation platform.
 
-**See:** [ANT-PLATFORM-INTERFACE.md](./ANT-PLATFORM-INTERFACE.md) for platform-agnostic design.
-
 **Current implementation:**
 - Rules: `.claude/rules/*.md` (path-based guidance)
-- Skills: `user-level/commands/ant-*.md` (executable commands)
+- Commands: `user-level/commands/ant-*.md` (executable commands)
 - Memory: `CLAUDE.md` (always-loaded hierarchy)

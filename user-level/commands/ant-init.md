@@ -14,6 +14,24 @@ You are the first ant entering new territory. Your job is to:
 - Map it to the colony's hierarchy
 - Lay down the initial pheromone trails (CLAUDE.md, rules)
 
+### Documentation Standards
+
+**Write minimal, load-bearing docs:**
+- Only document what's actually needed for agents to make correct decisions
+- No preamble, no "helpful introductions", no fluff
+- If you can't justify why a doc exists in one sentence, don't create it
+- Lower token cost = easier to maintain = more likely to stay in sync
+
+**Examples:**
+- ❌ "This document describes our authentication strategy. Authentication is very important for security..." (fluff)
+- ✅ "Use JWT tokens (refresh + access). Refresh tokens in httpOnly cookies, access in memory." (load-bearing)
+
+**When generating CLAUDE.md and rules:**
+- Be terse and specific
+- Point to existing docs, don't duplicate them
+- Use imperative language ("Read X before Y", not "It would be helpful to read...")
+- Every sentence should change agent behavior
+
 ## Phase 1: Crawl
 
 First, discover what documentation already exists.
