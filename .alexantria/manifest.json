@@ -26,6 +26,14 @@
       "docs_updated": [],
       "action": "no-op",
       "reason": "Meta-infrastructure commit (created pending.log file), no surface docs affected"
+    },
+    {
+      "commit": "8064c43",
+      "timestamp": "2026-01-21T01:08:42Z",
+      "summary": "docs(ant): update context for f1d78a8, 979034b",
+      "docs_updated": [],
+      "action": "no-op",
+      "reason": "Worker ant commit (manifest update only), no surface docs affected"
     }
   ]
 }
