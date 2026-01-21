@@ -1,5 +1,5 @@
 ---
-description: Worker ant - updates surface docs after commits
+description: Update surface docs after commits
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Task
 ---
 

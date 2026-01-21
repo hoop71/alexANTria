@@ -8,11 +8,12 @@ Slash commands for alexANTria. These get installed to `~/.claude/commands/` and 
 |---------|---------|
 | `/ant-init` | Scout and establish colony structure in a project |
 | `/ant-validate` | Verify alexANTria installation health (files exist) |
+| `/ant-upgrade` | Upgrade alexANTria framework to latest version |
 | `/ant-check-consistency` | Validate pattern and rule consistency (guardian agents) |
 | `/ant-validation-report` | Show validation metrics, violations caught, cost, ROI |
 | `/ant-commit` | Automated commit with worker ant (agent commits) |
 | `/ant-migrate` | Migrate README.md to ANT-SURFACE.md |
-| `/ant-update-doc` | Explicitly update a specific ANT-* doc |
+| `/ant-refresh-doc` | Refresh a specific ANT-* doc based on recent changes |
 | `/ant-review-suggestions` | Review and apply higher-layer doc suggestions |
 
 ## Command Structure
@@ -55,6 +56,19 @@ The scout ant. Enters a new project and establishes the colony:
 5. **Hook** - Install smart pre-commit hook
 6. **Checklist** - Present team adoption checklist
 
+## ant-upgrade
+
+Upgrade alexANTria framework to latest version:
+
+1. **Check version** - Compare current to latest available
+2. **Show changelog** - What's new, breaking changes, improvements
+3. **Select components** - Ask which parts to upgrade (commands, guardians, templates)
+4. **Backup** - Save current version to .alexantria/backup/
+5. **Upgrade** - Update selected components
+6. **Migrate config** - Handle schema changes, preserve customizations
+7. **Validate** - Run health check on upgraded installation
+8. **Report** - Show results and next steps
+
 ## commit
 
 Agent-only command. Wraps the entire commit workflow:
@@ -76,9 +90,9 @@ Migrate existing README.md to ANT-SURFACE.md:
 5. **Execute** - Write ANT-SURFACE.md, remove README.md, update manifest
 6. **Stage** - Stage all changes for commit
 
-## ant-update-doc
+## ant-refresh-doc
 
-Manually update a specific ANT-* doc:
+Refresh a specific ANT-* doc based on recent changes:
 
 1. **Read config** - Check starting_level and scope
 2. **Read manifest** - Find suggested_reviews for this doc
@@ -95,7 +109,7 @@ Review all pending higher-layer suggestions:
 1. **Read manifest** - Find all pending suggested_reviews
 2. **Group** - By doc and layer
 3. **Present** - Show summary with options (apply all/review individually/dismiss all)
-4. **Process** - Run /ant-update-doc for each doc or mark as dismissed
+4. **Process** - Run /ant-refresh-doc for each doc or mark as dismissed
 5. **Report** - Show results and suggest commit
 
 ## ant-check-consistency

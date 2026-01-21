@@ -1,3 +1,8 @@
+---
+description: Automated commit with worker ant
+allowed-tools: Read, Write, Edit, Bash, Task
+---
+
 # /ant-commit - Automated Commit with Worker Ant
 
 **Purpose:** Single command that wraps the entire agent commit workflow: spawn worker ant → update docs → create commit.

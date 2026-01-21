@@ -1,12 +1,17 @@
-# /ant-update-doc - Explicit Documentation Update
+---
+description: Refresh specific ANT-* doc
+allowed-tools: Read, Write, Edit, Bash, Grep
+---
 
-**Purpose:** Manually trigger worker ant to update a specific documentation file outside the normal commit workflow.
+# /ant-refresh-doc - Refresh Documentation
+
+**Purpose:** Manually refresh a specific ANT-* documentation file based on recent changes.
 
 **Layer:** Surface (🌱)
 
 ## Overview
 
-The `/ant-update-doc` command provides a manual outlet for updating specific documentation files when:
+The `/ant-refresh-doc` command provides a manual outlet for refreshing specific documentation files when:
 - Worker ant's automatic updates are disabled
 - You want to update a doc without committing code
 - You need to apply a suggested review to a higher-layer doc
@@ -23,7 +28,7 @@ Worker ant normally runs automatically during commits, but sometimes you need:
 ## Workflow
 
 ```
-User: "/ant-update-doc ANT-TUNNELS.md"
+User: "/ant-refresh-doc ANT-TUNNELS.md"
 
 1. Validate file exists and is ANT-* file
    - If not ANT-*: Error "Only ANT-* files supported"
@@ -64,7 +69,7 @@ User: "/ant-update-doc ANT-TUNNELS.md"
 ## Agent Instructions
 
 ```markdown
-When the user says "/ant-update-doc <path>":
+When the user says "/ant-refresh-doc <path>":
 
 1. **Validate file:**
    ```bash
@@ -181,7 +186,7 @@ When the user says "/ant-update-doc <path>":
 
 ### Example 1: Apply pending suggestions
 ```
-User: "/ant-update-doc ANT-TUNNELS.md"
+User: "/ant-refresh-doc ANT-TUNNELS.md"
 Agent: Found 2 pending suggestions for ANT-TUNNELS.md:
   1. Auth flow changed (commit abc123)
   2. New API endpoint added (commit def456)
@@ -195,7 +200,7 @@ Agent: Updates staged. Run: /ant-commit 'Update architecture docs'
 
 ### Example 2: Manual refresh
 ```
-User: "/ant-update-doc src/auth/ANT-SURFACE.md"
+User: "/ant-refresh-doc src/auth/ANT-SURFACE.md"
 Agent: No pending suggestions found.
 Agent: Checking recent changes in src/auth/...
 Agent: Found 3 commits since last update.
@@ -209,7 +214,7 @@ Agent: [Updates doc, stages changes]
 ```
 User: "The auth architecture changed, update the architecture doc"
 Agent: Let me update ANT-TUNNELS.md.
-Agent: /ant-update-doc ANT-TUNNELS.md
+Agent: /ant-refresh-doc ANT-TUNNELS.md
 Agent: [Analyzes auth changes, updates architecture sections]
 Agent: [Shows diff]
 Agent: Apply? [Yes/No]
@@ -219,7 +224,7 @@ Agent: [Updates doc, stages changes]
 
 ### Example 4: Preview mode
 ```
-User: "/ant-update-doc ANT-CHAMBERS.md"
+User: "/ant-refresh-doc ANT-CHAMBERS.md"
 Agent: Found 1 pending suggestion.
 Agent: [Shows proposed updates]
 Agent: Apply? [Yes/Show me the full content first/No]
@@ -253,20 +258,20 @@ git status
 
 ## When to Use
 
-**Use /ant-update-doc when:**
+**Use /ant-refresh-doc when:**
 - Applying suggested reviews from manifest
 - Docs got out of sync, need to refresh
 - Testing worker ant behavior
 - Updating docs without committing code
 
-**Don't use /ant-update-doc when:**
+**Don't use /ant-refresh-doc when:**
 - Committing code changes (use /ant-commit instead)
 - Creating new ANT-* files (use /ant-init)
 - Migrating README.md (use /ant-migrate)
 
 ## Success Criteria
 
-After running `/ant-update-doc`:
+After running `/ant-refresh-doc`:
 - ✓ Specified doc updated
 - ✓ Updates based on recent code changes
 - ✓ Suggestions marked as applied in manifest

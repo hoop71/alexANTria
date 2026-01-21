@@ -1,3 +1,8 @@
+---
+description: Migrate README.md to ANT-SURFACE.md
+allowed-tools: Read, Write, Edit, Bash, AskUserQuestion
+---
+
 # /ant-migrate - Migrate README.md to ANT-SURFACE.md
 
 **Purpose:** Convert existing README.md files to ANT-SURFACE.md format, enabling full automation.

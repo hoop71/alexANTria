@@ -26,6 +26,11 @@ This directory contains all executable alexANTria commands. Each command is a ma
   - Verifies: Files exist, structure correct, JSON valid
   - Not pattern validation (use ant-check-consistency for that)
 
+- **ant-upgrade.md** - Upgrade alexANTria framework
+  - Updates commands, guardians, templates, worker ant
+  - Handles config migration and preserves customizations
+  - Creates backup before upgrading
+
 - **ant-check-consistency.md** - Run all guardians
   - On-demand full validation
   - Spawns all 5 guardians in parallel
@@ -49,16 +54,16 @@ This directory contains all executable alexANTria commands. Each command is a ma
 
 ### Documentation Commands
 
-- **ant-update-doc.md** - Explicitly update a specific ANT-* doc
+- **ant-refresh-doc.md** - Refresh a specific ANT-* doc
   - Manual outlet for doc updates
   - Reads suggested_reviews from manifest
-  - Updates specified doc
+  - Updates specified doc based on recent changes
   - Stages changes
 
 - **ant-review-suggestions.md** - Review higher-layer doc suggestions
   - Batch interface for pending suggestions
   - Options: Apply all / Review individually / Dismiss
-  - Runs ant-update-doc for each
+  - Runs ant-refresh-doc for each
   - Stages updates
 
 ### Worker Ant
@@ -89,7 +94,7 @@ user-level/commands/
 ├── ant-validate.md
 ├── ant-check-consistency.md
 ├── ant-validation-report.md
-├── ant-update-doc.md
+├── ant-refresh-doc.md
 ├── ant-review-suggestions.md
 ├── worker-ant-prompt.md
 ├── guardians/

@@ -1,5 +1,5 @@
 ---
-description: Crawl project docs and scaffold context files
+description: Initialize colony in project
 allowed-tools: Read, Write, Glob, Grep, Bash, AskUserQuestion
 ---
 
@@ -32,47 +32,30 @@ You are the first ant entering new territory. Your job is to:
 - Use imperative language ("Read X before Y", not "It would be helpful to read...")
 - Every sentence should change agent behavior
 
-## Phase 1: Crawl
+## Phase 1: Crawl (Silent Discovery)
 
-First, discover what documentation already exists.
-
-### Find Documentation Files
+**IMPORTANT:** Consolidate all discovery into ONE bash command. The user should NOT see multiple individual commands.
 
 ```bash
-# Find markdown files in common locations
-find . -maxdepth 3 -name "*.md" -type f 2>/dev/null | grep -v node_modules | grep -v .git | head -50
+{
+  echo "=== DOCUMENTATION ==="
+  find . -maxdepth 3 -name "*.md" -type f 2>/dev/null | grep -v node_modules | grep -v .git | head -50
+
+  echo "=== DIRECTORIES ==="
+  ls -d */ 2>/dev/null | head -20
+
+  echo "=== CODE STRUCTURE ==="
+  ls src/ app/ lib/ packages/ 2>/dev/null || echo "none"
+
+  echo "=== EXISTING SETUP ==="
+  ls .claude/ CLAUDE.md .alexantria/ 2>/dev/null || echo "none"
+
+  echo "=== EXTERNAL FEEDS ==="
+  find . -name "ANT-EXTERNAL.md" -type f 2>/dev/null | grep -v node_modules | grep -v .git || echo "none"
+}
 ```
 
-```bash
-# Check for docs directories
-ls -la docs/ doc/ documentation/ 2>/dev/null || true
-```
-
-```bash
-# Check for existing setup
-ls -la .claude/ CLAUDE.md 2>/dev/null || true
-```
-
-### Identify Code Structure
-
-```bash
-# Find main code directories
-ls -d */ 2>/dev/null | head -20
-```
-
-```bash
-# Look for common patterns
-ls src/ app/ lib/ packages/ 2>/dev/null || true
-```
-
-### Detect External Context Feeds
-
-```bash
-# Find ANT-EXTERNAL.md markers
-find . -name "ANT-EXTERNAL.md" -type f 2>/dev/null | grep -v node_modules | grep -v .git
-```
-
-Any directories containing `ANT-EXTERNAL.md` are external context feeds and should be excluded from layer mapping.
+**After this command, process the data internally.** Do not show additional bash commands or file reads to the user.
 
 ### Classify Found Docs
 

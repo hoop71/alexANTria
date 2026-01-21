@@ -1,3 +1,8 @@
+---
+description: Show validation metrics and ROI
+allowed-tools: Read, Bash
+---
+
 # /ant-validation-report - Validation Metrics and ROI Analysis
 
 **Purpose:** Analyze validation log to show violations caught, cost incurred, and value-to-cost ratio.

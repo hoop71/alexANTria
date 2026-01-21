@@ -1,3 +1,8 @@
+---
+description: Validate pattern and rule consistency
+allowed-tools: Read, Bash, Task
+---
+
 # /ant-check-consistency - Validate Pattern and Rule Consistency
 
 **Purpose:** Run all guardian agents to validate that the project follows alexANTria patterns and rules.

@@ -216,7 +216,7 @@ Shows pending suggestions (higher-layer impacts)
   ↓
 User chooses: Apply all / Review individually / Dismiss
   ↓
-If apply: runs /ant-update-doc for each suggested doc
+If apply: runs /ant-refresh-doc for each suggested doc
   ↓
 Stages updates, suggests commit
 ```

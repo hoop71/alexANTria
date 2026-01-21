@@ -1,3 +1,8 @@
+---
+description: Review higher-layer doc suggestions
+allowed-tools: Read, Write, Edit, Bash, AskUserQuestion
+---
+
 # /ant-review-suggestions - Review Higher-Layer Doc Suggestions
 
 **Purpose:** Review and apply pending suggestions for higher-layer documentation that's above the automation boundary.
@@ -54,7 +59,7 @@ User: "/ant-review-suggestions"
 
 4. If "Apply all":
    - For each suggested doc:
-     - Run /ant-update-doc <path>
+     - Run /ant-refresh-doc <path>
      - Stage changes
 
 5. If "Review individually":
@@ -145,7 +150,7 @@ When the user says "/ant-review-suggestions":
 5. **If "Apply all":**
    For each unique doc with pending suggestions:
    ```
-   Run /ant-update-doc <doc-path>
+   Run /ant-refresh-doc <doc-path>
    (This will apply all suggestions for that doc)
    ```
 
@@ -168,7 +173,7 @@ When the user says "/ant-review-suggestions":
    Ask: Apply this suggestion? [Yes/Skip/Dismiss]
    ```
 
-   **Yes:** Run /ant-update-doc for that doc (if not already updated in this session)
+   **Yes:** Run /ant-refresh-doc for that doc (if not already updated in this session)
    **Skip:** Leave as pending, move to next
    **Dismiss:** Mark as dismissed, move to next
 
@@ -257,7 +262,7 @@ Agent: No pending suggestions found. All docs are up to date!
 ## Suggestion Lifecycle
 
 ```
-pending → applied   (via /ant-review-suggestions or /ant-update-doc)
+pending → applied   (via /ant-review-suggestions or /ant-refresh-doc)
 pending → dismissed (via /ant-review-suggestions)
 pending → pending   (skipped during individual review)
 ```
@@ -310,7 +315,7 @@ After running `/ant-review-suggestions`:
 
 ## Related Commands
 
-- `/ant-update-doc` - Update specific doc (called by this command)
+- `/ant-refresh-doc` - Update specific doc (called by this command)
 - `/ant-commit` - Commit the updates
 - `/ant-validate` - Check overall doc health
 

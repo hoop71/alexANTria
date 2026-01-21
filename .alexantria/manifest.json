@@ -68,6 +68,18 @@
       ],
       "action": "no-op",
       "reason": "Added worker ant sub-agent architecture (agent-commit-pattern.md, worker-ant-prompt.md). No ANT-* files in changed directories to auto-update. Suggested reviews for higher-layer docs that describe these new files."
+    },
+    {
+      "commit": "pending",
+      "timestamp": "2026-01-21T08:30:00Z",
+      "summary": "staged changes",
+      "docs_updated": [
+        "user-level/commands/README.md",
+        "user-level/commands/ANT-SURFACE.md"
+      ],
+      "suggested_reviews": [],
+      "action": "updated",
+      "reason": "Added ant-upgrade command, renamed ant-update-doc → ant-refresh-doc. Enhanced UX with consolidated bash commands, frontmatter metadata. Updated surface docs (README, ANT-SURFACE) and install script. Surface-layer implementation work only."
     }
   ]
 }

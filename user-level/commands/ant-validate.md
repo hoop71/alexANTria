@@ -1,5 +1,5 @@
 ---
-description: Validate alexANTria installation in a project
+description: Check installation health
 allowed-tools: Read, Glob, Grep, Bash
 ---
 
@@ -10,102 +10,92 @@ Verify that alexANTria is properly installed and configured in the current proje
 **Scope:** Installation health only (files exist, structure correct)
 **Not in scope:** Pattern consistency, rule violations (use `/ant-check-consistency` for that)
 
-## Philosophy
+## Instructions
 
-You are a scout ant checking the colony's infrastructure. Your job is to:
-- Verify critical files exist
-- Check that file structure is correct
-- Validate config/manifest JSON syntax
-- Report installation health status clearly
+When the user runs `/ant-validate`:
 
-This command checks IF alexANTria is installed correctly, not WHETHER it's being used correctly.
+### Step 1: Gather Data Silently
 
-## Phase 1: Check Core Structure
-
-### Verify Essential Files
+Use a **single consolidated bash command** to check all file existence:
 
 ```bash
-# Check for project CLAUDE.md
-ls -la CLAUDE.md 2>/dev/null || echo "MISSING: CLAUDE.md"
+{
+  echo "=== CORE ==="
+  test -f CLAUDE.md && echo "CLAUDE.md=exists" || echo "CLAUDE.md=missing"
+  test -d .claude/rules && echo "rules=exists" || echo "rules=missing"
+  test -d .alexantria && echo "alexantria=exists" || echo "alexantria=missing"
+  test -f .git/hooks/post-commit && echo "hook=exists" || echo "hook=missing"
+
+  echo "=== RULES ==="
+  ls -1 .claude/rules/*.md 2>/dev/null | wc -l | xargs echo "rule_count="
+
+  echo "=== CONFIG ==="
+  test -f .alexantria/config.json && jq -e '.version,.scope,.validation' .alexantria/config.json >/dev/null 2>&1 && echo "config=valid" || echo "config=invalid"
+
+  echo "=== MANIFEST ==="
+  test -f .alexantria/manifest.json && jq -e '.version,.repo,.changes' .alexantria/manifest.json >/dev/null 2>&1 && echo "manifest=valid" || echo "manifest=invalid"
+  jq '.changes | length' .alexantria/manifest.json 2>/dev/null | xargs echo "commit_count=" || echo "commit_count=0"
+}
 ```
 
-```bash
-# Check for .claude directory and rules
-ls -la .claude/ .claude/rules/ 2>/dev/null || echo "MISSING: .claude/ or .claude/rules/"
+### Step 2: Read Critical Files
+
+Use Read tool (silent, no output to user) to check:
+- CLAUDE.md structure (grep for layer emojis, sections)
+- .alexantria/config.json (parse JSON)
+- .alexantria/manifest.json (parse JSON)
+
+### Step 3: Validate Structure
+
+Check CLAUDEMD content for:
+- All 5 layer emojis present (👑 🐜 🏛️ 🚇 🌱)
+- "When to Read" section exists
+- "After Completing Work" section exists
+
+### Step 4: Output Formatted Report
+
+**IMPORTANT:** After gathering all data, output a **single formatted report** to the user. Do NOT show individual bash commands or file reads. The user sees only the final report:
+
+```
+🐜 Colony Health Report
+━━━━━━━━━━━━━━━━━━━━━━━━
+
+📁 Core Structure
+  [✓] CLAUDE.md
+  [✓] .claude/rules/ (3 files)
+  [✓] .alexantria/ directory
+  [✗] Git post-commit hook
+
+📋 CLAUDE.md
+  [✓] All 5 layers present
+  [✓] "When to Read" section
+  [✓] "After Completing Work" section
+
+⚙️  Configuration
+  [✓] config.json valid
+  [✓] manifest.json valid
+  [✓] 6 commits tracked
+
+━━━━━━━━━━━━━━━━━━━━━━━━
+Status: HEALTHY ✓
+
+Exit Code: 0
 ```
 
-```bash
-# Check for alexantria state directory
-ls -la .alexantria/ 2>/dev/null || echo "MISSING: .alexantria/"
-```
+Use these symbols:
+- `[✓]` Pass (green conceptually)
+- `[✗]` Fail (red conceptually)
+- `[?]` Warning (yellow conceptually)
+- `[i]` Info
 
-```bash
-# Check for git hooks
-ls -la .git/hooks/post-commit 2>/dev/null || echo "MISSING: .git/hooks/post-commit"
-```
+### Step 5: Exit Codes
 
-## Phase 2: Validate CLAUDE.md Structure
+Determine status:
+- **0 (HEALTHY)**: All critical components present
+- **1 (DEGRADED)**: Missing optional components
+- **2 (BROKEN)**: Missing critical files
 
-Read the CLAUDE.md and check for:
-- Contains "The Anthill" section
-- Has all 5 layers present:
-  - 👑 Queen: Strategic Alignment
-  - 🐜 Nest: Product/Business Context
-  - 🏛️ Chambers: Cross-Cutting Patterns
-  - 🚇 Tunnels: Architecture/Service Connections
-  - 🌱 Surface: Individual Service Docs
-- Has "When to Read" table
-- Has "After Completing Work" section
-
-## Phase 3: Validate Rules Files
-
-Check each rule file in `.claude/rules/`:
-
-```bash
-# List all rule files
-ls -1 .claude/rules/*.md 2>/dev/null
-```
-
-For each rule file, verify:
-- Has frontmatter with `paths:` array
-- Paths use glob patterns
-- File references docs from the hierarchy
-
-## Phase 4: Validate Manifest
-
-Check `.alexantria/manifest.json`:
-
-```bash
-# Check if manifest exists and can be read
-test -f .alexantria/manifest.json && echo "exists" || echo "missing"
-```
-
-If manifest exists, verify structure:
-- Has `version` field
-- Has `repo` field
-- Has `changes` array
-- Each change entry has required fields: `commit`, `timestamp`, `summary`, `action`
-
-## Phase 5: Check Git Hook
-
-If post-commit hook exists, verify:
-- Hook is executable (`-x` permission)
-- Hook contains alexANTria logic (mentions `.alexantria/pending.log`)
-- Hook writes to correct location
-
-```bash
-# Check hook is executable
-test -x .git/hooks/post-commit && echo "executable" || echo "not executable"
-```
-
-```bash
-# Check hook content
-grep -q "alexantria" .git/hooks/post-commit 2>/dev/null && echo "valid" || echo "invalid"
-```
-
-## Phase 6: Report Health Status
-
-Generate a report with pass/fail for each component:
+## Output Format Template
 
 ```
 🐜 Colony Health Report
@@ -145,31 +135,37 @@ Recommendations:
   - Consider adding paths to templates.md or move to docs/
 ```
 
-## Report Symbols
+## Visual Guidelines
 
-Use these symbols for clarity:
-- `[✓]` - Passed
-- `[✗]` - Failed
-- `[?]` - Warning/Questionable
-- `[i]` - Info/Suggestion
+**Symbols:**
+- `[✓]` Pass (green conceptually)
+- `[✗]` Fail (red conceptually)
+- `[?]` Warning (yellow conceptually)
+- `[i]` Info/suggestion
 
-## Exit Codes
+**Exit Codes:**
+- **0 (HEALTHY)**: All critical components present
+- **1 (DEGRADED)**: Missing optional components
+- **2 (BROKEN)**: Missing critical files, run /ant-init
 
-After reporting, set a mental exit code:
-- **0 (healthy)**: All critical components present, minor warnings OK
-- **1 (degraded)**: Missing some components but functional
-- **2 (broken)**: Missing critical files, not functional
+## Implementation Notes
 
-Report the status clearly:
-```
-Exit Code: 0 (HEALTHY)
-Exit Code: 1 (DEGRADED - manual commit tracking required)
-Exit Code: 2 (BROKEN - run /ant-init to set up)
-```
+**DO:**
+- Consolidate all file checks into ONE bash command
+- Use Read/Grep tools silently (don't show to user)
+- Process and validate data internally
+- Output ONE formatted report at the end
+- Use emojis and box drawing for visual appeal
 
-## Notes
+**DON'T:**
+- Show individual bash commands (ls, test, grep, etc.)
+- Show raw file reads
+- Show intermediate validation steps
+- Output multiple times during execution
 
-- **Be precise** - report exactly what's missing or wrong
-- **Be helpful** - suggest fixes for each issue
-- **Be fast** - this is a health check, not a repair tool
-- **Don't modify anything** - validation is read-only
+The user should see:
+1. Your initial message ("Running health check...")
+2. ONE consolidated bash command (if needed for data gathering)
+3. The final formatted report
+
+That's it. Clean, visual, professional.
