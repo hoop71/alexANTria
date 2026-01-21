@@ -124,41 +124,94 @@ ANT-SURFACE.md   (🌱 Surface - Individual service docs)
    - Include affected file paths
    - Specify layer (tunnels, chambers, nest, queen)
 
-6. **Consult Guardian Agents** (if validation enabled)
+6. **Run Bash Validation Checks** (always, free)
+
+   Before consulting guardians, run quick bash checks to catch trivial violations:
+
+   ```bash
+   # Initialize violation tracking
+   VIOLATIONS=()
+
+   # Check command naming convention
+   for file in $(git diff --cached --name-only | grep "^user-level/commands/"); do
+     if [[ "$file" == "user-level/commands/README.md" ]] || [[ "$file" == user-level/commands/guardians/* ]]; then
+       continue
+     fi
+     if [[ ! "$file" =~ ant-.*\.md$ ]]; then
+       VIOLATIONS+=("naming|$file|Must follow ant-*.md pattern|Rename to ant-<name>.md")
+     fi
+   done
+
+   # Check ANT-* file naming in directories
+   for file in $(git diff --cached --name-only | grep "\.md$"); do
+     filename=$(basename "$file")
+     # If file starts with ANT- it should be ANT-SURFACE, ANT-TUNNELS, etc.
+     if [[ "$filename" =~ ^ANT- ]] && [[ ! "$filename" =~ ^ANT-(SURFACE|TUNNELS|CHAMBERS|NEST|QUEEN|EXTERNAL)\.md$ ]]; then
+       VIOLATIONS+=("naming|$file|Invalid ANT-* filename|Use ANT-SURFACE.md, ANT-TUNNELS.md, etc.")
+     fi
+   done
+
+   # Check JSON syntax for config/manifest
+   for file in $(git diff --cached --name-only | grep "\.json$"); do
+     if ! jq empty "$file" 2>/dev/null; then
+       VIOLATIONS+=("json_syntax|$file|Invalid JSON syntax|Fix JSON formatting")
+     fi
+   done
+
+   # Check file structure (commands in right directory)
+   for file in $(git diff --cached --name-only | grep "ant-.*\.md$"); do
+     if [[ "$file" != user-level/commands/* ]]; then
+       VIOLATIONS+=("structure|$file|Command files must be in user-level/commands/|Move file")
+     fi
+   done
+   ```
+
+   Record bash violations for validation log.
+
+7. **Consult Guardian Agents** (if validation enabled and layers affected)
 
    Read `.alexantria/config.json` to check if `validation.enabled` is true.
 
-   If validation enabled, determine which layers are affected:
+   **Only spawn guardians if layers are SIGNIFICANTLY affected:**
 
-   **Surface layer affected if:**
-   - New files in `user-level/commands/`
-   - New `ANT-SURFACE.md` files
-   - Changes to templates or `.claude/rules/`
+   **Smart Triggers - only spawn guardian if layer SIGNIFICANTLY affected:**
 
-   **Tunnels layer affected if:**
-   - Changes to `.alexantria/config.json`
-   - Changes to `user-level/alexantria-config-schema.md`
-   - Changes to `ANT-TUNNELS.md`
-   - Changes to worker-ant-prompt.md or command structure
+   **Surface Guardian - spawn if ANY:**
+   - NEW command file created in `user-level/commands/ant-*.md`
+   - NEW ANT-SURFACE.md file created
+   - NEW template created in `templates/`
+   - Changes to `user-level/commands/README.md` (might be missing new command)
+   - Bash checks found naming violations
 
-   **Chambers layer affected if:**
-   - Multiple similar files changed
-   - Changes to `ANT-CHAMBERS.md`
-   - New cross-cutting patterns detected
-   - Changes to guardian prompts themselves
+   **Tunnels Guardian - spawn if ANY:**
+   - `.alexantria/config.json` MODIFIED
+   - `user-level/alexantria-config-schema.md` MODIFIED
+   - `ANT-TUNNELS.md` MODIFIED
+   - `worker-ant-prompt.md` MODIFIED (affects architecture)
+   - 3+ command files modified (pattern consistency concern)
 
-   **Nest layer affected if:**
-   - Changes to `ANT-NEST.md`
-   - Changes to adoption stages or workflows
-   - Changes to product features (commands that change UX)
+   **Chambers Guardian - spawn if ANY:**
+   - `ANT-CHAMBERS.md` MODIFIED
+   - Guardian prompts MODIFIED (`user-level/commands/guardians/*.md`)
+   - 3+ files in different services changed similarly (pattern emerging)
+   - Shared utilities added/modified (`lib/`, `utils/`, `shared/`)
 
-   **Queen layer affected if:**
-   - Changes to core principles
-   - Changes to `ANT-QUEEN.md`
-   - Changes that might violate ANT-* only principle
-   - Changes to automation boundary logic
+   **Nest Guardian - spawn if ANY:**
+   - `ANT-NEST.md` MODIFIED
+   - `README.md` MODIFIED (product positioning)
+   - Adoption stage changed in config
+   - Workflow commands modified (`ant-init.md`, adoption-related commands)
 
-   For each affected layer, spawn guardian agent:
+   **Queen Guardian - spawn if ANY:**
+   - `ANT-QUEEN.md` MODIFIED
+   - `ANT-FRAMEWORK.md` MODIFIED (core principles)
+   - Worker ant logic MODIFIED (automation boundary)
+   - Changes that touch README.md auto-update logic (ANT-* only violation risk)
+   - Security-related files modified
+
+   **Important:** Only spawn guardians for triggered layers. Don't run all 5 on every commit.
+
+   For each triggered layer, spawn guardian agent:
    ```
    Use Task tool:
    - subagent_type: "general-purpose"
@@ -182,7 +235,16 @@ ANT-SURFACE.md   (🌱 Surface - Individual service docs)
    - Flag in manifest as "requires-user-approval"
    - Do not proceed without user confirmation
 
-7. **Update manifest** at `.alexantria/manifest.json`
+   **Calculate costs:**
+   For each guardian spawned, estimate cost:
+   ```
+   input_tokens = ~1500-2500 (reading guardian prompt + changes)
+   output_tokens = ~500-1000 (violation report)
+   cost = (input * 0.25 + output * 1.25) / 1_000_000
+   estimated_cost_per_guardian = $0.002-0.004
+   ```
+
+8. **Update manifest** at `.alexantria/manifest.json`
 
    Add entry to the `changes` array:
    ```json
@@ -228,13 +290,54 @@ ANT-SURFACE.md   (🌱 Surface - Individual service docs)
    }
    ```
 
-7. **Stage your changes**
+   **Add validation_log entry** (see user-level/validation-log-schema.md):
+   ```json
+   {
+     "validation_log": [
+       {
+         "timestamp": "<ISO-8601>",
+         "commit": "pending",
+         "trigger": "pre_commit",
+         "validation_type": "bash" | "guardian" | "both",
+         "bash_checks": {
+           "run": true,
+           "passed": true | false,
+           "violations": [
+             {
+               "type": "naming|structure|json_syntax",
+               "file": "path/to/file",
+               "issue": "description",
+               "fix": "how to fix"
+             }
+           ],
+           "cost": 0.0
+         },
+         "guardians_consulted": [
+           {
+             "layer": "surface|tunnels|chambers|nest|queen",
+             "reason": "why triggered",
+             "status": "PASS|FAIL|REQUIRES_APPROVAL",
+             "violations": [...],
+             "tokens_used": 2500,
+             "cost_usd": 0.003
+           }
+         ],
+         "total_violations": <count>,
+         "total_cost_usd": <sum of guardian costs>,
+         "prevented_issues": true | false,
+         "notes": "brief description"
+       }
+     ]
+   }
+   ```
+
+9. **Stage your changes**
    ```bash
    git add .alexantria/manifest.json
    git add <any ANT-* docs you updated>
    ```
 
-8. **Report and exit**
+10. **Report and exit**
    ```
    🐜 Worker Ant Report
    ━━━━━━━━━━━━━━━━━━━━

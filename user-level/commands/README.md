@@ -9,6 +9,7 @@ Slash commands for alexANTria. These get installed to `~/.claude/commands/` and 
 | `/ant-init` | Scout and establish colony structure in a project |
 | `/ant-validate` | Verify alexANTria installation health (files exist) |
 | `/ant-check-consistency` | Validate pattern and rule consistency (guardian agents) |
+| `/ant-validation-report` | Show validation metrics, violations caught, cost, ROI |
 | `/ant-commit` | Automated commit with worker ant (agent commits) |
 | `/ant-migrate` | Migrate README.md to ANT-SURFACE.md |
 | `/ant-update-doc` | Explicitly update a specific ANT-* doc |
@@ -107,6 +108,17 @@ On-demand validation via guardian agents:
 4. **Collect reports** - Parse results from each guardian
 5. **Aggregate** - Generate comprehensive report
 6. **Update manifest** - Record consistency check
+
+## ant-validation-report
+
+Analyze validation log for metrics and ROI:
+
+1. **Read validation log** - Parse all validation entries from manifest
+2. **Calculate metrics** - Violations caught, cost incurred, value score
+3. **Analyze by guardian** - Which guardians catch most issues
+4. **Trend analysis** - Is system improving/stable/degrading over time
+5. **Generate report** - Overall summary, guardian performance, recommendations
+6. **Cost projection** - Estimate monthly/yearly cost
 
 ## Guardian System
 
