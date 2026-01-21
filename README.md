@@ -165,8 +165,7 @@ alexANTria gives your coding agents (Claude Code, Cursor, etc.) a shared map to 
 Your Project
 ├── CLAUDE.md                    # Entry point — the colony's pheromone trail
 ├── .alexantria/                 # Colony state (ant-* pattern)
-│   ├── manifest.json            # Worker ant tracking
-│   └── pending.log              # Commits awaiting processing
+│   └── manifest.json            # Worker ant tracking
 ├── .claude/rules/               # Auto-loaded context by file path
 │   ├── frontend.md
 │   ├── backend.md
@@ -287,10 +286,9 @@ your-project/
 │       ├── backend.md     # Auto-loads for src/server/**
 │       └── ...
 ├── .alexantria/
-│   ├── manifest.json      # Worker ant tracking
-│   └── pending.log        # Pending commits (optional, from git hook)
+│   └── manifest.json      # Worker ant tracking
 └── .git/hooks/
-    └── post-commit        # OPTIONAL: Records commits for batch processing
+    └── post-commit        # OPTIONAL: Placeholder (disabled by default)
 ```
 
 ## How It Works
@@ -427,28 +425,23 @@ The `/ant-update` command spawns a worker ant that keeps surface docs in sync.
 ```
 You commit (manually or via agent)
         ↓
-Git hook records it to .alexantria/pending.log
+When you want docs updated, run /ant-update
         ↓
-Next time you run /ant-update
-        ↓
-Worker ant processes all pending commits
+Worker ant processes HEAD commit
         ↓
 Updates local READMEs if needed
         ↓
-Clears the pending log
+Commits doc changes
 ```
 
 **Why this pattern?**
 
-- Git hook is optional—install only if you want batch processing
-- Manual commits get tracked (git hook is fast, no Claude needed)
-- Agent commits get tracked too
-- No expensive Claude spawning on every commit
-- Worker ant catches up in batches when you run `/ant-update`
+- Manual trigger—you decide when to update docs
+- No git hooks firing on every commit
+- Processes most recent commit (HEAD) when you run it
+- Simple, predictable behavior
 
-**The pending log** is simple: `TIMESTAMP|HASH|MESSAGE` per line. No dependencies, pure bash. **Safe to ignore if you prefer manual `/ant-update` runs** (it will just process HEAD).
-
-**The manifest** (`.alexantria/manifest.json`) tracks what the worker ant has processed—your paper trail for future "phone home" syncing to higher-level docs.
+**The manifest** (`.alexantria/manifest.json`) tracks what the worker ant has processed—your paper trail for what's been documented.
 
 ## Other Coding Agents
 

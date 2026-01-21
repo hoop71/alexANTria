@@ -244,43 +244,31 @@ Initialize the manifest for worker ants:
 
 ### Install Git Hook (Optional)
 
-Ask the user if they want automatic commit tracking:
+Ask the user if they want to install a placeholder post-commit hook:
 
 ```
-Would you like to install the git hook for automatic commit tracking?
+Would you like to install a placeholder post-commit hook?
 
-This adds a post-commit hook that records commits to .alexantria/pending.log.
-You can run /ant-update anytime to process pending commits and update surface docs.
+This installs a disabled hook file for future use. Currently, /ant-update
+works by processing the most recent commit (HEAD) when you run it manually.
 
-Note: If you skip the hook, you can still run /ant-update manually - it will
-process the most recent commit (HEAD). The hook just enables batch processing
-of multiple commits.
-
-The pending.log is safe to ignore if you prefer manual /ant-update runs.
+You can enable automatic tracking later by editing .git/hooks/post-commit.
 ```
 
-If yes, install the hook:
+If yes, install the placeholder hook:
 
 ```bash
 # Create hooks directory if needed
 mkdir -p .git/hooks
 
-# Install the post-commit hook
+# Install placeholder hook
 cat > .git/hooks/post-commit << 'HOOK'
 #!/bin/bash
 # alexANTria post-commit hook
-# Records commits for worker ant processing
-
-ALEXANTRIA_DIR=".alexantria"
-PENDING_FILE="$ALEXANTRIA_DIR/pending.log"
-
-mkdir -p "$ALEXANTRIA_DIR"
-
-COMMIT_HASH=$(git rev-parse --short HEAD)
-COMMIT_MSG=$(git log -1 --pretty=format:"%s" | tr '|' '-')
-TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-
-echo "${TIMESTAMP}|${COMMIT_HASH}|${COMMIT_MSG}" >> "$PENDING_FILE"
+# Placeholder - hook disabled in favor of manual /ant-update runs
+#
+# This hook is installed but does nothing. Run /ant-update manually
+# after commits when you want to update surface docs.
 
 exit 0
 HOOK
@@ -289,7 +277,7 @@ HOOK
 chmod +x .git/hooks/post-commit
 ```
 
-If no, skip the hook installation. The user can always run `/ant-update` manually.
+If no, skip the hook installation. The user can always run `/ant-update` manually to process HEAD.
 
 ## Phase 4: Summary
 
