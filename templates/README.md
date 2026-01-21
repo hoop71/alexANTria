@@ -6,6 +6,27 @@ These are starting points for the files `/ant-init` generates. **Edit them befor
 
 When `/ant-init` runs in a project, it uses these templates as scaffolds. Placeholders like `{{UX_DOC}}` get replaced with actual values based on what docs exist in the target project.
 
+## Template Types
+
+### Rules Templates
+Path-based behavioral guidance. Auto-loads when editing matching files.
+
+- `rules/frontend.md.template` → `.claude/rules/frontend.md`
+- `rules/backend.md.template` → `.claude/rules/backend.md`
+- `rules/ai.md.template` → `.claude/rules/ai.md`
+
+**Purpose:** Passive context that loads automatically based on file paths. Not executable commands.
+
+### Skills Templates
+Currently none - skills are copied from alexANTria, not generated per-project.
+
+**Purpose:** Executable commands like `/ant-init` and `/ant-update` are maintained in `user-level/commands/` and copied during installation.
+
+### Memory Template
+- `CLAUDE.md.template` → `CLAUDE.md` (always-loaded hierarchy)
+
+**Purpose:** Project-level context that loads in every session.
+
 ## Customizing Templates
 
 ### CLAUDE.md.template

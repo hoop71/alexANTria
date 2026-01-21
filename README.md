@@ -41,6 +41,16 @@ Like an ant colony, the system works because:
 - each contribution is small,
 - and the shared map is continuously repaired.
 
+## What is alexANTria?
+
+A **universal organizational knowledge framework** that scales from solo developers to large teams.
+
+**Not just for coding agents.** Started as context infrastructure for AI assistants, discovered it's a broader pattern for organizational alignment.
+
+**Not tied to Claude.** Currently implemented on Claude Code, designed to work with any platform. See [ANT-PLATFORM-INTERFACE.md](./ANT-PLATFORM-INTERFACE.md).
+
+**Not just for Gas Town.** Agent swarms prove the need, but the pattern applies from 1 agent to 30+ agents to human-only teams.
+
 ## The Problem
 
 **Every coding session starts from scratch.**

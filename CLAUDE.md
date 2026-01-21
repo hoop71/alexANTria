@@ -55,3 +55,14 @@ All alexANTria artifacts follow the `ANT-*` or `ant-*` pattern:
 - State: `.alexantria/`
 
 Exception: `README.md` (GitHub convention)
+
+## Platform Implementation
+
+alexANTria is a universal framework. This project uses Claude Code as the implementation platform.
+
+**See:** [ANT-PLATFORM-INTERFACE.md](./ANT-PLATFORM-INTERFACE.md) for platform-agnostic design.
+
+**Current implementation:**
+- Rules: `.claude/rules/*.md` (path-based guidance)
+- Skills: `user-level/commands/ant-*.md` (executable commands)
+- Memory: `CLAUDE.md` (always-loaded hierarchy)
