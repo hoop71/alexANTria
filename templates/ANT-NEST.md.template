@@ -1,0 +1,31 @@
+# {{PROJECT_NAME}} - Product Context
+
+**Layer:** Nest (🐜)
+
+## Product Overview
+
+<!-- What this product does and who it's for -->
+
+## Key Features
+
+<!-- Main capabilities and user-facing functionality -->
+
+## Business Rules
+
+<!-- Domain logic, business constraints, validation rules -->
+
+## User Workflows
+
+<!-- How users interact with the system -->
+
+## Use Cases
+
+<!-- Scenarios and user stories -->
+
+## Domain Model
+
+<!-- Core concepts and their relationships -->
+
+---
+
+**Note:** This layer is maintained manually. Worker ant will suggest updates but never auto-applies them.

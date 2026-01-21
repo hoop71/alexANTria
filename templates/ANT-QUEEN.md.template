@@ -1,0 +1,31 @@
+# {{PROJECT_NAME}} - Strategic Alignment
+
+**Layer:** Queen (👑)
+
+## Core Principles
+
+<!-- Non-negotiable principles that guide all decisions -->
+
+## Technical Philosophy
+
+<!-- Why we build things the way we do -->
+
+## Architectural Constraints
+
+<!-- Hard limits and boundaries (performance, security, scalability) -->
+
+## Security Requirements
+
+<!-- Security constraints that cannot be violated -->
+
+## Performance Requirements
+
+<!-- Performance constraints and SLOs -->
+
+## Team Values
+
+<!-- How we work together, decision-making principles -->
+
+---
+
+**Note:** This layer is maintained manually. Worker ant will suggest updates but never auto-applies them. Changes here require team discussion.

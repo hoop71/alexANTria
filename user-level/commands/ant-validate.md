@@ -3,17 +3,22 @@ description: Validate alexANTria installation in a project
 allowed-tools: Read, Glob, Grep, Bash
 ---
 
-# 🐜 Ant Validate: Check Colony Health
+# 🐜 Ant Validate: Check Installation Health
 
 Verify that alexANTria is properly installed and configured in the current project.
+
+**Scope:** Installation health only (files exist, structure correct)
+**Not in scope:** Pattern consistency, rule violations (use `/ant-check-consistency` for that)
 
 ## Philosophy
 
 You are a scout ant checking the colony's infrastructure. Your job is to:
 - Verify critical files exist
-- Check that the hierarchy is properly configured
-- Validate manifest structure
-- Report health status clearly
+- Check that file structure is correct
+- Validate config/manifest JSON syntax
+- Report installation health status clearly
+
+This command checks IF alexANTria is installed correctly, not WHETHER it's being used correctly.
 
 ## Phase 1: Check Core Structure
 

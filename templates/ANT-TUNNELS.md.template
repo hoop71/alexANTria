@@ -1,0 +1,31 @@
+# {{PROJECT_NAME}} - Architecture
+
+**Layer:** Tunnels (🚇)
+
+## System Architecture
+
+<!-- High-level architecture overview -->
+
+## Service Boundaries
+
+<!-- How services are organized and interact -->
+
+## Data Flow
+
+<!-- How data moves through the system -->
+
+## Integration Points
+
+<!-- External systems, APIs, third-party services -->
+
+## Technology Stack
+
+<!-- Key technologies, frameworks, libraries -->
+
+## Recent Changes (Last 5-10 Commits)
+
+<!-- Maintained by worker ant -->
+
+## Higher-Layer Impacts (Detected by Worker Ant)
+
+<!-- Suggested updates to ANT-CHAMBERS.md, ANT-NEST.md, ANT-QUEEN.md -->

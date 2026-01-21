@@ -110,7 +110,7 @@ Read each discovered doc file briefly to understand its purpose. Map to the 5-la
 
 **Note:** Skip any directories marked with `ANT-EXTERNAL.md` - these are external context feeds, not local docs to manage.
 
-## Phase 2: Propose
+## Phase 2: Propose & Configure
 
 Present findings to the user:
 
@@ -151,6 +151,72 @@ Does this look right? Should I adjust any mappings?
 ```
 
 Use `AskUserQuestion` to confirm or let them adjust.
+
+### Ask: Where Should ANT Take Over?
+
+```
+Use AskUserQuestion:
+
+Question: "Which layer should worker ant auto-maintain?"
+Header: "Starting Level"
+Options:
+1. Surface level only (Recommended for pilot)
+   Description: Creates ANT-SURFACE.md in directories. Everything else gets suggestions only. Lowest risk, test the system.
+
+2. Tunnels level (architecture + surface)
+   Description: Creates ANT-SURFACE.md + ANT-TUNNELS.md. Auto-maintains both. Medium risk, suitable after pilot succeeds.
+
+3. Chambers level (patterns + architecture + surface)
+   Description: Creates ANT-SURFACE.md + ANT-TUNNELS.md + ANT-CHAMBERS.md. Auto-maintains all three. Higher risk, for full adoption.
+```
+
+Based on selection, set `starting_level` to "surface", "tunnels", or "chambers".
+
+**Note:** ANT-NEST.md and ANT-QUEEN.md always require manual updates (strategic/product layers).
+
+### Ask: Adoption Mode
+
+```
+Use AskUserQuestion:
+
+Question: "How should ANT handle existing README.md files?"
+Header: "Adoption Mode"
+Options:
+1. ANT-only (Recommended for new repos)
+   Description: Create ANT-SURFACE.md, no README.md. Full automation from day 1.
+
+2. Hybrid-to-ANT (Recommended for existing repos)
+   Description: Keep existing README.md, create ANT-SURFACE.md alongside. Worker ant updates ANT-SURFACE.md only. Use /ant-migrate later to convert README → ANT-SURFACE.
+```
+
+Based on selection:
+- **ANT-only:** Create only ANT-* files, suggest migrating any existing README.md files
+- **Hybrid-to-ANT:** Create ANT-* files alongside existing README.md files
+
+### Ask: Scope
+
+For existing repos, ask which directories to manage:
+
+```
+Use AskUserQuestion:
+
+Question: "Which directories should worker ant manage?"
+Header: "Scope"
+Options:
+1. Single directory (pilot stage)
+   Description: Test in one directory (e.g., src/auth/). Minimal risk, prove it works.
+
+2. Multiple directories (active stage)
+   Description: Manage multiple directories (e.g., src/, lib/). Expanding adoption.
+
+3. Entire repo (full stage)
+   Description: Manage all directories (**). Full automation.
+```
+
+Based on selection, set `managed_paths` in config.json:
+- **Single directory:** Ask which one (e.g., "src/auth/**")
+- **Multiple directories:** Ask which ones (e.g., ["src/**", "lib/**"])
+- **Entire repo:** Set to ["**"]
 
 ## Phase 3: Generate
 
@@ -243,6 +309,37 @@ Before modifying UI, read:
 
 Only create rules for code directories that actually exist.
 
+### Create ANT-* Files Based on Starting Level
+
+Based on the selected `starting_level`, create the appropriate ANT-* files:
+
+**If starting_level = "surface":**
+```bash
+# Create ANT-SURFACE.md in each directory under managed_paths
+# Use template from templates/ANT-SURFACE.md.template
+```
+
+**If starting_level = "tunnels":**
+```bash
+# Create ANT-SURFACE.md in each directory
+# Create ANT-TUNNELS.md at repo root
+# Use templates from templates/
+```
+
+**If starting_level = "chambers":**
+```bash
+# Create ANT-SURFACE.md in each directory
+# Create ANT-TUNNELS.md at root
+# Create ANT-CHAMBERS.md at root
+# Use templates from templates/
+```
+
+**Always create (not auto-maintained, but part of structure):**
+- ANT-NEST.md (optional, for product/business context)
+- ANT-QUEEN.md (optional, for strategic alignment)
+
+These higher-layer files are never auto-maintained, only get suggestions.
+
 ### Create .alexantria/
 
 ```bash
@@ -256,26 +353,39 @@ Initialize the manifest for worker ants:
   "version": "0.1",
   "repo": "[project-name]",
   "last_sync": null,
-  "changes": []
+  "changes": [],
+  "suggested_reviews": []
 }
 ```
 
-Create config for worker ant behavior:
+Create config for worker ant behavior based on user selections:
 
 ```json
 {
   "version": "0.1",
   "worker_ant": {
     "enabled": true,
-    "mode": "auto",
-    "auto_update_ant_files": true
+    "mode": "auto"
+  },
+  "scope": {
+    "managed_paths": ["[from user selection]"],
+    "exclude_paths": [],
+    "starting_level": "[surface|tunnels|chambers]"
+  },
+  "auto_update": {
+    "ant_files": true
   },
   "commit_tracking": {
-    "enabled": true,
-    "require_manifest_updates": false
-  }
+    "enabled": true
+  },
+  "adoption_stage": "[pilot|active|full]"
 }
 ```
+
+**Adoption stage mapping:**
+- Single directory + surface → "pilot"
+- Multiple directories + surface/tunnels → "active"
+- Entire repo + tunnels/chambers → "full"
 
 ### Configure Worker Ant (Optional)
 
@@ -328,12 +438,18 @@ chmod +x .git/hooks/pre-commit
 
 This ensures partial adoption doesn't break the system - hook is smart about agent vs human commits.
 
-## Phase 4: Summary
+## Phase 4: Summary & Team Adoption Checklist
 
 Show what was created:
 
 ```
 🐜 Colony Established
+
+Configuration:
+  Adoption Mode: [ANT-only | Hybrid-to-ANT]
+  Starting Level: [surface | tunnels | chambers]
+  Managed Paths: [scope from config]
+  Adoption Stage: [pilot | active | full]
 
 Created:
   CLAUDE.md                    — 5-layer anthill hierarchy
@@ -342,27 +458,81 @@ Created:
     ├── backend.md             — For src/server/**
     └── [domain].md            — For detected code domains
   .alexantria/
-    ├── manifest.json          — Worker ant tracking
-    └── pending.log            — Pending commits queue (created by hook)
+    ├── config.json            — Worker ant configuration
+    └── manifest.json          — Change tracking and suggestions
+  [ANT-SURFACE.md files]       — In managed directories
+  [ANT-TUNNELS.md]             — If starting_level >= tunnels
+  [ANT-CHAMBERS.md]            — If starting_level >= chambers
   .git/hooks/
-    └── post-commit            — Auto-tracks commits (if installed)
+    └── pre-commit             — Smart hook (detects agent commits)
 
 The anthill structure:
-  👑 Queen: [Strategic docs]
-  🐜 Nest: [Product docs]
-  🏛️ Chambers: [Cross-cutting patterns]
-  🚇 Tunnels: [Architecture docs]
-  🌱 Surface: [Per-service docs]
+  👑 Queen: [Strategic docs] (manual updates only)
+  🐜 Nest: [Product docs] (manual updates only)
+  🏛️ Chambers: [Cross-cutting patterns] (auto if starting_level >= chambers, else suggestions)
+  🚇 Tunnels: [Architecture docs] (auto if starting_level >= tunnels, else suggestions)
+  🌱 Surface: [Per-service docs] (always auto-maintained)
+
+Automation Boundary:
+  Below starting_level: Fully automated
+  Above starting_level: Suggestions only (use /ant-review-suggestions)
 
 External context feeds (read-only):
   [path/to/external/] (ANT-EXTERNAL) - [Description]
-
-Next steps:
-  1. Review CLAUDE.md and adjust layer mappings if needed
-  2. Check .claude/rules/ quick references
-  3. After commits, run /ant-update to process pending and keep docs fresh
-  4. External feeds are consumed but not managed - changes tracked via manifest
 ```
+
+### Team Adoption Checklist
+
+Present this checklist to the user:
+
+```
+## Team Adoption Checklist
+
+Before committing and sharing with your team:
+
+✓ Configuration
+  [ ] Config committed (.alexantria/config.json)
+  [ ] Scope matches team's comfort level (pilot/active/full)
+  [ ] Starting level appropriate (recommend: surface for pilot)
+  [ ] Adoption mode chosen (ANT-only vs Hybrid-to-ANT)
+
+✓ Pre-commit Hook
+  [ ] Hook installed (.git/hooks/pre-commit)
+  [ ] Hook is executable (chmod +x)
+  [ ] Team understands hook behavior (smart detection)
+
+✓ Documentation
+  [ ] CLAUDE.md committed (hierarchy map)
+  [ ] Rules committed (.claude/rules/)
+  [ ] ANT-* files created in managed paths
+  [ ] Team knows which docs are auto-maintained
+
+✓ Team Alignment
+  [ ] Team understands ANT-* files are auto-maintained below starting_level
+  [ ] Team knows to use /ant-commit for agent commits
+  [ ] Team knows to use /ant-review-suggestions for higher-layer updates
+  [ ] Team comfortable with adoption stage (can rip out if needed)
+
+✓ First Commit Test
+  [ ] Make a code change in managed path
+  [ ] Run /ant-commit "Test worker ant"
+  [ ] Verify ANT-SURFACE.md updated
+  [ ] Verify manifest updated
+  [ ] Single commit contains code + docs + manifest
+
+Ready to commit? Run:
+  git add .
+  /ant-commit "Initialize alexANTria colony"
+
+After team onboarding:
+  1. Share this checklist with team
+  2. Have each member run /ant-validate to verify setup
+  3. Monitor first 5-10 commits for quality
+  4. Adjust scope/starting_level as needed
+  5. Use /ant-migrate to convert README.md files when ready
+```
+
+Show this checklist and ask user if they're ready to commit the initialization.
 
 ## Notes
 

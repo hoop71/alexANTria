@@ -2,11 +2,28 @@
   "version": "0.1",
   "worker_ant": {
     "enabled": true,
-    "mode": "auto",
-    "auto_update_ant_files": true
+    "mode": "auto"
+  },
+  "scope": {
+    "managed_paths": [
+      "**"
+    ],
+    "exclude_paths": [],
+    "starting_level": "surface"
+  },
+  "auto_update": {
+    "ant_files": true
   },
   "commit_tracking": {
-    "enabled": true,
-    "require_manifest_updates": false
-  }
+    "enabled": true
+  },
+  "validation": {
+    "enabled": false,
+    "level": "critical",
+    "checkpoints": {
+      "pre_commit": true,
+      "on_demand": true
+    }
+  },
+  "adoption_stage": "full"
 }

@@ -7,8 +7,12 @@ Slash commands for alexANTria. These get installed to `~/.claude/commands/` and 
 | Command | Purpose |
 |---------|---------|
 | `/ant-init` | Scout and establish colony structure in a project |
-| `/ant-update` | Worker ant: process pending commits, update surface docs |
-| `/ant-validate` | Verify alexANTria installation and configuration |
+| `/ant-validate` | Verify alexANTria installation health (files exist) |
+| `/ant-check-consistency` | Validate pattern and rule consistency (guardian agents) |
+| `/ant-commit` | Automated commit with worker ant (agent commits) |
+| `/ant-migrate` | Migrate README.md to ANT-SURFACE.md |
+| `/ant-update-doc` | Explicitly update a specific ANT-* doc |
+| `/ant-review-suggestions` | Review and apply higher-layer doc suggestions |
 
 ## Command Structure
 
@@ -43,21 +47,87 @@ The body is instructions for the agent. Write it like you're telling another dev
 
 The scout ant. Enters a new project and establishes the colony:
 
-1. **Crawl** - Find existing documentation
-2. **Classify** - Map docs to the 4-layer hierarchy
-3. **Propose** - Show the user and confirm
-4. **Generate** - Create CLAUDE.md, .claude/rules/, .alexantria/
-5. **Hook** - Optionally install git post-commit hook
+1. **Crawl** - Find existing documentation and code structure
+2. **Classify** - Map docs to the 5-layer hierarchy
+3. **Configure** - Ask about starting_level, adoption mode, scope
+4. **Generate** - Create CLAUDE.md, .claude/rules/, .alexantria/, ANT-* files
+5. **Hook** - Install smart pre-commit hook
+6. **Checklist** - Present team adoption checklist
 
-## ant-update
+## commit
 
-The worker ant. Processes commits and keeps surface docs fresh:
+Agent-only command. Wraps the entire commit workflow:
 
-1. **Check pending** - Read `.alexantria/pending.log`
-2. **Assess** - For each commit, decide if docs need updating
-3. **Update** - Make minimal changes to local READMEs
-4. **Record** - Log to `.alexantria/manifest.json`
-5. **Clear** - Remove processed entries from pending
+1. **Stage** - Check and stage modified files
+2. **Spawn worker ant** - Blocking Task tool call
+3. **Worker ant** - Updates ANT-* docs, detects impacts, stages changes
+4. **Commit** - Create commit with code + docs + manifest
+5. **Verify** - Show commit results
+
+## ant-migrate
+
+Migrate existing README.md to ANT-SURFACE.md:
+
+1. **Validate** - Check if README.md exists
+2. **Analyze** - Identify what content belongs in ANT-SURFACE.md
+3. **Generate** - Create ANT-SURFACE.md from template
+4. **Show diff** - Present changes to user
+5. **Execute** - Write ANT-SURFACE.md, remove README.md, update manifest
+6. **Stage** - Stage all changes for commit
+
+## ant-update-doc
+
+Manually update a specific ANT-* doc:
+
+1. **Read config** - Check starting_level and scope
+2. **Read manifest** - Find suggested_reviews for this doc
+3. **Analyze** - Check recent changes affecting this doc
+4. **Generate updates** - Update relevant sections
+5. **Show diff** - Present changes to user
+6. **Apply** - Write updates, mark suggestions as applied
+7. **Stage** - Stage doc and manifest
+
+## ant-review-suggestions
+
+Review all pending higher-layer suggestions:
+
+1. **Read manifest** - Find all pending suggested_reviews
+2. **Group** - By doc and layer
+3. **Present** - Show summary with options (apply all/review individually/dismiss all)
+4. **Process** - Run /ant-update-doc for each doc or mark as dismissed
+5. **Report** - Show results and suggest commit
+
+## ant-check-consistency
+
+On-demand validation via guardian agents:
+
+1. **Read config** - Check if validation enabled
+2. **Gather context** - Scan recent changes and relevant files
+3. **Spawn guardians** - Run all 5 guardian agents in parallel (Haiku)
+4. **Collect reports** - Parse results from each guardian
+5. **Aggregate** - Generate comprehensive report
+6. **Update manifest** - Record consistency check
+
+## Guardian System
+
+alexANTria uses specialized Haiku agents to validate consistency at each layer:
+
+- **🌱 Surface Guardian** - Naming conventions (ant-*, ANT-*.md), file structure
+- **🚇 Tunnels Guardian** - Config schema, command structure, architecture coherence
+- **🏛️ Chambers Guardian** - Pattern consistency, duplication detection, cross-cutting conventions
+- **🐜 Nest Guardian** - Adoption stages, workflows, product alignment
+- **👑 Queen Guardian** - Core principles, strategic constraints, ANT-* only enforcement
+
+Guardians are:
+- **Opt-in** (validation.enabled = false by default)
+- **Specialized** (each knows one layer deeply)
+- **Autonomous** (run independently, report violations)
+- **Cheap** (Haiku model, $0.002-0.005 per guardian)
+- **Fast** (run in parallel, complete in seconds)
+
+They run at two checkpoints:
+1. **pre_commit** - Worker ant consults affected guardians
+2. **on_demand** - /ant-check-consistency runs all guardians
 
 ## ant-validate
 

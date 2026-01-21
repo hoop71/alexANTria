@@ -1,0 +1,35 @@
+# {{PROJECT_NAME}} - Cross-Cutting Patterns
+
+**Layer:** Chambers (🏛️)
+
+## Error Handling
+
+<!-- How errors are handled consistently across services -->
+
+## Logging & Monitoring
+
+<!-- Logging patterns, monitoring strategies -->
+
+## Authentication & Authorization
+
+<!-- Cross-cutting security patterns -->
+
+## Data Validation
+
+<!-- Validation patterns used throughout the system -->
+
+## Code Conventions
+
+<!-- Naming conventions, code style, organization patterns -->
+
+## Shared Utilities
+
+<!-- Common utilities and helpers used across services -->
+
+## Recent Changes (Last 5-10 Commits)
+
+<!-- Maintained by worker ant -->
+
+## Higher-Layer Impacts (Detected by Worker Ant)
+
+<!-- Suggested updates to ANT-NEST.md, ANT-QUEEN.md -->

@@ -1,0 +1,31 @@
+# {{DIRECTORY_NAME}} - Surface Documentation
+
+**Auto-maintained by alexANTria worker ant.** This file tracks recent changes, key patterns, and impacts for this directory.
+
+## Purpose
+
+This is alexANTria's tracking/insights file. It complements (doesn't replace) any README.md that might exist here. Think of it as the changelog and quick reference for what's happening in this directory.
+
+## Recent Changes
+
+{{WORKER_ANT_WILL_POPULATE}}
+
+_(Worker ant will add entries here after each commit affecting this directory)_
+
+## Key Files & Patterns
+
+{{WORKER_ANT_WILL_POPULATE}}
+
+_(Worker ant will track significant files and patterns it detects)_
+
+## Suggested Reviews
+
+{{WORKER_ANT_WILL_POPULATE}}
+
+_(When changes here might affect higher-layer docs, worker ant will flag them)_
+
+---
+
+**Note:** This file is always auto-updated. Don't manually edit unless you're migrating to full ANT-* adoption.
+
+**Coexists with:** README.md (if it exists, that's your main doc - this is supplementary tracking)
