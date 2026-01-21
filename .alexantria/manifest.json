@@ -10,6 +10,22 @@
       "docs_updated": [],
       "action": "no-op",
       "reason": "Changes were to molecular/meta layer docs (README.md, FRAMEWORK.md, SCHEMA.md), not atomic service docs"
+    },
+    {
+      "commit": "f1d78a8",
+      "timestamp": "2026-01-21T01:06:29Z",
+      "summary": "blog update",
+      "docs_updated": [],
+      "action": "no-op",
+      "reason": "Created .claude/rules/, updated CLAUDE.md to 5-layer anthill, restructured BLOG. All Queen/Nest/Chambers layer work, no surface docs affected"
+    },
+    {
+      "commit": "979034b",
+      "timestamp": "2026-01-21T01:06:39Z",
+      "summary": "pending log",
+      "docs_updated": [],
+      "action": "no-op",
+      "reason": "Meta-infrastructure commit (created pending.log file), no surface docs affected"
     }
   ]
 }
