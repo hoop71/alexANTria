@@ -2,47 +2,50 @@
 
 This is a meta-repo: a documentation framework that documents itself.
 
-## Document Hierarchy
+## The Anthill
 
-<!-- Outer layers override inner layers when they conflict -->
+This project uses the 5-layer anthill structure. Higher layers constrain lower layers.
 
-### Layer 1: Philosophy/Constraints
+### 👑 Queen: Strategic Alignment
 - **[ANT-FRAMEWORK.md](./ANT-FRAMEWORK.md)** — Intelligence through coordination, not command
 - **[README.md#philosophy](./README.md)** — Core principles (context is load-bearing, read-act-repair, etc.)
 
-### Layer 2: Product/Business
-- **[README.md](./README.md)** — What alexANTria does, quick start, installation
+### 🐜 Nest: Product/Business Context
+- **[README.md](./README.md)** — What alexANTria does, the problem it solves
+- **[BLOG-gastown-context-infrastructure.md](./BLOG-gastown-context-infrastructure.md)** — Positioning and use cases
 
-### Layer 3: Architecture/Patterns
+### 🏛️ Chambers: Cross-Cutting Patterns
 - **[ANT-SCHEMA.md](./ANT-SCHEMA.md)** — The nesting doll documentation pattern
 - **[templates/README.md](./templates/README.md)** — How templates and placeholders work
 
-### Layer 4: Implementation
+### 🚇 Tunnels: Architecture/Service Connections
 - **[user-level/README.md](./user-level/README.md)** — User-level config overview
 - **[user-level/commands/README.md](./user-level/commands/README.md)** — How to write commands
+- **[user-level/CLAUDE.md](./user-level/CLAUDE.md)** — User-level agent instructions
+
+### 🌱 Surface: Individual Service Docs
 - **[user-level/commands/ant-init.md](./user-level/commands/ant-init.md)** — Colony initialization command
 - **[user-level/commands/ant-update.md](./user-level/commands/ant-update.md)** — Worker ant update command
-- **[user-level/CLAUDE.md](./user-level/CLAUDE.md)** — User-level agent instructions
+- **[POSITIONING-SUMMARY.md](./POSITIONING-SUMMARY.md)** — Project positioning notes
 
 ## When to Read
 
 | Working on... | Read first |
 |--------------|------------|
-| Philosophy or principles | ANT-FRAMEWORK.md |
-| Documentation patterns | ANT-SCHEMA.md |
-| Command behavior | user-level/commands/README.md, then the specific command |
-| Template customization | templates/README.md |
-| User-level config | user-level/README.md |
-| Agent instructions | user-level/CLAUDE.md |
+| Strategic vision, core philosophy | Queen layer (ANT-FRAMEWORK.md, README.md) |
+| Product positioning, use cases | Nest layer (README.md, BLOG) |
+| Documentation patterns, templates | Chambers layer (ANT-SCHEMA.md, templates/) |
+| Command architecture, user config | Tunnels layer (user-level/README.md, commands/README.md) |
+| Specific command implementation | Surface layer (ant-init.md, ant-update.md) |
 
 ## After Completing Work
 
 Ask yourself:
-- Did I change the **colony philosophy**? → Update ANT-FRAMEWORK.md
-- Did I change the **schema pattern**? → Update ANT-SCHEMA.md
-- Did I add a **new command**? → Follow `ant-*` naming, update user-level/commands/README.md
-- Did I change **how templates work**? → Update templates/README.md
-- Did I change **user-level config**? → Update user-level/README.md
+- Did I change the **strategic vision or core principles**? → Update Queen layer (ANT-FRAMEWORK.md)
+- Did I change **product positioning or use cases**? → Update Nest layer (README.md, BLOG)
+- Did I change the **schema pattern or template system**? → Update Chambers layer (ANT-SCHEMA.md, templates/)
+- Did I add a **new command or change user-level config**? → Update Tunnels layer (user-level/)
+- Did I change **specific command implementation**? → Update Surface layer (command .md files)
 
 ## Naming Convention
 

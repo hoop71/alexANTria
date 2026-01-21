@@ -11,657 +11,279 @@
 
 ---
 
-**What this is:**
+## 👑 The Core Insight (30 seconds)
 
-A living document exploring how context infrastructure complements agent orchestration. We're sharing early findings from running 1-10 agents and extrapolating to larger swarms. This document will evolve as we learn more.
+Steve Yegge's [Gas Town](https://steve-yegge.medium.com/welcome-to-gas-town-4f25ee16dd04) proved you can orchestrate 20-30 agents in chaos and still ship. It's the future of development: agent swarms moving at "creation and correction at the speed of thought."
 
-**What this isn't:**
+**But even Steve ran headfirst into every context problem:** Plan dementia (605 markdown files). "Death by a thousand re-explanations." Becoming the bottleneck context oracle for 30 agents.
 
-A complete solution or production-ready system. We're at the "line in the sand" phase—documenting our current thinking so we (and you) can refine it.
+**The insight:** **Work memory ≠ context memory.**
 
-**Help us evolve this:** We've identified several [open challenges](#known-challenges) where we need input. [Open an issue](https://github.com/hoop71/alexANTria/issues/new) if you're hitting similar problems or have ideas.
+- **[Beads](https://steve-yegge.medium.com/introducing-beads-a-coding-agent-memory-system-637d7d92514a)** tracks *what* to do (tasks, dependencies, status)
+- **alexANTria** tracks *how* to do it (conventions, constraints, why)
 
----
+Gas Town coordinates work. Beads remembers tasks. alexANTria provides institutional knowledge. You need all three.
 
-## The Chaos Paradox
+**Context infrastructure isn't about writing artisanal code. It's about not letting chaos become catastrophic.**
 
-Steve Yegge's [Gas Town](https://steve-yegge.medium.com/welcome-to-gas-town-4f25ee16dd04) is incredible. It's also terrifying.
-
-In his New Year's Day 2026 post, Steve describes orchestrating 20-30 Claude Code instances simultaneously—what he calls "Stage 8" development. It's agent swarms, merge queue refineries, ephemeral workers called polecats, and throughput that would make most engineering teams weep with envy.
-
-It's also chaos by design:
-
-> "Work in Gas Town can be chaotic and sloppy... Some bugs get fixed 2 or 3 times, and someone has to pick the winner. Other fixes get lost. Designs go missing and need to be redone. **It doesn't matter, because you are churning forward relentlessly** on huge, huge piles of work."
-
-This is the future of development: swarms of superintelligent agents coordinated by orchestration layers, moving at "creation and correction at the speed of thought."
-
-**But here's the thing nobody's talking about:**
-
-Even Steve—who literally invented this workflow and has been vibe coding for months—ran headfirst into every single context management problem that distributed agent systems create.
-
-Plan dementia. 605 inscrutable markdown files. "Death by a thousand re-explanations." Becoming the bottleneck context oracle for 30 agents.
-
-**The paradox:** Gas Town proved you can orchestrate chaos and still ship. But it also proved that **orchestration without context infrastructure just moves the bottleneck from work coordination to knowledge coordination.**
-
-This post is about why context infrastructure matters—not instead of orchestration, but *beneath* it.
+*Stop here if you just need the headline. Keep reading for why this matters.*
 
 ---
 
-## The Context Problems Gas Town Exposed
+## 🐜 The Problems Gas Town Exposed (2 minutes)
 
-Before Gas Town, Steve tried building his orchestrator on markdown plans. Agents would create plans, nest them, track them... and gradually lose their minds.
+### The Three Context Crises
 
-### Problem 1: Plan Dementia (605 Markdown Files)
+**1. Plan Dementia (605 Markdown Files)**
 
-From his [Beads article](https://steve-yegge.medium.com/introducing-beads-a-coding-agent-memory-system-637d7d92514a):
+Agents don't have persistent memory. Every compaction, they restart, read whatever plan file they find, create 5 nested plans, forget the outer context. By phase 3, they declare "DONE! 🎉" when they've barely started.
 
-> "By the start of phase 3 (out of 6), the AI has mostly forgotten where it came from... When the agent arrives at phase 3 (out of 5) of phase 3 (out of 6), it has gone full-blown bugshit amnesiac, and it announces triumphantly: 'Congratulations, the system is DONE! 🎉'"
+Steve solved this with Beads—git-backed issue tracking that gives agents persistent *work* memory. **But Beads tracks WHAT work exists, not HOW you do it.**
 
-> "By the time I finally found a solution... I discovered I had **six hundred and five markdown plan files** in varying stages of decay in my plans/ folder."
+**2. Death by a Thousand Re-explanations**
 
-**What went wrong:**
-
-Agents don't have persistent memory across session compactions. Every 10 minutes, they restart. They read whatever plan file they find, declare "Oh wow, this is a big project," create 5 more nested plans, and gradually forget the outer context.
-
-This is agent amnesia about work structure. And Steve solved it brilliantly with Beads—a git-backed issue tracker that gives agents persistent work memory.
-
-**But here's what Beads *doesn't* solve:**
-
-Beads tracks *what* work exists. It doesn't track *how* you do the work, or *why* you're structured this way, or *what architectural constraints* matter.
-
-That's context memory. And without it, you're still the oracle.
-
-### Problem 2: Death by a Thousand Re-explanations
-
-From the Gas Town article:
-
-> "Every new session starts from zero context. You repeat the same architectural explanations weekly. 'Why did we structure it this way?' gets asked over and over."
-
-**The bottleneck:** Even with perfect orchestration (Gas Town) and perfect work tracking (Beads), Steve became the context oracle for 20-30 agents.
-
-Think about what this means:
-
-- Polecat 3 asks: "How do we handle auth in this codebase?"
-- Polecat 7 asks: "What's our testing strategy?"
-- Polecat 12 asks: "Why is the database structured this way?"
-- The Refinery asks: "Which of these two conflicting implementations should I pick?"
-
-They're all asking *you* because the context lives in your head. Beads tells them *what* to work on. But you have to tell them *how*.
+Even with perfect orchestration (Gas Town) and work tracking (Beads), Steve became the context oracle:
+- Polecat 3: "How do we handle auth?"
+- Polecat 7: "What's our testing strategy?"
+- Polecat 12: "Why is the database structured this way?"
+- The Refinery: "Which conflicting implementation should I pick?"
 
 **At 30 agents, this doesn't scale.**
 
-### Problem 3: You Can't Leave
-
-The most damning quote from the article:
+**3. You Can't Leave**
 
 > "You become the bottleneck: the single source of truth living in your head. Context becomes tribal knowledge—when you leave, it leaves with you."
 
-Gas Town can swarm 30 agents. It can run all night processing convoys. But if Steve takes a vacation, or gets hit by a bus, or just wants someone else to drive for a while...
+Gas Town can run all night. But if Steve takes a vacation, the system doesn't know how to work without him. **That's not a tooling problem. That's a knowledge problem.**
 
-**The system doesn't know how to work without him.**
+### The Three-Layer Stack
 
-That's not a tooling problem. That's a knowledge problem.
+| Layer | System | What It Remembers |
+|-------|--------|-------------------|
+| **Orchestration** | Gas Town | "Who's working on what? How do we coordinate?" |
+| **Work Memory** | Beads | "What needs doing? What's blocked?" |
+| **Context Memory** | alexANTria | **"How do we work? Why? What are our constraints?"** |
 
----
-
-## The Three-Layer Stack
-
-Gas Town revealed what a mature agent system actually needs. It's not just orchestration. It's a stack:
-
-| Layer | System | What It Does | What It Remembers |
-|-------|--------|--------------|-------------------|
-| **Execution** | Claude Code, Amp, etc. | Runs commands, writes code | Current session only (ephemeral) |
-| **Work Memory** | Beads | Tracks tasks, dependencies, status | "What needs doing? What's blocked?" |
-| **Orchestration** | Gas Town | Coordinates swarms, merge queues | "Who's working on what? How do we coordinate?" |
-| **Context Memory** | **alexANTria** | **Curates institutional knowledge** | **"How do we work? Why? What are our constraints?"** |
-
-**The key insight:** Work memory ≠ context memory.
-
-- **Beads** answers: "What's the next task in the dependency graph?"
-- **alexANTria** answers: "How should we approach it? What constraints matter? Why did we decide to do it this way?"
-
-Both are external memory for agents. Both are necessary. But they solve fundamentally different problems.
-
-**Think of it this way:**
-
-When you onboard a new human engineer, you give them:
-1. **A task** (Jira ticket, GitHub issue) ← Beads equivalent
-2. **The architecture docs** (how we work, our conventions, why we made past decisions) ← alexANTria equivalent
-
-Gas Town is the manager assigning work. Beads is the ticket system. alexANTria is the institutional knowledge that makes new engineers productive without asking you a thousand questions.
+Think of human onboarding:
+- **Task** (Jira ticket) ← Beads
+- **Architecture docs** (how we work, our conventions, why) ← alexANTria
+- **Manager** (assigns work, coordinates) ← Gas Town
 
 You need all of them.
 
----
-
-## Two Kinds of Chaos
-
-Here's what Gas Town taught us: **Not all chaos is created equal.**
-
-### Acceptable Chaos (Gas Town's Feature, Not Bug)
-
-From Steve's article:
-
-> "Some bugs get fixed 2 or 3 times, and someone has to pick the winner. Other fixes get lost. Designs go missing and need to be redone. **It doesn't matter.**"
-
-This chaos is fine:
-- **Redundant work** — Two polecats fix the same bug (inefficient, but harmless)
-- **Lost designs** — A design doc disappears and gets redone (annoying, but forward progress)
-- **Fish fall out of the barrel** — Some work is lost (more will come)
-
-**Why it works:**
-
-High velocity + self-correction means you can tolerate waste. If you're moving 10x faster than traditional development, losing 20% of work to chaos still leaves you 8x faster.
-
-### Catastrophic Chaos (What Kills You)
-
-But there's another kind of chaos that Gas Town can't tolerate:
-
-- Agent commits `.env` files with production secrets
-- Agent force-pushes to `main` and destroys 2 weeks of history
-- Agent drops the production database table
-- Agent implements auth with sessions (Polecat 1), JWT (Polecat 5), and API keys (Polecat 12)
-
-**Why this kills you:**
-
-Speed becomes destruction. The cleanup takes longer than the original work. Contradictory implementations mean the Refinery has to pick winners, which means rework, which defeats the velocity advantage.
-
-**The line between them is context infrastructure.**
-
-Acceptable chaos happens *above* the guardrails. Catastrophic chaos happens when there are no guardrails.
-
-### The Third Kind: User Experience Drift
-
-But there's a third kind of chaos that's even more insidious: **building a technically perfect, completely unusable product.**
-
-Gas Town proved you can generate features at 10x speed. But velocity without product coherence creates a different kind of disaster: **users can't figure out how to use what you built.**
-
-**The failure mode nobody talks about:**
-
-Your 20 agents are building. Fast. Merge conflicts are resolved. Tests are passing. Code is shipping.
-
-But from the user's perspective:
-- The checkout flow contradicts the cart flow (two agents, two interpretations)
-- Settings are split across three different places (no one coordinated)
-- Terminology is inconsistent (one agent calls them "projects", another calls them "workspaces")
-- The onboarding tutorial teaches a workflow that doesn't match the actual UI
-
-**None of this creates merge conflicts.** All of it is technically correct. The Refinery merges it cleanly.
-
-**And your product is broken.**
-
-**This isn't acceptable chaos.** Bugs get fixed. Redundant code gets refactored. But **incoherent user experience doesn't self-correct**—it accumulates.
-
-**Real examples of UX debt at agent speed:**
-
-- **Navigation chaos:** Agent A adds a feature to the sidebar. Agent B adds it to the top nav. Agent C puts it in settings. Users can't find anything.
-
-- **Terminology drift:** Agent 1 implements "archive project". Agent 2 implements "delete project". Agent 3 implements "hide project". Users don't know which does what.
-
-- **Workflow contradictions:** Agent A builds "save draft first, then publish". Agent B builds "publish immediately, no drafts". Same product, two mental models.
-
-- **Accessibility inconsistencies:** Agent A follows WCAG guidelines. Agent B doesn't know they exist. Half your product is accessible, half isn't.
-
-**Why UX chaos compounds differently:**
-
-Code chaos is self-correcting:
-- Bugs get filed and fixed
-- Redundancy shows up in code review
-- Performance issues get profiled
-
-**UX chaos accumulates:**
-- Users adapt to broken patterns (learned helplessness)
-- New features build on inconsistent foundations
-- Each agent copies the nearest example, spreading inconsistency
-- You end up with 5 different design systems, 3 navigation patterns, 2 mental models
-
-**At agent speed, you can destroy product-market fit in a week.**
-
-**What gets lost without Layer 2:**
-
-Layer 2 isn't just "what are we building?" It's:
-- **Who is this for?** (user personas, use cases)
-- **What problem does this solve for them?** (user pain points)
-- **How should this feel to use?** (UX principles, interaction patterns)
-- **What are we explicitly NOT doing?** (scope constraints)
-
-Without Layer 2 in shared context:
-- Every agent interprets "make it user-friendly" differently
-- No one knows if the feature serves the actual user need
-- Agents optimize for "technically correct" not "user can accomplish their goal"
-- Product becomes feature soup: lots of capabilities, no coherent experience
-
-**Steve's pain point, reframed:**
-
-> "Execs don't know what was built, when. Product isn't able to influence."
-
-This isn't a reporting problem. It's a **user experience crisis.**
-
-If product can't steer what agents build, you get:
-- Features users didn't ask for (built because they "seemed good")
-- Features that contradict each other (no one coordinated)
-- Features that don't fit the user mental model (agents guessed)
-- **A product users can't figure out how to use**
-
-**The claim:**
-
-You can build fast with Gas Town. You can coordinate work with Beads. But if your agents don't know **what problem users are trying to solve and how they expect to solve it**, you'll build a lot of features users can't use.
-
-**Layer 1 prevents catastrophic technical chaos** (secrets, force-push, DB drops).
-
-**Layer 2 prevents user experience chaos** (incoherent product, confused users, destroyed PMF).
-
-Both are guardrails. Both scale when you can't review every agent decision.
-
-**Without Layer 2, you're not building the wrong product. You're building 20 different products that happen to share a codebase.**
-
-And users notice. Fast.
+*Stop here if you get the problem. Keep reading for what context infrastructure gets you.*
 
 ---
 
-## Part 4: What Context Infrastructure Gets You (Even in Chaos)
+## 🏛️ What You Get (5 minutes)
 
-### 1. Faster (Sustained Velocity)
+### Two Kinds of Chaos
 
-**Without context:**
-- Polecat 1 implements auth with sessions
-- Polecat 5 implements auth with JWT
-- Refinery has to pick a winner, rework one
-- Happens again next week
+**Acceptable Chaos (Gas Town's Feature)**
+- Bugs fixed 2-3 times (inefficient, but forward progress)
+- Lost designs (annoying, but gets redone)
+- Redundant work (waste, but still 8x faster than traditional)
 
-**With context:**
-- `ANT-FRAMEWORK.md`: "We use JWT for auth, not sessions. See ADR-007."
-- All 20 polecats implement it correctly the first time
-- No winner-picking, no refactoring
+**Why it works:** High velocity + self-correction tolerates waste.
 
-**Net:** Chaos is fast until it creates contradictions.
+**Catastrophic Chaos (What Kills You)**
+- Agent commits production secrets
+- Agent force-pushes to main, destroys history
+- Agent drops production database table
+- Three agents implement three different auth systems
 
-### 2. Cheaper (Context Efficiency)
+**Why it kills:** Cleanup takes longer than original work. Contradictory implementations defeat velocity advantage.
 
-**Without context:**
-- 20 polecats × 5,000 tokens of architectural context per prompt
-- = 100,000 tokens of redundant context per convoy
-- Every session, every polecat, same bloat
+**The Third Kind: User Experience Drift**
 
-**With context:**
-- 20 polecats × pointer to shared living memory
-- Agents read `CLAUDE.md`, load relevant rules
-- Context is infrastructure, not payload
+Your 20 agents ship fast. Tests pass. Merge conflicts resolve. But users see:
+- Inconsistent terminology ("projects" vs "workspaces")
+- Navigation chaos (sidebar vs top-nav vs settings)
+- Contradictory workflows (save-first vs publish-immediately)
 
-**Net:** You're already burning cash on Gas Town. Why burn more on redundant prompts?
+**Code chaos self-corrects.** Bugs get fixed, redundancy gets refactored. **UX chaos accumulates.** Users adapt to broken patterns. New features build on inconsistent foundations. **At agent speed, you can destroy product-market fit in a week.**
 
-### 3. Guardrails (Layer 1 Philosophy)
+**Layer 1 prevents catastrophic technical chaos.** (Never force-push, never commit secrets)
+**Layer 2 prevents user experience chaos.** (Who is this for? What problem does it solve? How should it feel?)
 
-**Gas Town assumes YOU are the safety system.**
+### What Context Infrastructure Gets You
 
-From the article:
-> "They'll rip your face off if you aren't already an experienced chimp-wrangler."
+**1. Faster (Sustained Velocity)**
 
-But when you're swarming 20 agents, you can't babysit them all.
+Without context: Polecat 1 uses sessions, Polecat 5 uses JWT. Refinery picks winner, rework happens.
 
-**Layer 1 constraints reduce the likelihood of catastrophic chaos:**
+With context: `ANT-FRAMEWORK.md` says "Use JWT (ADR-007)". All 20 polecats implement correctly first time.
+
+**2. Cheaper (Token Efficiency)**
+
+Without: 20 polecats × 5,000 tokens = 100,000 redundant tokens per convoy.
+
+With: 20 polecats read `CLAUDE.md`. Context is infrastructure, not payload.
+
+**3. Guardrails**
+
+Layer 1 constraints scale when you can't babysit 20 agents:
 - "Never force-push to main/master"
-- "Never skip hooks (--no-verify)"
-- "Never commit secrets (.env, credentials.json)"
+- "Never commit secrets"
 - "Read-act-repair loop is sacred"
 
-These aren't "conventions." They're **safety constraints that scale when you can't.** They won't eliminate all mistakes—agents can still ignore or misinterpret them—but they raise the bar significantly. See [Challenge 2](#challenge-2-agent-maintenance-discipline) for how we're working on enforcement.
+**4. Collective Learning**
 
-### 4. Smarter (Collective Learning)
+Gas Town: Each polecat starts fresh. No collective memory.
 
-**Gas Town model:**
-- Polecats are ephemeral (sessions die, work persists in Beads)
-- Each session starts fresh from prompting + Beads
-- No polecat makes future polecats smarter
+alexANTria: Polecat 5 discovers "API changed to /v2/auth", updates context. Polecats 6-20 inherit knowledge.
 
-**alexANTria model:**
-- Polecats can maintain trails as they work (with prompting and enforcement)
-- Polecat 5 discovers: "The login API changed, new endpoint is /v2/auth"
-- Updates `ANT-EXTERNAL.md` with the new endpoint
-- Polecats 6-20 inherit the improved context
+**5. Multi-Stakeholder**
 
-**Net:** The swarm can learn collectively, not just individually. This requires discipline—agents under pressure will skip trail maintenance. See [Challenge 2](#challenge-2-agent-maintenance-discipline) for how we're addressing this.
+Steve's pain: "Execs don't know what was built. Product can't influence."
 
-### 5. Multi-Stakeholder (Beyond Dev Workflow)
-
-**From Steve's own pain:**
-> "Execs don't know what was built, when. Product isn't able to influence. The vision goes beyond code but code is the first step."
-
-This isn't just about visibility. **It's about product steering at agent speed.**
-
-When product can't influence Layer 2 context, agents guess about user needs. And 20 agents guessing independently creates 20 inconsistent user experiences. As we saw in the [User Experience Drift](#the-third-kind-user-experience-drift) section, this destroys product coherence faster than any technical debt.
-
-**Gas Town/Beads focus on dev workflow:**
-- Convoys, MRs, merge queues
-- Devs and agents understand it
-- Execs/product are blind to the "why"
-
-**alexANTria's 5-layer anthill structure allows multi-stakeholder visibility:**
-- Layer 1: Philosophy (readable by execs)
-- Layer 2: Product/Business (product managers can contribute)
+alexANTria's 5-layer structure enables product steering:
+- Layer 1: Philosophy (execs)
+- Layer 2: Product/Business (product managers)
 - Layer 3: Architecture (tech leads)
-- Layer 4: Implementation (developers)
-- Layer 5: Code (agents)
+- Layers 4-5: Implementation (developers, agents)
 
-**The structure doesn't guarantee cross-functional engagement**—most orgs won't have execs reading `ANT-FRAMEWORK.md`. But it doesn't prevent it either. For teams that do cross-functional context work, the layered structure provides a natural home for different stakeholder perspectives.
+### How They Work Together
 
----
+When a polecat claims a convoy in Gas Town:
 
-## Part 5: The Integration (How They Work Together)
+1. **Reads Beads:** "What's my task?" → `bd-a7f3: Implement login form`
+2. **Reads alexANTria:** "How do we do this?" → Loads `.claude/rules/frontend.md`, reads Layer 1 philosophy, Layer 2 product spec
+3. **Executes** using both memories → Implements correctly first time
+4. **Repairs trails** → Updates `frontend/README.md` if pattern is new
 
-**When a polecat in Gas Town claims a convoy:**
+Without alexANTria, you're the context oracle for 20 polecats simultaneously.
 
-1. **Reads Beads:** "What's my task?"
-   - `bd-a7f3`: "Implement login form"
-   - Dependencies: blocked by `bd-x99` (auth service ready)
-   - Status: ready
-
-2. **Reads alexANTria:** "How do we do this?"
-   - Loads `.claude/rules/frontend.md` (path-specific context)
-   - Reads `ANT-FRAMEWORK.md`: "Use JWT, follow accessibility guidelines"
-   - Reads `ANT-SCHEMA.md`: "Login is Layer 4 implementation, constrained by Layer 2 product spec"
-
-3. **Executes** using both memories:
-   - Implements login form with JWT
-   - Follows accessibility guidelines from Layer 2
-   - Doesn't contradict other polecats
-
-4. **Repairs trails:**
-   - Updates `frontend/README.md` if login form pattern is new
-   - Signals to Witness: work complete, trails maintained
-
-**Without alexANTria:**
-- Polecat knows WHAT to do (Beads)
-- Doesn't know HOW you do it (tribal knowledge)
-- You become the context oracle for 20 polecats simultaneously
-
-**With alexANTria:**
-- Polecat has both work memory and context memory
-- Scales to swarms without scaling your explanations
+*Stop here if you're convinced. Deep dives below are optional.*
 
 ---
 
-## Part 6: The Ramp (Adoption Spectrum)
+## 🚇 Deep Dives (Optional Reading)
 
-One reason alexANTria matters: **not everyone will run Gas Town.**
+### The Adoption Ramp
 
-Gas Town is Stage 8:
-- Expensive (multiple Claude accounts)
-- Chaotic (vibe coding at scale)
-- High-risk ("chimp wranglers only")
-- Complex (tmux, Beads, wisps, patrols, Refinery)
-
-Most developers are at Stage 4-6:
-- 1-5 concurrent Claude sessions
-- Hand-managing agents
-- Not ready for orchestration
-
-**But they still feel context pain:**
-- "I just explained this yesterday..."
-- "Let me copy that 5,000-token context into this new session..."
-- "My teammate's agent did it differently than mine..."
+Not everyone will run Gas Town. Most developers are at Stage 4-6 (1-5 concurrent sessions, hand-managed). But they still feel context pain.
 
 **alexANTria provides the on-ramp:**
 
 | Stage | Setup | What alexANTria Provides |
 |-------|-------|--------------------------|
-| **Stage 4-5** | 1-2 Claude sessions, hand-managed | Persistent context across sessions, no repetition |
-| **Stage 6-7** | 3-10 concurrent agents | Shared context across agents, reduced prompt bloat |
-| **Stage 8** | Gas Town orchestration, 20-30 agents | Context infrastructure beneath orchestration, guardrails at scale |
+| **Stage 4-5** | 1-2 Claude sessions | Persistent context across sessions |
+| **Stage 6-7** | 3-10 concurrent agents | Shared context, reduced prompt bloat |
+| **Stage 8** | Gas Town orchestration | Context infrastructure beneath orchestration |
 
-**You don't need Gas Town to need alexANTria.**
+You don't need Gas Town to need alexANTria. But when you're ready for Gas Town, alexANTria slots right in.
 
-But when you're ready for Gas Town, alexANTria slots right in as the knowledge layer.
+### Why Not Beads for Context?
+
+You could file "knowledge issues" in Beads (`bd-arch-101: "We use JWT"`). Why doesn't this work?
+
+**Different data models:**
+- Beads: Work graph with lifecycle (created → done → closed)
+- alexANTria: Knowledge hierarchy with precedence (Layer 1 overrides Layer 2)
+
+**Different queries:**
+- Beads: "What work is ready?"
+- alexANTria: "What are our principles? How do we do X?"
+
+**Different formats:**
+- Beads: JSONL (machine-first, agent-focused)
+- alexANTria: Markdown (human-first, accessible to execs/product)
+
+**Clean separation is better engineering than conflating concerns.** Beads could add knowledge issues, but mixing "is it done?" with "is it true?" serves two masters poorly.
+
+### Integration with Gas Town
+
+**When a polecat claims work:**
+
+```
+Gas Town (orchestration)
+     ↓ coordinates
+     ↓
+┌────┴─────┬──────────┐
+│          │          │
+Beads   alexANTria   │
+"What"   "How"       │
+│          │          │
+└────┬─────┴──────────┘
+     ↓
+Claude Code (execution)
+```
+
+Each layer makes the others more powerful.
 
 ---
 
-## Part 7: What If Beads Added Context?
+## 🌱 Known Challenges (Reference Material)
 
-**The risk:** "Why not just use Beads for context too?"
-
-You could:
-- File "knowledge issues" in Beads (`bd-arch-101`: "We use JWT")
-- Use pinned beads (like Role Beads) that never close
-- Query them: `bd list --label=knowledge`
-
-**Why this doesn't work:**
-
-### Different data models, different purposes
-
-**Beads' model:**
-- Work graph: tasks → subtasks → dependencies
-- Lifecycle: created → in_progress → done → closed
-- Query: "What work is ready?"
-
-**alexANTria's model:**
-- Knowledge hierarchy: layers with override semantics
-- Lifecycle: created → evolved → maintained (never "closed")
-- Query: "What are our principles? How do we do X?"
-
-**The conflict:**
-- Beads asks: "Is it done?"
-- alexANTria asks: "Is it true/current?"
-
-### The override/layering semantics
-
-alexANTria's power is **epistemological precedence:**
-
-```
-Layer 1 (Philosophy)   → OVERRIDES ↓
-Layer 2 (Product)      → OVERRIDES ↓
-Layer 3 (Architecture) → OVERRIDES ↓
-Layer 4 (Implementation)
-```
-
-Beads has dependencies (blocking, parent/child), but not **"this belief constrains that decision."**
-
-You'd have to rebuild alexANTria inside Beads, serving two masters:
-- Work orchestration (Gas Town's needs)
-- Knowledge management (context needs)
-
-### Human readability
-
-**Beads format (JSONL):**
-```json
-{"id":"bd-a1b2c","title":"Use JWT","status":"pinned"}
-```
-- Machine-first, agent/dev focused
-
-**alexANTria format (Markdown):**
-```markdown
-# Authentication Philosophy
-
-We use JWT because sessions don't scale horizontally.
-See ADR-007 for the decision record.
-```
-- Human-first, accessible to execs/product/teams
-
-**Our stance: Clean separation is better engineering than conflating concerns.**
-
-Could Beads add knowledge issues? Yes, technically. It would be awkward (mixing "is it done?" with "is it true?"), but possible. We think separating work tracking from knowledge management makes both systems easier to evolve independently. But we're open to being wrong—this is early thinking.
-
----
-
-## Part 8: The Future (Complementary Evolution)
-
-**Gas Town + Beads will evolve:**
-- Better orchestration (remote workers, federation)
-- Richer workflows (formulas, Mol Mall)
-- Improved GUPP and nudging
-
-**alexANTria will evolve:**
-- Multi-repo federation ("your colony can collaborate with neighboring colonies")
-- Better maintenance loops (trails that auto-fade if not reinforced)
-- Cross-stakeholder visibility (Layer 2 for product, Layer 1 for execs)
-
-**They solve different problems, evolve on different axes:**
-- Gas Town: How do we coordinate 100 agents across multiple repos?
-- alexANTria: How do we maintain institutional memory across teams and time?
-
-**The vision:**
-
-```
-              Gas Town (orchestration)
-                       ↑
-                  coordinates
-                       ↑
-      ┌────────────────┴────────────────┐
-      │                                  │
-   Beads (work)                 alexANTria (context)
-      │                                  │
-   "What to do"                    "How to do it"
-      │                                  │
-      └────────────────┬────────────────┘
-                       ↓
-                  Claude Code
-                  (execution)
-```
-
-**Each layer makes the others more powerful.**
-
----
-
-## Known Challenges
-
-We're actively working on these problems. Each challenge has an open discussion—please share your experiences.
+We're actively working on these. Each has an open discussion—please share your experiences.
 
 ### Challenge 1: Context Conflicts at Agent Speed
-[💬 Join the discussion](https://github.com/hoop71/alexANTria/discussions/2)
+[💬 Join discussion](https://github.com/hoop71/alexANTria/discussions/2)
 
-**The problem:** When 20 agents update context in parallel, merge conflicts happen in `ANT-*.md` files. Who arbitrates truth when two agents assert contradictory principles?
+**Problem:** 20 agents update context in parallel. Who arbitrates when two assert contradictory principles?
 
-**Current exploration:**
-- Manifest-based discovery (orchestrators query which layers apply)
-- Human arbitration for Layer 1 philosophy
-- Automated merge for Layer 2-4 with conflict detection
+**Exploring:** Manifest-based discovery, human arbitration for Layer 1, automated merge for Layers 2-4.
 
-**Status:** 🔶 Exploring (as of 2026-01-20)
-
-**Open questions:**
-- What's the conflict rate in practice at 10 agents? 30 agents?
-- Can we detect philosophical drift automatically?
-- Should Layer 1 changes require explicit approval?
+**Status:** 🔶 Exploring
 
 ---
 
 ### Challenge 2: Agent Maintenance Discipline
-[💬 Join the discussion](https://github.com/hoop71/alexANTria/discussions/3)
+[💬 Join discussion](https://github.com/hoop71/alexANTria/discussions/3)
 
-**The problem:** Agents skip trail maintenance when under context pressure. From Steve's own article: agents disavow work and cut corners when nearing compaction limits.
+**Problem:** Agents skip trail maintenance under context pressure. How do we enforce it?
 
-**Current exploration:**
-- Pattern promotion at merge-to-main (when work lands, trigger context update)
-- Post-merge checks create context-update tasks
-- **Known limitation:** At swarm velocity (20+ agents), patterns emerge faster than they merge
+**Exploring:** Pattern promotion at merge-to-main, post-merge context-update tasks.
 
-**Status:** 🔶 Exploring (as of 2026-01-20)
+**Limitation:** At swarm velocity (20+ agents), patterns emerge faster than merges.
 
-**Open questions:**
-- What's the minimum enforcement mechanism that works?
-- How do we measure "context adherence rate"?
-- Should trail maintenance be a separate agent role (like Gas Town's Witness)?
-- What happens when an agent updates context incorrectly?
+**Status:** 🔶 Exploring
 
 ---
 
 ### Challenge 3: Economic Break-Even Point
-[💬 Join the discussion](https://github.com/hoop71/alexANTria/discussions/4)
+[💬 Join discussion](https://github.com/hoop71/alexANTria/discussions/4)
 
-**The problem:** At what agent count does context infrastructure overhead pay off vs just repeating context in prompts?
+**Problem:** At what agent count does context infrastructure overhead pay off vs prompt repetition?
 
-**Current thinking:**
-- Qualitatively valuable at 5-30 agents based on early usage
-- Below 5 agents: setup/maintenance overhead may exceed benefit
-- Above 30 agents: additional governance mechanisms needed
-- No hard ROI data yet—this is early
+**Current thinking:** Qualitatively valuable at 5-30 agents. Below 5: overhead may exceed benefit. Above 30: additional governance needed.
 
-**Status:** 🔴 Unknown (as of 2026-01-20)
-
-**Open questions:**
-- What's the daily maintenance time per agent?
-- At what scale does context conflict overhead exceed prompt replication cost?
-- Are there early indicators of when a team needs this?
-- How do we measure value (time saved, errors prevented)?
+**Status:** 🔴 Unknown
 
 ---
 
 ### Challenge 4: Governance Model
-[💬 Join the discussion](https://github.com/hoop71/alexANTria/discussions/5)
+[💬 Join discussion](https://github.com/hoop71/alexANTria/discussions/5)
 
-**The problem:** Who owns Layer 1 truth? How are conflicts resolved? How do you prevent Layer 1 from becoming a political document?
+**Problem:** Who owns Layer 1 truth? How are conflicts resolved?
 
 **Current thinking:**
-- **Solo dev:** You own it, agents propose changes
-- **Small team:** Architect owns Layer 1, team owns Layer 2-4
-- **Large org:** Federated model (teams own their colonies, shared Layer 1)
-- Conflicts require human arbitration (no automated resolution for philosophy)
+- Solo dev: You own it
+- Small team: Architect owns Layer 1, team owns Layers 2-4
+- Large org: Federated model
 
-**Status:** 🔶 Exploring (as of 2026-01-20)
-
-**Open questions:**
-- How do you prevent political capture of Layer 1 in orgs?
-- What's the approval process for philosophy changes?
-- Do we need "context CODEOWNERS"?
-- How does this work across repos/teams?
+**Status:** 🔶 Exploring
 
 ---
 
 ### Challenge 5: Cold Start / Bootstrap
-[💬 Join the discussion](https://github.com/hoop71/alexANTria/discussions/6)
+[💬 Join discussion](https://github.com/hoop71/alexANTria/discussions/6)
 
-**The problem:** New project, empty alexANTria. How do you prime it without creating garbage context?
+**Problem:** New project, empty alexANTria. How do you prime it without creating garbage?
 
-**Current exploration:**
-- `/ant-init` scaffolds structure based on discovered docs
-- Convention-based layering (agents understand it without config)
-- Humans write Layer 1, agents draft Layer 2-4 from code
+**Exploring:** `/ant-init` scaffolds from discovered docs. Convention-based layering. Humans write Layer 1, agents draft Layers 2-4.
 
-**Status:** 🔴 Unknown (as of 2026-01-20)
+**Open question:** Can agents bootstrap Layer 1 from interviews? What's minimum viable context? How do you bootstrap Layer 2 for user-facing products (personas, UX principles)?
 
-**Open questions:**
-- Can agents bootstrap Layer 1 from interviews with humans?
-- What's minimum viable context for a new project?
-- Should we provide "starter philosophies" for common use cases (web app, CLI tool, library)?
-- How do you validate initial context is useful (not just verbose)?
-- **How do we bootstrap Layer 2 for user-facing products?** (personas, user journey maps, UX principles)
-- What if the existing code doesn't reflect best practices (legacy codebase)?
-- How do you handle greenfield (no existing docs or code)?
+**Status:** 🔴 Unknown
 
 ---
 
 **Status Legend:**
-- 🟢 **Validated:** Tested at scale, high confidence
-- 🔶 **Exploring:** Early findings, evolving understanding
-- 🔴 **Unknown:** Open question, need more data
-
-**Help us figure this out:** These aren't blockers—they're research directions. If you're experimenting with context infrastructure, please share what you're learning in the discussions.
-
----
-
-## Closing: Guardrails That Scale
-
-Steve Yegge proved you can run 30 agents in chaos and still ship.
-
-But even Steve ran into every context problem:
-- Plan dementia
-- Re-explanations
-- Tribal knowledge
-- Bottleneck as context oracle
-
-**alexANTria doesn't slow Gas Town down. It makes Gas Town sustainable.**
-
-Context infrastructure isn't about writing artisanal code.
-It's about not letting chaos become catastrophic.
-
-**Guardrails that scale from 1 agent to 100.**
-
-Whether you're hand-managing Claude Code today, or orchestrating swarms with Gas Town tomorrow, you need somewhere persistent for institutional memory to live.
-
-Agents leave trails.
-Trails fade.
-Trails get reinforced.
-
-That's how colonies scale intelligence.
+- 🟢 Validated: Tested at scale, high confidence
+- 🔶 Exploring: Early findings, evolving understanding
+- 🔴 Unknown: Open question, need more data
 
 ---
 
@@ -671,16 +293,10 @@ That's how colonies scale intelligence.
 **Initial position paper**
 
 **What we're sharing:**
-- Framed context infrastructure as complementary to orchestration (Gas Town/Beads)
-- Introduced three kinds of chaos: acceptable, catastrophic, and **user experience drift**
-- Identified work memory ≠ context memory as core insight
-- **Key insight:** Layer 2 prevents UX chaos (agents building incoherent products at speed)
-- Documented 5 known challenges we're actively exploring
-- Technical hints: manifest-based discovery, merge-to-main pattern promotion
-
-**What we learned since last version:** N/A (initial version)
-
-**What changed in our thinking:** N/A (initial version)
+- Work memory ≠ context memory as core insight
+- Three kinds of chaos: acceptable, catastrophic, user experience drift
+- Layer 2 prevents UX chaos (agents building incoherent products)
+- 5 known challenges, actively exploring
 
 **Status of challenges:**
 - 🔶 Exploring: Challenges 1, 2, 4
@@ -688,7 +304,7 @@ That's how colonies scale intelligence.
 
 ---
 
-_This changelog tracks how our understanding evolves. Each version documents what we learned and what changed in our thinking. The blog post itself is living memory—it follows the read-act-repair loop we advocate._
+_This changelog tracks how our understanding evolves. The blog post itself is living memory—it follows the read-act-repair loop we advocate._
 
 ---
 
@@ -696,18 +312,18 @@ _This changelog tracks how our understanding evolves. Each version documents wha
 
 **Try alexANTria:**
 - [GitHub repo](https://github.com/hoop71/alexANTria)
-- Works with Claude Code, Cursor, Windsurf, any markdown-reading agent
+- Works with Claude Code, Cursor, Windsurf
 - 5-minute setup: `/ant-init` scaffolds your project
 
 **Explore the stack:**
-- [Gas Town](https://steve-yegge.medium.com/welcome-to-gas-town-4f25ee16dd04) - Agent orchestration at scale (Steve Yegge)
-- [Beads](https://steve-yegge.medium.com/introducing-beads-a-coding-agent-memory-system-637d7d92514a) - Work memory for coding agents (Steve Yegge)
-- [alexANTria](https://github.com/hoop71/alexANTria) - Context memory for your codebase
+- [Gas Town](https://steve-yegge.medium.com/welcome-to-gas-town-4f25ee16dd04) - Orchestration (Steve Yegge)
+- [Beads](https://steve-yegge.medium.com/introducing-beads-a-coding-agent-memory-system-637d7d92514a) - Work memory (Steve Yegge)
+- [alexANTria](https://github.com/hoop71/alexANTria) - Context memory
 
 **Join the conversation:**
-- What context problems are you hitting at your stage of agent adoption?
-- How are you currently managing institutional memory?
-- Are you ready for Stage 8, or building the foundation first?
+- What context problems are you hitting?
+- How are you managing institutional memory?
+- Ready for Stage 8, or building the foundation first?
 
 ---
 
