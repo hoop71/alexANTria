@@ -1,0 +1,39 @@
+{
+  "task_id": "add-new-command",
+  "title": "Add New Command to alexANTria",
+  "timestamp": "2026-02-10T20:30:00Z",
+  "control": {
+    "approach": "raw_repo",
+    "context_bytes": 4056383,
+    "context_tokens": 1014096,
+    "time_seconds": 65,
+    "accuracy_score": 7,
+    "success": true,
+    "files_read": 466,
+    "notes": "Loaded ALL markdown files - massive context overload"
+  },
+  "test": {
+    "approach": "ant_framework",
+    "context_bytes": 26803,
+    "context_tokens": 6701,
+    "time_seconds": 22,
+    "accuracy_score": 9,
+    "success": true,
+    "files_read": 4,
+    "files_loaded": ["CLAUDE.md", "ANT-PATTERNS.md", "ANT-SURFACE.md", "ant-validate.md"],
+    "notes": "Selective loading via RLM - only task-relevant files"
+  },
+  "improvements": {
+    "token_reduction": "151.3x",
+    "speed_improvement": "3.0x",
+    "accuracy_improvement": "+29%",
+    "roi_improvement": "194.6x",
+    "cost_savings_per_task": "$1.01"
+  },
+  "insights": {
+    "repo_size": "3.87 MB (466 markdown files)",
+    "context_efficiency": "99.3% of docs remain unloaded",
+    "dogfooding": "alexANTria validating itself - real-world proof",
+    "scaling": "Performance stays constant as documentation grows"
+  }
+}

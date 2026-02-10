@@ -1,0 +1,16 @@
+{
+  "task_id": "add-validation",
+  "title": "Add Input Validation",
+  "description": "Add input validation to user registration endpoint",
+  "prompt": "Add validation to the POST /api/users endpoint. Validate: email format, password strength (min 8 chars, 1 uppercase, 1 number), username uniqueness. Return clear error messages.",
+  "success_criteria": [
+    "Email format validated",
+    "Password strength enforced (min 8 chars, 1 uppercase, 1 number)",
+    "Username uniqueness checked",
+    "Clear error messages returned",
+    "No SQL injection vulnerabilities"
+  ],
+  "difficulty": "easy",
+  "estimated_tokens_raw": 75000,
+  "estimated_tokens_ant": 6000
+}

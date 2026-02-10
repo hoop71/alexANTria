@@ -1,0 +1,17 @@
+{
+  "task_id": "add-logging",
+  "title": "Add Structured Logging",
+  "description": "Add structured logging to service layer for better observability",
+  "prompt": "Add structured logging to the user service. Log: incoming requests (method, path, user_id), database queries (timing), errors (with context), important state changes. Use JSON format. Don't log sensitive data (passwords, tokens).",
+  "success_criteria": [
+    "Structured JSON logging implemented",
+    "Request/response logged with timing",
+    "Database query timing tracked",
+    "Error context captured",
+    "No sensitive data in logs",
+    "Log levels used appropriately (INFO, WARN, ERROR)"
+  ],
+  "difficulty": "easy",
+  "estimated_tokens_raw": 73000,
+  "estimated_tokens_ant": 5500
+}

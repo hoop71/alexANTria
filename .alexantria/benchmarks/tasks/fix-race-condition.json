@@ -1,0 +1,17 @@
+{
+  "task_id": "fix-race-condition",
+  "title": "Fix Race Condition in Payment Processing",
+  "description": "Find and fix race condition where concurrent requests can double-charge users",
+  "prompt": "The payment processing service has a race condition where concurrent requests can double-charge users. Find the issue and implement proper locking/transaction handling. Ensure idempotency.",
+  "success_criteria": [
+    "Race condition identified and documented",
+    "Proper locking mechanism implemented",
+    "Transaction isolation configured correctly",
+    "Idempotency key mechanism added",
+    "Concurrent request test would pass",
+    "No double-charging possible"
+  ],
+  "difficulty": "hard",
+  "estimated_tokens_raw": 85000,
+  "estimated_tokens_ant": 12000
+}

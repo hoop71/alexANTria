@@ -1,0 +1,16 @@
+{
+  "task_id": "refactor-auth",
+  "title": "Refactor Authentication Logic",
+  "description": "Refactor authentication logic for improved clarity and maintainability",
+  "prompt": "The authentication service has grown complex. Refactor it to: separate concerns (validation, hashing, token generation), improve error handling, add logging, maintain backwards compatibility.",
+  "success_criteria": [
+    "Concerns properly separated into functions",
+    "Error handling improved with specific error types",
+    "Structured logging added",
+    "Backwards compatibility maintained",
+    "No security regressions"
+  ],
+  "difficulty": "medium",
+  "estimated_tokens_raw": 80000,
+  "estimated_tokens_ant": 8000
+}

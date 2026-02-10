@@ -1,0 +1,17 @@
+{
+  "task_id": "update-docs",
+  "title": "Update Documentation to Match Code",
+  "description": "Update API documentation to reflect recent authentication changes",
+  "prompt": "The authentication endpoints were recently updated but the docs are stale. Update the API documentation to reflect: new JWT token structure, refresh token flow, new error codes, rate limiting behavior.",
+  "success_criteria": [
+    "JWT token structure documented with example",
+    "Refresh token flow explained with sequence diagram",
+    "All error codes listed with descriptions",
+    "Rate limiting behavior documented",
+    "Code examples updated",
+    "Breaking changes highlighted"
+  ],
+  "difficulty": "medium",
+  "estimated_tokens_raw": 78000,
+  "estimated_tokens_ant": 7000
+}

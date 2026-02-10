@@ -1,0 +1,17 @@
+{
+  "task_id": "add-new-command",
+  "title": "Add New Command to alexANTria",
+  "description": "Design and document a new command following alexANTria patterns",
+  "prompt": "Design a new command called '/ant-status' that shows the current state of the alexANTria installation: which files exist, validation status, recent commits with ANT updates, and suggested next actions. Follow the existing command patterns in user-level/commands/.",
+  "success_criteria": [
+    "Command follows ant-* naming convention",
+    "Includes frontmatter with description and allowed-tools",
+    "Has clear agent instructions section",
+    "Follows read-act-repair pattern",
+    "Includes example output format",
+    "References relevant ANT layers (Strategy, Patterns, etc.)"
+  ],
+  "difficulty": "medium",
+  "estimated_tokens_raw": 79000,
+  "estimated_tokens_ant": 8500
+}
