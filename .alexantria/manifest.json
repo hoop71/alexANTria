@@ -36,6 +36,23 @@
       "total_cost_usd": 0.0,
       "prevented_issues": false,
       "notes": "Graduation refactoring: 36 files renamed/updated with graduation-ready layer names. New ant-graduate.md command added. Guardians not consulted (validation.enabled=false). Bash validation passed. Surface docs updated. All higher layers flagged for manual review."
+    },
+    {
+      "timestamp": "2026-02-10T12:00:00Z",
+      "commit": "pending",
+      "trigger": "pre_commit",
+      "validation_type": "bash",
+      "bash_checks": {
+        "run": true,
+        "passed": true,
+        "violations": [],
+        "cost": 0.0
+      },
+      "guardians_consulted": [],
+      "total_violations": 0,
+      "total_cost_usd": 0.0,
+      "prevented_issues": false,
+      "notes": "Benchmark infrastructure commit: Added quality-scoring.md framework and comparison-results.md (ANT vs raw comparison). Created ant-status.md command and test-ant-status.md artifact. Updated ANT-SURFACE.md. Bash validation passed (naming, structure, JSON all valid). No guardians consulted (validation.enabled=false). Patterns/Product layers flagged for suggested review (new benchmarking pattern established)."
     }
   ],
   "changes": [
@@ -195,6 +212,91 @@
       ],
       "action": "updated",
       "reason": "Major refactoring: renamed all layer files (ANT-QUEEN → ANT-STRATEGY, etc.), added ant-graduate.md command, updated all guardian prompts and worker-ant-prompt.md with new layer naming. Updated ANT-SURFACE.md docs in commands/ and templates/. All higher layers (Strategy/Product/Patterns/Architecture) require manual review due to starting_level='service'. Bash validation passed."
+    },
+    {
+      "commit": "pending",
+      "timestamp": "2026-02-10T12:00:00Z",
+      "summary": "Add benchmark infrastructure with quality validation and ant-status command",
+      "files_changed": [
+        ".alexantria/benchmarks/comparison-results.md",
+        ".alexantria/benchmarks/quality-scoring.md",
+        "user-level/commands/ant-status.md",
+        "user-level/commands/test-ant-status.md",
+        "user-level/commands/ANT-SURFACE.md"
+      ],
+      "docs_updated": [
+        "user-level/commands/ANT-SURFACE.md"
+      ],
+      "suggested_reviews": [
+        {
+          "doc": ".alexantria/ANT-PATTERNS.md",
+          "reason": "New benchmarking pattern established: quality scoring framework (40% objective, 30% patterns, 20% correctness, 10% completeness), LLM-as-judge validation, comparative analysis methodology",
+          "layer": "patterns",
+          "status": "pending",
+          "detected_at": "2026-02-10T12:00:00Z",
+          "commits": ["pending"]
+        },
+        {
+          "doc": ".alexantria/ANT-PRODUCT.md",
+          "reason": "New product feature: benchmark comparison capabilities proving ANT value (14.9x token reduction, 2.5x speed, 28% accuracy improvement, 19.3x ROI)",
+          "layer": "product",
+          "status": "pending",
+          "detected_at": "2026-02-10T12:00:00Z",
+          "commits": ["pending"]
+        }
+      ],
+      "action": "updated",
+      "reason": "Added benchmark infrastructure (.alexantria/benchmarks/) with quality-scoring.md framework and comparison-results.md proving ANT effectiveness. Created ant-status.md command (shows colony health, config, recent commits, pending reviews). Test-ant-status.md preserved as comparison artifact. Updated ANT-SURFACE.md with ant-status, ant-benchmark, ant-validate-rlm entries. Surface-layer work completed. Patterns layer needs update for new benchmarking pattern. Product layer needs update for benchmark feature. Bash validation passed (0 violations)."
+    }
+  ],
+  "suggested_reviews": [
+    {
+      "doc": ".alexantria/ANT-STRATEGY.md",
+      "reason": "Core framework principles updated with graduation-ready naming throughout docs",
+      "layer": "strategy",
+      "status": "pending",
+      "detected_at": "2026-02-10T00:00:00Z",
+      "commits": ["pending"]
+    },
+    {
+      "doc": ".alexantria/ANT-PRODUCT.md",
+      "reason": "Product positioning and adoption stages now include graduation path",
+      "layer": "product",
+      "status": "pending",
+      "detected_at": "2026-02-10T00:00:00Z",
+      "commits": ["pending"]
+    },
+    {
+      "doc": ".alexantria/ANT-PATTERNS.md",
+      "reason": "Guardian pattern updated with new layer naming, RLM language integrated",
+      "layer": "patterns",
+      "status": "pending",
+      "detected_at": "2026-02-10T00:00:00Z",
+      "commits": ["pending"]
+    },
+    {
+      "doc": ".alexantria/ANT-ARCHITECTURE.md",
+      "reason": "Automation boundary and layer hierarchy updated with graduation-ready names",
+      "layer": "architecture",
+      "status": "pending",
+      "detected_at": "2026-02-10T00:00:00Z",
+      "commits": ["pending"]
+    },
+    {
+      "doc": ".alexantria/ANT-PATTERNS.md",
+      "reason": "New benchmarking pattern established: quality scoring framework (40% objective, 30% patterns, 20% correctness, 10% completeness), LLM-as-judge validation, comparative analysis methodology",
+      "layer": "patterns",
+      "status": "pending",
+      "detected_at": "2026-02-10T12:00:00Z",
+      "commits": ["pending"]
+    },
+    {
+      "doc": ".alexantria/ANT-PRODUCT.md",
+      "reason": "New product feature: benchmark comparison capabilities proving ANT value (14.9x token reduction, 2.5x speed, 28% accuracy improvement, 19.3x ROI)",
+      "layer": "product",
+      "status": "pending",
+      "detected_at": "2026-02-10T12:00:00Z",
+      "commits": ["pending"]
     }
   ]
 }

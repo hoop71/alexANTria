@@ -26,6 +26,11 @@ This directory contains all executable alexANTria commands. Each command is a ma
   - Verifies: Files exist, structure correct, JSON valid
   - Not pattern validation (use ant-check-consistency for that)
 
+- **ant-status.md** - Show installation status and recent activity
+  - Display: installed files, configuration, recent commits, suggested actions
+  - Quick overview of colony health without deep validation
+  - Helps users understand current state and next steps
+
 - **ant-upgrade.md** - Upgrade alexANTria framework
   - Updates commands, guardians, templates, worker ant
   - Handles config migration and preserves customizations
@@ -114,6 +119,7 @@ user-level/commands/
 ├── ant-graduate.md
 ├── ant-migrate.md
 ├── ant-validate.md
+├── ant-status.md
 ├── ant-check-consistency.md
 ├── ant-validation-report.md
 ├── ant-refresh-doc.md
@@ -166,11 +172,12 @@ Commands read configuration from:
 
 ## Recent Changes (Last 5-10 Commits)
 
+- Added ant-status.md command (shows colony health, config, recent commits, pending reviews)
+- Added benchmark infrastructure (.alexantria/benchmarks/) with quality-scoring.md and comparison-results.md
+- Updated ANT-SURFACE.md with ant-status, ant-benchmark, ant-validate-rlm entries
 - Renamed all guardians to graduation-ready names (service-guardian, architecture-guardian, etc.)
 - Added ant-graduate.md command (adoption stage promotion)
 - Updated worker-ant-prompt.md with new layer naming (Surface, Architecture, Patterns, Product, Strategy)
-- Updated all guardian prompts with RLM language and new layer names
-- Added manifest-schema.md (comprehensive manifest documentation)
 
 ## Higher-Layer Impacts (Detected by Worker Ant)
 
