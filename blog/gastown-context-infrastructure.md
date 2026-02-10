@@ -64,11 +64,11 @@ Gas Town can run all night. But if Steve takes a vacation, the system doesn't kn
 
 ### The Three-Layer Stack
 
-| Layer | System | What It Remembers |
-|-------|--------|-------------------|
-| **Orchestration** | Gas Town | "Who's working on what? How do we coordinate?" |
-| **Work Memory** | Beads | "What needs doing? What's blocked?" |
-| **Context Memory** | alexANTria | **"How do we work? Why? What are our constraints?"** |
+| Layer | System | What It Remembers | Based On |
+|-------|--------|-------------------|----------|
+| **Orchestration** | Gas Town | "Who's working on what? How do we coordinate?" | Multi-agent coordination |
+| **Work Memory** | Beads | "What needs doing? What's blocked?" | Task graphs |
+| **Context Memory** | alexANTria | **"How do we work? Why? What are our constraints?"** | **RLM three-pool architecture** |
 
 Think of human onboarding:
 - **Task** (Jira ticket) ← Beads
@@ -111,6 +111,49 @@ Your 20 agents ship fast. Tests pass. Merge conflicts resolve. But users see:
 
 **Layer 1 prevents catastrophic technical chaos.** (Never force-push, never commit secrets)
 **Layer 2 prevents user experience chaos.** (Who is this for? What problem does it solve? How should it feel?)
+
+### The RLM Foundation: Why Context Infrastructure Is Structural
+
+Recent research into RLMs (Retrieval-Augmented Language Models) reveals why context rot is fundamental, not accidental.
+
+**The Core Problem:** Context rot occurs when context exceeds soft limits, even if it fits the stated window. Models continue generating output while accuracy degrades—a silent quality problem.
+
+**The RLM Solution:** Two-pool architecture separates:
+1. **Programmatic context** (code, structured data in REPL)
+2. **Tokenized context** (active in model's attention window)
+
+Models intelligently filter what moves from programmatic to tokenized space, preventing attention degradation.
+
+**At Project Scale:** alexANTria applies the same principle:
+
+| RLM Architecture | alexANTria Implementation |
+|-----------------|---------------------------|
+| Programmatic pool | Your codebase (code reality) |
+| Tokenized pool | ANT-* docs (how we work) |
+| **Third pool** | Human knowledge (why we decided) |
+
+The insight: codebases have a **third pool** that RLMs don't address—**intentional context**. Strategic decisions, product rationale, and business constraints can't be inferred from code or docs. Humans must capture them.
+
+**The Knowledge Spectrum:**
+
+```
+Lower layers (Surface/Tunnels)  →  Higher layers (Nest/Queen)
+Code-inferable                  →  Human-required
+Agents can discover             →  Humans must document
+```
+
+This explains why alexANTria has five layers: they map from code-adjacent reality (programmatic pool) to strategic intent (intentional pool). It's not organizational hierarchy—it's a knowledge capture spectrum.
+
+**Why This Matters for Gas Town:**
+
+At 30 agents, you have:
+- **30 agents reading code** (programmatic pool) ✓
+- **30 agents reading docs** (tokenized pool) ✓ with Beads
+- **30 agents needing strategy** (intentional pool) ✗ stuck in Steve's head
+
+Beads solves work memory. Gas Town solves orchestration. **alexANTria solves the intentional pool**—capturing why decisions were made so agents don't need Steve to explain architecture, constraints, and product direction every convoy.
+
+See [The Potential of RLMs](https://www.dbreunig.com/2026/02/09/the-potential-of-rlms.html) for the research foundation.
 
 ### What Context Infrastructure Gets You
 

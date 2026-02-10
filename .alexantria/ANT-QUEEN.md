@@ -73,7 +73,33 @@ These are the non-negotiable principles that guide all decisions in alexANTria:
 - Worker ant works without guardians
 - System functions with minimal config
 
-### 7. Platform Convention Exceptions
+### 7. Code Tells What, Humans Tell Why
+
+**Constraint:** Lower layers document "what exists" (code-inferable). Upper layers document "why we decided" (human-required).
+
+**Why:** Based on RLM architecture research. Context has three pools:
+- **Programmatic** (code) - Agents can read this
+- **Tokenized** (docs) - Agents need this written down
+- **Intentional** (strategy) - Only humans can capture this
+
+**Application:**
+- Surface/Tunnels: Code-adjacent, candidates for automation
+- Chambers: Mixed (patterns + rationale)
+- Nest/Queen: Strategic, always require human authorship
+
+**Knowledge spectrum principle:** The five layers aren't arbitrary—they map from code-inferable (Surface) to human-required (Queen). This explains why `starting_level` controls automation boundary.
+
+**Never violate:**
+- Agents can maintain docs about code reality (what exists)
+- Agents can suggest docs about patterns (how we work)
+- Agents can NEVER capture strategic intent (why we decided) without human input
+
+**Example:**
+- ✅ Agent updates ANT-SURFACE.md: "Added JWT authentication endpoints"
+- ✅ Agent suggests ANT-CHAMBERS.md: "Detected auth pattern across 3 services"
+- ✗ Agent writes ANT-NEST.md: "We're targeting enterprise customers" (requires human capture)
+
+### 8. Platform Convention Exceptions
 
 **Constraint:** Specific files follow platform conventions and are maintained manually.
 

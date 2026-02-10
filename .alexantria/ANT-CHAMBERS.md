@@ -234,6 +234,73 @@ Violations:
 
 **Schema:** Documented in `user-level/validation-log-schema.md`
 
+## Guardian Spectrum Pattern
+
+Guardians validate different types of knowledge based on layer position in the knowledge spectrum.
+
+### Lower Layers: Code-Adjacent Validation
+
+**Surface Guardian:**
+- **Validates:** Naming conventions, file structure, paths
+- **Method:** Bash checks (regex, file existence, JSON syntax)
+- **Cost:** Free (bash) + ~$0.002 (semantic check)
+- **Reason:** Validating against code reality (programmatic pool)
+
+**Tunnels Guardian:**
+- **Validates:** Config schema, architecture coherence, service boundaries
+- **Method:** JSON validation + pattern matching
+- **Cost:** ~$0.003
+- **Reason:** Validating against implementation patterns (tokenized pool)
+
+### Middle Layer: Pattern Consistency
+
+**Chambers Guardian:**
+- **Validates:** Cross-cutting pattern consistency, duplication detection
+- **Method:** Semantic analysis across files
+- **Cost:** ~$0.005
+- **Reason:** Validating both "how" (patterns) and "why" (rationale)
+
+### Upper Layers: Strategic Alignment
+
+**Nest Guardian:**
+- **Validates:** Product logic, workflow coherence, use case alignment
+- **Method:** Logical consistency + human prompts
+- **Cost:** ~$0.004
+- **Reason:** Validating intentional context (business rules)
+
+**Queen Guardian:**
+- **Validates:** Core principles, strategic constraints
+- **Method:** Principle violation detection + REQUIRES_APPROVAL status
+- **Cost:** ~$0.004
+- **Reason:** Validating strategic intent (intentional pool)
+
+### Why Different Validation Methods
+
+Based on three-pool architecture:
+
+| Layer | Pool | Validation Type | Automatable? |
+|-------|------|----------------|--------------|
+| Surface/Tunnels | Programmatic | Code-adjacent checks | Yes (bash + simple LLM) |
+| Chambers | Tokenized | Pattern consistency | Mostly (LLM-assisted) |
+| Nest/Queen | Intentional | Strategic alignment | Partially (requires human) |
+
+**Key insight:** Lower layers can be validated against code reality (does this file exist? is JSON valid?). Upper layers require validating against human intent (does this align with our strategy?).
+
+This is why:
+- Bash checks run first (free, catch code-reality violations)
+- Semantic guardians run second (cheap, catch pattern violations)
+- Strategic guardians use REQUIRES_APPROVAL (expensive, need human judgment)
+
+### Smart Triggers Revisited
+
+Guardians only spawn when their layer is SIGNIFICANTLY affected:
+
+- **Surface/Tunnels:** NEW files, naming violations, structural changes
+- **Chambers:** 3+ files changed, guardian prompts modified
+- **Nest/Queen:** Core principles, strategic docs, adoption logic
+
+This saves cost by not running strategic validation (intentional pool) on code-reality changes (programmatic pool).
+
 ## Error Handling Pattern
 
 ### Worker Ant Errors

@@ -62,6 +62,67 @@ Chamber insights surface      →    Tunnel architecture follows
 
 When both flows work, the colony stays aligned. When either breaks, silos form. Structure your docs to maintain both flows.
 
+## The Knowledge Spectrum
+
+The five layers align with a knowledge spectrum from code-inferable to human-required.
+
+### Lower Layers: Code-Inferable (Programmatic Pool)
+
+**Surface & Tunnels** primarily document what exists in code:
+- Service boundaries (visible in directory structure)
+- API contracts (visible in code)
+- Architecture patterns (discoverable by reading implementations)
+
+Agents can often discover these by reading the codebase. Documentation helps them work faster, but code is the source of truth.
+
+**When to document:** When the pattern isn't obvious from code alone, or when context would take too long to infer.
+
+### Middle Layer: Mixed (Tokenized Pool)
+
+**Chambers** documents cross-cutting patterns:
+- Why we chose this pattern over alternatives (intentional)
+- How to apply the pattern consistently (tokenized)
+- Where the pattern is implemented (programmatic)
+
+This layer bridges code reality with strategic intention.
+
+### Upper Layers: Human-Required (Intentional Pool)
+
+**Nest & Queen** document knowledge that cannot be inferred from code:
+- Who are our users? (Nest - product context)
+- Why did we make this strategic choice? (Queen - strategic alignment)
+- What problem are we solving? (Nest - business rules)
+- What constraints must never be violated? (Queen - principles)
+
+No amount of code reading reveals this. Humans must capture it.
+
+### Why the Spectrum Matters
+
+This explains why **you don't need all five layers on day one**:
+
+- Solo dev with coding agents? **Surface + Tunnels** (code-inferable docs)
+- Adding product manager? **Add Nest** (capture product context)
+- Scaling to multiple teams? **Add Chambers** (cross-cutting patterns)
+- Leadership needs visibility? **Add Queen** (strategic alignment)
+
+The layers aren't organizational hierarchy—they're a **knowledge capture spectrum**. Build what your context engines need to consume.
+
+### Three-Pool Architecture
+
+alexANTria implements RLM architecture at project scale:
+
+| Pool | What It Is | Where It Lives | Who Maintains |
+|------|-----------|----------------|---------------|
+| **Programmatic** | Code reality | Your codebase, git history | Engineers, agents |
+| **Tokenized** | How we work | ANT-* docs, .claude/rules/ | Worker ant, humans |
+| **Intentional** | Why we decided | Queen/Nest layers, ADRs | Humans only |
+
+Higher layers (Queen/Nest) are intentional by nature—they require human capture. Lower layers (Surface/Tunnels) can often be inferred from code, making them candidates for agent maintenance.
+
+This is why `starting_level` in config.json controls automation: lower layers are code-adjacent (safe for agents), upper layers are strategic (require human judgment).
+
+See [ANT-FRAMEWORK.md](./ANT-FRAMEWORK.md) for the theoretical foundation.
+
 ## The Repair Principle
 
 Every action that changes reality must repair the map.

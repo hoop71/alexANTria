@@ -23,6 +23,64 @@ An ant colony has no central brain. No master ant directs traffic. Yet the colon
 
 Organizations work the same way. The documentation hierarchy is your pheromone trail.
 
+## Three Sources of Truth
+
+alexANTria is built on research into how language models handle context at scale. The RLM (Retrieval-Augmented Language Model) architecture reveals why context rot happens and how to prevent it.
+
+### The Three Pools
+
+Every AI-assisted codebase has three pools of knowledge:
+
+1. **Programmatic Pool** (Code)
+   - What: The actual implementation
+   - Where: Your codebase, git history, test suites
+   - Inferable: Agents can read code to understand what exists
+   - Example: "We have a JWT auth system with refresh tokens"
+
+2. **Tokenized Pool** (Documentation)
+   - What: How we implement patterns and conventions
+   - Where: ANT-* files, CLAUDE.md, .claude/rules/
+   - Explicit: Must be written down, not inferable from code alone
+   - Example: "Always use httpOnly cookies for refresh tokens"
+
+3. **Intentional Pool** (Human Knowledge)
+   - What: Why we made strategic decisions
+   - Where: Queen/Nest layers, ADRs, strategic memos
+   - Human-only: Cannot be inferred, must be captured from humans
+   - Example: "We chose JWT over sessions because we're going distributed"
+
+### The Knowledge Spectrum
+
+Different layers require different capture methods:
+
+```
+Lower layers (Surface/Tunnels)  →  Higher layers (Nest/Queen)
+Code-inferable                  →  Human-required
+"What exists"                   →  "Why we decided"
+Agents can discover             →  Humans must document
+```
+
+**Surface/Tunnels**: Agents can often infer these from code. Documentation helps, but code is the source of truth. An agent can read your API endpoints to understand architecture.
+
+**Chambers**: Mixed. Some patterns are visible in code (naming conventions), others require explanation (why we chose this pattern over alternatives).
+
+**Nest/Queen**: Purely intentional. No amount of code reading reveals why you're targeting enterprise customers or why security is prioritized over speed. Humans must capture this.
+
+### Why This Matters
+
+RLM research shows that **context rot is fundamental**—models degrade when context exceeds soft limits, even if it fits the window. The solution isn't bigger windows; it's better architecture.
+
+alexANTria implements RLM principles at project scale:
+- **Programmatic pool**: Your codebase (the implementation reality)
+- **Tokenized pool**: Your docs (the "how" that guides agents)
+- **Intentional pool**: Your strategy (the "why" that requires human judgment)
+
+By separating these three pools and knowing which layer requires which capture method, alexANTria prevents context rot at organizational scale.
+
+**The five layers aren't bureaucracy—they're a knowledge spectrum from code-inferable to human-required.** Start with what you need. Build higher when the audience emerges.
+
+See [The Potential of RLMs](https://www.dbreunig.com/2026/02/09/the-potential-of-rlms.html) for the research foundation.
+
 ## The Five-Layer Anthill
 
 Every anthill starts as a small mound. Stack layers as the colony grows:
@@ -103,6 +161,8 @@ Different consumers access different layers of the anthill. Each is a "context e
 Each engine needs **different context at different granularity**. The surface layer would overwhelm a CEO. The queen layer won't help an engineer fix a bug. The anthill structure lets each consumer access the appropriate level.
 
 ## Why Coding Agents Are Just the Start
+
+Coding agents operate primarily in the programmatic and tokenized pools—they read code (programmatic) and documentation (tokenized). But they cannot access the intentional pool without humans capturing it. This is why Surface/Tunnels documentation is often sufficient for agents, but Nest/Queen layers require human authorship.
 
 alexANTria began as a way to give coding agents better context. But coding agents are just one context engine—arguably the simplest one.
 
