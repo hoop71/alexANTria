@@ -7,14 +7,26 @@ allowed-tools: Read, Glob, Grep, Bash
 
 Verify that alexANTria is properly installed and configured in the current project.
 
-**Scope:** Installation health only (files exist, structure correct)
+**Scope:** Installation health + RLM validation (files exist, structure correct, selective loading working)
 **Not in scope:** Pattern consistency, rule violations (use `/ant-check-consistency` for that)
 
 ## Instructions
 
 When the user runs `/ant-validate`:
 
-### Step 1: Gather Data Silently
+### Step 1: Run RLM Validation Tests
+
+First, run the automated RLM test suite:
+
+```bash
+./test-suite-rlm.sh 2>&1 | tee /tmp/rlm-validation.txt
+```
+
+Parse results to extract:
+- Tests passed/failed count
+- Which test suites passed
+
+### Step 2: Gather Installation Data
 
 Use a **single consolidated bash command** to check all file existence:
 
@@ -38,21 +50,37 @@ Use a **single consolidated bash command** to check all file existence:
 }
 ```
 
-### Step 2: Read Critical Files
+### Step 3: Calculate RLM Metrics
+
+Calculate context efficiency:
+
+```bash
+{
+  TOTAL=$(find . -name "*.md" -not -path "./node_modules/*" -not -path "./docs/*" -exec cat {} \; | wc -c)
+  ACTIVE=$(($(wc -c < CLAUDE.md) + $(cat .claude/rules/*.md 2>/dev/null | wc -c || echo 0)))
+  RATIO=$(echo "scale=0; $TOTAL/$ACTIVE" | bc)
+
+  echo "total_docs=$TOTAL"
+  echo "active_context=$ACTIVE"
+  echo "reduction_ratio=$RATIO"
+}
+```
+
+### Step 4: Read Critical Files
 
 Use Read tool (silent, no output to user) to check:
 - CLAUDE.md structure (grep for layer emojis, sections)
 - .alexantria/config.json (parse JSON)
 - .alexantria/manifest.json (parse JSON)
 
-### Step 3: Validate Structure
+### Step 5: Validate Structure
 
 Check CLAUDEMD content for:
 - All 5 layer emojis present (👑 🐜 🏛️ 🚇 🌱)
 - "When to Read" section exists
 - "After Completing Work" section exists
 
-### Step 4: Output Formatted Report
+### Step 6: Output Formatted Report
 
 **IMPORTANT:** After gathering all data, output a **single formatted report** to the user. Do NOT show individual bash commands or file reads. The user sees only the final report:
 
@@ -76,6 +104,13 @@ Check CLAUDEMD content for:
   [✓] manifest.json valid
   [✓] 6 commits tracked
 
+🔬 RLM Validation
+  [✓] Automated tests: 21/21 passed
+  [✓] Context reduction: 43x
+  [✓] Active context: 6.5 KB (2.3%)
+  [✓] Selective loading: WORKING
+  [✓] Three-pool separation: VERIFIED
+
 ━━━━━━━━━━━━━━━━━━━━━━━━
 Status: HEALTHY ✓
 
@@ -88,7 +123,7 @@ Use these symbols:
 - `[?]` Warning (yellow conceptually)
 - `[i]` Info
 
-### Step 5: Exit Codes
+### Step 7: Exit Codes
 
 Determine status:
 - **0 (HEALTHY)**: All critical components present
