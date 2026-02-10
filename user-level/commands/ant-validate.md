@@ -36,7 +36,6 @@ Use a **single consolidated bash command** to check all file existence:
   test -f CLAUDE.md && echo "CLAUDE.md=exists" || echo "CLAUDE.md=missing"
   test -d .claude/rules && echo "rules=exists" || echo "rules=missing"
   test -d .alexantria && echo "alexantria=exists" || echo "alexantria=missing"
-  test -f .git/hooks/post-commit && echo "hook=exists" || echo "hook=missing"
 
   echo "=== RULES ==="
   ls -1 .claude/rules/*.md 2>/dev/null | wc -l | xargs echo "rule_count="
@@ -92,7 +91,6 @@ Check CLAUDEMD content for:
   [✓] CLAUDE.md
   [✓] .claude/rules/ (3 files)
   [✓] .alexantria/ directory
-  [✗] Git post-commit hook
 
 📋 CLAUDE.md
   [✓] All 5 layers present
@@ -140,7 +138,6 @@ Core Structure:
   [✓] CLAUDE.md exists
   [✓] .claude/rules/ exists (3 rules found)
   [✓] .alexantria/ exists
-  [✗] .git/hooks/post-commit missing
 
 CLAUDE.md Validation:
   [✓] Contains "The Anthill" section
@@ -159,15 +156,11 @@ Manifest Validation:
   [✓] Required fields present
   [✓] 5 commit entries recorded
 
-Git Hook:
-  [✗] Hook not installed
-  [i] Run /ant-init to install the post-commit hook
+Overall Status: HEALTHY
 
-Overall Status: HEALTHY (1 warning, 1 missing component)
-
-Recommendations:
-  - Install git hook for automatic commit tracking
-  - Consider adding paths to templates.md or move to docs/
+Notes:
+  - Use /ant-commit for commits (includes worker ant)
+  - Git hooks not required (handled by /ant-commit)
 ```
 
 ## Visual Guidelines
