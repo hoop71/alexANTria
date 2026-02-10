@@ -9,7 +9,7 @@
       "**"
     ],
     "exclude_paths": [],
-    "starting_level": "surface"
+    "starting_level": "service"
   },
   "auto_update": {
     "ant_files": true

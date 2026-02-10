@@ -1,8 +1,3 @@
----
-title: RLM Architecture for Project Documentation
-description: How to apply Retrieval-Augmented Language Model principles to prevent context rot at organizational scale
----
-
 # RLM Architecture for Project Documentation
 
 **How to apply Retrieval-Augmented Language Model principles to prevent context rot at organizational scale.**
@@ -91,7 +86,7 @@ Agents can discover       →              Humans must document
 
 **When to document:** When the pattern isn't obvious from code alone, or when inferring context would take too long.
 
-**alexANTria layers:** Surface, Tunnels
+**alexANTria layers:** Service, Architecture
 
 ### Tokenized (Must Be Written)
 
@@ -103,7 +98,7 @@ Agents can discover       →              Humans must document
 
 **When to document:** When the "how" matters for consistency, or when rationale prevents future mistakes.
 
-**alexANTria layers:** Chambers (cross-cutting patterns)
+**alexANTria layers:** Patterns (cross-cutting conventions)
 
 ### Intentional (Human-Required)
 
@@ -115,7 +110,7 @@ Agents can discover       →              Humans must document
 
 **When to document:** When strategic context affects implementation decisions, or when "why" prevents future pivots from breaking assumptions.
 
-**alexANTria layers:** Nest (product/business), Queen (strategic alignment)
+**alexANTria layers:** Product (product/business), Strategy (strategic alignment)
 
 ---
 
@@ -134,8 +129,8 @@ Agents can discover       →              Humans must document
 - Worker ant maintains lower layers, humans maintain patterns
 
 **Intentional Pool:**
-- Queen layer (strategic alignment, principles)
-- Nest layer (product context, business rules)
+- Strategy layer (strategic alignment, principles)
+- Product layer (product context, business rules)
 - Humans only—agents cannot infer this
 
 ### 2. Map Documentation to the Knowledge Spectrum
@@ -144,11 +139,11 @@ Not all documentation is equal. Different layers need different maintenance stra
 
 | Layer | Pool | What It Documents | Who Maintains | Automation |
 |-------|------|------------------|---------------|------------|
-| **Surface** | Programmatic | Service-level implementations | Agents | Safe (code-adjacent) |
-| **Tunnels** | Programmatic | Architecture, service connections | Agents + humans | Safe (inferable from code) |
-| **Chambers** | Tokenized | Cross-cutting patterns, rationale | Humans | Assisted (agents suggest) |
-| **Nest** | Intentional | Product context, business rules | Humans | Never (requires judgment) |
-| **Queen** | Intentional | Strategic constraints, principles | Humans | Never (requires judgment) |
+| **Service** | Programmatic | Service-level implementations | Agents | Safe (code-adjacent) |
+| **Architecture** | Programmatic | Architecture, service connections | Agents + humans | Safe (inferable from code) |
+| **Patterns** | Tokenized | Cross-cutting conventions, rationale | Humans | Assisted (agents suggest) |
+| **Product** | Intentional | Product context, business rules | Humans | Never (requires judgment) |
+| **Strategy** | Intentional | Strategic constraints, principles | Humans | Never (requires judgment) |
 
 ### 3. Control the Automation Boundary
 
@@ -163,7 +158,7 @@ alexANTria implements this via `starting_level` in config:
 ```json
 {
   "scope": {
-    "starting_level": "surface"  // Only auto-update Surface layer
+    "starting_level": "service"  // Only auto-update Service layer
   }
 }
 ```
@@ -176,10 +171,10 @@ alexANTria implements this via `starting_level` in config:
 
 Knowledge flows both directions:
 
-**Upward (Surface → Queen):**
+**Upward (Service → Strategy):**
 Implementation patterns bubble up through architecture, surface as cross-cutting insights, shape product views, inform strategic decisions.
 
-**Downward (Queen → Surface):**
+**Downward (Strategy → Service):**
 Strategic constraints guide product priorities, which shape architectural patterns, which direct implementation choices.
 
 **RLM connection:** Programmatic pool informs tokenized context, which shapes what humans capture in intentional pool. Conversely, intentional context constrains what patterns are acceptable (tokenized), which guides implementations (programmatic).
@@ -258,8 +253,8 @@ alexANTria solves the third problem: **persistent, hierarchical, three-pool cont
 - Document patterns that aren't obvious from code
 
 **Stage 2: Add Intentional Layer**
-- Create `ANT-QUEEN.md` (strategic constraints)
-- Create `ANT-NEST.md` (product/business context)
+- Create `ANT-STRATEGY.md` (strategic constraints)
+- Create `ANT-PRODUCT.md` (product/business context)
 - Capture the "why" behind major decisions
 
 **Stage 3: Control Automation**
@@ -268,8 +263,8 @@ alexANTria solves the third problem: **persistent, hierarchical, three-pool cont
 - Keep humans in the loop for intentional context
 
 **Stage 4: Scale**
-- Add Chambers layer when patterns emerge across services
-- Add Tunnels layer when architecture needs rollup
+- Add Patterns layer when conventions emerge across services
+- Add Architecture layer when architecture needs rollup
 - Maintain bidirectional flow (signals up, constraints down)
 
 ---

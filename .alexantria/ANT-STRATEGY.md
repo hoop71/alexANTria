@@ -247,12 +247,12 @@ git commit -m "Remove alexANTria"
 ## Violation Handling
 
 **If core principle violated:**
-1. Guardian detects it (Queen Guardian specifically)
+1. Guardian detects it (Strategy Guardian specifically)
 2. Status: `REQUIRES_APPROVAL`
 3. Worker ant stops, asks user
 4. User must explicitly approve or fix
 
-**Example:** If code tries to auto-update README.md, Queen Guardian catches it, stops the process.
+**Example:** If code tries to auto-update README.md, Strategy Guardian catches it, stops the process.
 
 ---
 

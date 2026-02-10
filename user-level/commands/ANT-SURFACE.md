@@ -31,6 +31,13 @@ This directory contains all executable alexANTria commands. Each command is a ma
   - Handles config migration and preserves customizations
   - Creates backup before upgrading
 
+- **ant-graduate.md** - Promote adoption stage
+  - Transitions from experimental → trial → full
+  - Removes adoption scaffolding
+  - Renames ANT-* files to graduation-ready names
+  - Updates all references across project
+  - One-way operation
+
 - **ant-check-consistency.md** - Run all guardians
   - On-demand full validation
   - Spawns all 5 guardians in parallel
@@ -79,10 +86,10 @@ This directory contains all executable alexANTria commands. Each command is a ma
 **Location:** `guardians/`
 
 - **surface-guardian.md** - Validates naming, file structure
-- **tunnels-guardian.md** - Validates config schema, architecture
-- **chambers-guardian.md** - Validates pattern consistency
-- **nest-guardian.md** - Validates adoption stages, workflows
-- **queen-guardian.md** - Validates core principles, constraints
+- **architecture-guardian.md** - Validates config schema, architecture
+- **patterns-guardian.md** - Validates pattern consistency
+- **product-guardian.md** - Validates adoption stages, workflows
+- **strategy-guardian.md** - Validates core principles, constraints
 
 ## File Structure
 
@@ -90,6 +97,7 @@ This directory contains all executable alexANTria commands. Each command is a ma
 user-level/commands/
 ├── ant-init.md
 ├── ant-commit.md
+├── ant-graduate.md
 ├── ant-migrate.md
 ├── ant-validate.md
 ├── ant-check-consistency.md
@@ -99,10 +107,10 @@ user-level/commands/
 ├── worker-ant-prompt.md
 ├── guardians/
 │   ├── surface-guardian.md
-│   ├── tunnels-guardian.md
-│   ├── chambers-guardian.md
-│   ├── nest-guardian.md
-│   └── queen-guardian.md
+│   ├── architecture-guardian.md
+│   ├── patterns-guardian.md
+│   ├── product-guardian.md
+│   └── strategy-guardian.md
 ├── README.md (legacy - describes command system)
 └── ANT-SURFACE.md (this file)
 ```
@@ -112,7 +120,7 @@ user-level/commands/
 ### Creating New Commands
 
 1. Create `user-level/commands/ant-<name>.md`
-2. Follow command structure pattern (see ANT-CHAMBERS.md)
+2. Follow command structure pattern (see ANT-PATTERNS.md)
 3. Add to README.md Available Commands table
 4. Test with agent
 5. Commit
@@ -144,11 +152,11 @@ Commands read configuration from:
 
 ## Recent Changes (Last 5-10 Commits)
 
-- Added ant-validation-report.md (metrics and ROI)
-- Added smart triggers to worker-ant-prompt.md
-- Created all 5 guardian prompts
-- Split ant-validate (installation only)
-- Renamed commit.md → ant-commit.md (naming violation fix)
+- Renamed all guardians to graduation-ready names (service-guardian, architecture-guardian, etc.)
+- Added ant-graduate.md command (adoption stage promotion)
+- Updated worker-ant-prompt.md with new layer naming (Surface, Architecture, Patterns, Product, Strategy)
+- Updated all guardian prompts with RLM language and new layer names
+- Added manifest-schema.md (comprehensive manifest documentation)
 
 ## Higher-Layer Impacts (Detected by Worker Ant)
 

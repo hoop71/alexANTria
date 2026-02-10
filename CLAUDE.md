@@ -15,53 +15,59 @@ These docs explain HOW the 5-layer pattern works:
 
 These docs USE the 5-layer pattern to document alexANTria itself. Higher layers constrain lower layers.
 
-### 👑 Queen: Strategic Alignment
-- **[.alexantria/ANT-QUEEN.md](./.alexantria/ANT-QUEEN.md)** — alexANTria's core principles and constraints
+### Intentional Pool (Human-Only Context)
+
+**Strategy Layer** — Core principles and strategic constraints
+- **[.alexantria/ANT-STRATEGY.md](./.alexantria/ANT-STRATEGY.md)** — alexANTria's strategic alignment
   - ANT-* only principle
   - Read-act-repair pattern
   - No central brain
   - Automation boundary
   - Cost constraints
 
-### 🐜 Nest: Product/Business Context
-- **[.alexantria/ANT-NEST.md](./.alexantria/ANT-NEST.md)** — alexANTria's product context
+**Product Layer** — Product context and business rules
+- **[.alexantria/ANT-PRODUCT.md](./.alexantria/ANT-PRODUCT.md)** — alexANTria's product context
   - What we solve (context drift, Gastown, adoption friction)
   - Key features (adoption ramp, guardians, clean removal)
   - Use cases (greenfield, brownfield, large teams)
   - User workflows
   - Success metrics
 
-### 🏛️ Chambers: Cross-Cutting Patterns
-- **[.alexantria/ANT-CHAMBERS.md](./.alexantria/ANT-CHAMBERS.md)** — alexANTria's internal patterns
+### Tokenized Pool (Documentation)
+
+**Patterns Layer** — Cross-cutting patterns and conventions
+- **[.alexantria/ANT-PATTERNS.md](./.alexantria/ANT-PATTERNS.md)** — alexANTria's internal patterns
   - Naming conventions (ant-*, ANT-*, .alexantria/)
   - Command structure pattern
   - Guardian pattern
   - Validation pattern
   - Error handling pattern
 
-### 🚇 Tunnels: Architecture/Service Connections
-- **[.alexantria/ANT-TUNNELS.md](./.alexantria/ANT-TUNNELS.md)** — alexANTria's architecture
+**Architecture Layer** — System architecture and service connections
+- **[.alexantria/ANT-ARCHITECTURE.md](./.alexantria/ANT-ARCHITECTURE.md)** — alexANTria's architecture
   - System architecture
   - Service boundaries
   - Data flows (init, commit, validation)
   - Technology stack
   - Automation boundary
 
-### 🌱 Surface: Individual Service Docs
+### Programmatic Pool (Code-Adjacent)
+
+**Service Layer** — Individual service documentation
 - **[user-level/commands/ANT-SURFACE.md](./user-level/commands/ANT-SURFACE.md)** — Commands documentation
 - **[templates/ANT-SURFACE.md](./templates/ANT-SURFACE.md)** — Templates documentation
 
 ## When to Read
 
-| Working on... | Read first |
-|--------------|------------|
-| Understanding RLM foundation | Meta docs (RLM-ARCHITECTURE.md) |
-| Understanding the pattern | Meta docs (ANT-FRAMEWORK.md, ANT-SCHEMA.md) |
-| Strategic decisions for alexANTria | Queen layer (.alexantria/ANT-QUEEN.md) |
-| Product features, use cases | Nest layer (.alexantria/ANT-NEST.md) |
-| Internal patterns, conventions | Chambers layer (.alexantria/ANT-CHAMBERS.md) |
-| Architecture, data flows | Tunnels layer (.alexantria/ANT-TUNNELS.md) |
-| Specific commands or templates | Surface layer (ANT-SURFACE.md in directories) |
+| Working on... | Read first | Pool |
+|--------------|------------|------|
+| Understanding RLM foundation | Meta docs (RLM-ARCHITECTURE.md) | — |
+| Understanding the pattern | Meta docs (ANT-FRAMEWORK.md, ANT-SCHEMA.md) | — |
+| Strategic decisions for alexANTria | Strategy layer (ANT-STRATEGY.md) | Intentional |
+| Product features, use cases | Product layer (ANT-PRODUCT.md) | Intentional |
+| Internal patterns, conventions | Patterns layer (ANT-PATTERNS.md) | Tokenized |
+| Architecture, data flows | Architecture layer (ANT-ARCHITECTURE.md) | Tokenized |
+| Specific commands or templates | Service layer (ANT-SURFACE.md in directories) | Programmatic |
 
 ## Before Committing Code
 
@@ -93,11 +99,11 @@ This command:
 Ask yourself:
 - Did I change the **RLM foundation or three-pool architecture**? → Update meta docs (RLM-ARCHITECTURE.md)
 - Did I change the **coordination model or 5-layer pattern**? → Update meta docs (ANT-FRAMEWORK.md, ANT-SCHEMA.md)
-- Did I change **core principles or constraints**? → Update Queen layer (.alexantria/ANT-QUEEN.md)
-- Did I change **product features or use cases**? → Update Nest layer (.alexantria/ANT-NEST.md)
-- Did I change **internal patterns or conventions**? → Update Chambers layer (.alexantria/ANT-CHAMBERS.md)
-- Did I change **architecture or data flows**? → Update Tunnels layer (.alexantria/ANT-TUNNELS.md)
-- Did I change **specific commands or templates**? → Update Surface layer (ANT-SURFACE.md in directories)
+- Did I change **core principles or constraints**? → Update Strategy layer (ANT-STRATEGY.md)
+- Did I change **product features or use cases**? → Update Product layer (ANT-PRODUCT.md)
+- Did I change **internal patterns or conventions**? → Update Patterns layer (ANT-PATTERNS.md)
+- Did I change **architecture or data flows**? → Update Architecture layer (ANT-ARCHITECTURE.md)
+- Did I change **specific commands or templates**? → Update Service layer (ANT-SURFACE.md in directories)
 
 ## Naming Convention
 

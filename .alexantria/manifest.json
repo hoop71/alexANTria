@@ -18,7 +18,24 @@
       "total_violations": 0,
       "total_cost_usd": 0.0,
       "prevented_issues": false,
-      "notes": "Three-pool/RLM architecture research integration. Meta-framework docs (ANT-FRAMEWORK.md, ANT-SCHEMA.md) and strategic principles (ANT-QUEEN.md principle #7, ANT-CHAMBERS.md guardian spectrum). No automation boundary violations. Starting_level='surface' respects integrity (user-initiated strategic changes, worker ant cannot auto-modify framework layers)."
+      "notes": "Three-pool/RLM architecture research integration. Meta-framework docs (ANT-FRAMEWORK.md, ANT-SCHEMA.md) and strategic principles (ANT-STRATEGY.md principle #7, ANT-PATTERNS.md guardian spectrum). No automation boundary violations. Starting_level='service' respects integrity (user-initiated strategic changes, worker ant cannot auto-modify framework layers)."
+    },
+    {
+      "timestamp": "2026-02-10T00:00:00Z",
+      "commit": "pending",
+      "trigger": "pre_commit",
+      "validation_type": "bash",
+      "bash_checks": {
+        "run": true,
+        "passed": true,
+        "violations": [],
+        "cost": 0.0
+      },
+      "guardians_consulted": [],
+      "total_violations": 0,
+      "total_cost_usd": 0.0,
+      "prevented_issues": false,
+      "notes": "Graduation refactoring: 36 files renamed/updated with graduation-ready layer names. New ant-graduate.md command added. Guardians not consulted (validation.enabled=false). Bash validation passed. Surface docs updated. All higher layers flagged for manual review."
     }
   ],
   "changes": [
@@ -36,7 +53,7 @@
       "summary": "blog update",
       "docs_updated": [],
       "action": "no-op",
-      "reason": "Created .claude/rules/, updated CLAUDE.md to 5-layer anthill, restructured BLOG. All Queen/Nest/Chambers layer work, no surface docs affected"
+      "reason": "Created .claude/rules/, updated CLAUDE.md to 5-layer anthill, restructured BLOG. All Strategy/Product/Patterns layer work, no service docs affected"
     },
     {
       "commit": "979034b",
@@ -60,7 +77,7 @@
       "summary": "comimt",
       "docs_updated": [],
       "action": "no-op",
-      "reason": "Simplified worker ant pattern (removed pending.log). Updated README and command docs. These are nest/surface layer docs themselves - no other surface docs affected"
+      "reason": "Simplified worker ant pattern (removed pending.log). Updated README and command docs. These are product/service layer docs themselves - no other service docs affected"
     },
     {
       "commit": "pending",
@@ -71,17 +88,17 @@
         {
           "doc": "ANT-FRAMEWORK.md",
           "reason": "New agent commit pattern changes how agents coordinate doc maintenance (CLAUDE.md, agent-commit-pattern.md, worker-ant-prompt.md)",
-          "layer": "queen"
+          "layer": "strategy"
         },
         {
           "doc": "user-level/commands/README.md",
           "reason": "ant-update command significantly expanded with staged/head modes and impact detection (ant-update.md)",
-          "layer": "tunnels"
+          "layer": "architecture"
         },
         {
           "doc": "user-level/README.md",
           "reason": "New agent-commit-pattern.md and worker-ant-prompt.md files added to user-level/",
-          "layer": "tunnels"
+          "layer": "architecture"
         }
       ],
       "action": "no-op",
@@ -106,14 +123,78 @@
       "files_changed": [
         "ANT-FRAMEWORK.md",
         "ANT-SCHEMA.md",
-        ".alexantria/ANT-QUEEN.md",
-        ".alexantria/ANT-CHAMBERS.md",
+        ".alexantria/ANT-STRATEGY.md",
+        ".alexantria/ANT-PATTERNS.md",
         "blog/gastown-context-infrastructure.md"
       ],
       "docs_updated": [],
       "suggested_reviews": [],
       "action": "no-op",
-      "reason": "Changes are to meta-framework docs (ANT-FRAMEWORK.md, ANT-SCHEMA.md) and strategic principles (ANT-QUEEN.md, ANT-CHAMBERS.md). Starting_level is 'surface', so worker ant cannot auto-update framework/strategic layers. These are user-initiated changes establishing new conceptual patterns (three-pool architecture, knowledge spectrum, RLM foundation, guardian spectrum). No ANT-SURFACE.md or ANT-TUNNELS.md files affected in changed directories. Bash validation passed (no naming/structure violations)."
+      "reason": "Changes are to meta-framework docs (ANT-FRAMEWORK.md, ANT-SCHEMA.md) and strategic principles (ANT-STRATEGY.md, ANT-PATTERNS.md). Starting_level is 'service', so worker ant cannot auto-update framework/strategic layers. These are user-initiated changes establishing new conceptual patterns (three-pool architecture, knowledge spectrum, RLM foundation, guardian spectrum). No ANT-SURFACE.md or ANT-ARCHITECTURE.md files affected in changed directories. Bash validation passed (no naming/structure violations)."
+    },
+    {
+      "commit": "pending",
+      "timestamp": "2026-02-10T00:00:00Z",
+      "summary": "Rename all layer files to graduation-ready names and add graduation command",
+      "files_changed": [
+        ".alexantria/ANT-STRATEGY.md",
+        ".alexantria/ANT-PRODUCT.md",
+        ".alexantria/ANT-PATTERNS.md",
+        ".alexantria/ANT-ARCHITECTURE.md",
+        "user-level/commands/ant-graduate.md",
+        "user-level/commands/guardians/surface-guardian.md",
+        "user-level/commands/guardians/architecture-guardian.md",
+        "user-level/commands/guardians/patterns-guardian.md",
+        "user-level/commands/guardians/product-guardian.md",
+        "user-level/commands/guardians/strategy-guardian.md",
+        "user-level/commands/worker-ant-prompt.md",
+        "templates/ANT-STRATEGY.md.template",
+        "templates/ANT-PRODUCT.md.template",
+        "templates/ANT-PATTERNS.md.template",
+        "templates/ANT-ARCHITECTURE.md.template",
+        "user-level/manifest-schema.md",
+        "36 files total"
+      ],
+      "docs_updated": [
+        "user-level/commands/ANT-SURFACE.md",
+        "templates/ANT-SURFACE.md"
+      ],
+      "suggested_reviews": [
+        {
+          "doc": ".alexantria/ANT-STRATEGY.md",
+          "reason": "Core framework principles updated with graduation-ready naming throughout docs",
+          "layer": "strategy",
+          "status": "pending",
+          "detected_at": "2026-02-10T00:00:00Z",
+          "commits": ["pending"]
+        },
+        {
+          "doc": ".alexantria/ANT-PRODUCT.md",
+          "reason": "Product positioning and adoption stages now include graduation path",
+          "layer": "product",
+          "status": "pending",
+          "detected_at": "2026-02-10T00:00:00Z",
+          "commits": ["pending"]
+        },
+        {
+          "doc": ".alexantria/ANT-PATTERNS.md",
+          "reason": "Guardian pattern updated with new layer naming, RLM language integrated",
+          "layer": "patterns",
+          "status": "pending",
+          "detected_at": "2026-02-10T00:00:00Z",
+          "commits": ["pending"]
+        },
+        {
+          "doc": ".alexantria/ANT-ARCHITECTURE.md",
+          "reason": "Automation boundary and layer hierarchy updated with graduation-ready names",
+          "layer": "architecture",
+          "status": "pending",
+          "detected_at": "2026-02-10T00:00:00Z",
+          "commits": ["pending"]
+        }
+      ],
+      "action": "updated",
+      "reason": "Major refactoring: renamed all layer files (ANT-QUEEN → ANT-STRATEGY, etc.), added ant-graduate.md command, updated all guardian prompts and worker-ant-prompt.md with new layer naming. Updated ANT-SURFACE.md docs in commands/ and templates/. All higher layers (Strategy/Product/Patterns/Architecture) require manual review due to starting_level='service'. Bash validation passed."
     }
   ]
 }

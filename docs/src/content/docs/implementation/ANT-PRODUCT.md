@@ -1,11 +1,11 @@
 ---
-title: "ANT-NEST - Product Context"
-description: "Product features, use cases, and workflows (Nest layer)"
+title: "ANT-PRODUCT - Product Context"
+description: "Product features, use cases, and workflows (Product layer)"
 ---
 
 # alexANTria - Product Context
 
-**Layer:** Nest (🐜)
+**Layer:** Product (🐜)
 
 ## Product Overview
 

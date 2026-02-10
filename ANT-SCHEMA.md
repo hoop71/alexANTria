@@ -14,15 +14,15 @@ Every anthill starts as a small mound. Stack layers as the colony grows:
                     ╱╲
                    ╱  ╲
                   ╱ 👑 ╲
-                 ╱QUEEN ╲            ← Strategic alignment
+                 ╱STRAT ╲            ← Strategic alignment
                 ╱────────╲
-               ╱   NEST   ╲          ← Org-wide views
+               ╱ PRODUCT  ╲          ← Org-wide views
               ╱────────────╲
-             ╱   CHAMBERS   ╲        ← Cross-cutting patterns
+             ╱   PATTERNS   ╲        ← Cross-cutting patterns
             ╱────────────────╲
-           ╱     TUNNELS      ╲      ← Service connections
+           ╱   ARCHITECTURE   ╲      ← Service connections
           ╱────────────────────╲
-         ╱       SURFACE        ╲    ← Individual docs
+         ╱       SERVICE        ╲    ← Individual docs
         ╱────────────────────────╲
 ═══════════════════════════════════════
               🌱 ground 🌱
@@ -36,13 +36,13 @@ alexANTria uses the same layered context pattern as Claude Code, extended to org
 
 | Layer | What Lives Here | Who Consumes It | When to Build |
 |-------|-----------------|-----------------|---------------|
-| 🌱 **Surface** | Per-service docs, READMEs, code comments | Individual contributors, Agents | Start here |
-| 🚇 **Tunnels** | Architecture patterns, API contracts, service boundaries | Engineers, Senior developers | When services connect |
-| 🏛️ **Chambers** | Cross-cutting patterns, shared conventions, integration points | Architects, Staff engineers, Tech leads | When patterns emerge |
-| 🐜 **Nest** | Audience-specific views (engineering, product, business context) | Department leads, Product managers, Cross-functional teams | When stakeholders diverge |
-| 👑 **Queen** | Strategic alignment, vision-to-execution, organizational coherence | Leadership, Executives, C-suite | When vision gaps matter |
+| 🌱 **Service** | Per-service docs, READMEs, code comments | Individual contributors, Agents | Start here |
+| 🚇 **Architecture** | Architecture patterns, API contracts, service boundaries | Engineers, Senior developers | When services connect |
+| 🏛️ **Patterns** | Cross-cutting patterns, shared conventions, integration points | Architects, Staff engineers, Tech leads | When patterns emerge |
+| 🐜 **Product** | Audience-specific views (engineering, product, business context) | Department leads, Product managers, Cross-functional teams | When stakeholders diverge |
+| 👑 **Strategy** | Strategic alignment, vision-to-execution, organizational coherence | Leadership, Executives, C-suite | When vision gaps matter |
 
-**Key difference from engineering-only patterns:** Surface → Tunnels → Chambers aligns with typical engineering documentation (like Claude Code's modular rules). **Nest and Queen extend to organizational scale**—product context, business rules, strategic alignment that affects the entire org, not just engineering.
+**Key difference from engineering-only patterns:** Service → Architecture → Patterns aligns with typical engineering documentation (like Claude Code's modular rules). **Product and Strategy extend to organizational scale**—product context, business rules, strategic alignment that affects the entire org, not just engineering.
 
 The `/ant-init` command scaffolds all 5 layers based on what it finds in your project.
 
@@ -50,16 +50,16 @@ The `/ant-init` command scaffolds all 5 layers based on what it finds in your pr
 
 Knowledge flows both directions through your anthill. This is how the colony stays aligned.
 
-**Upward (Surface → Queen):** Implementation patterns bubble up through tunnels, surface in chambers as cross-cutting insights, shape nest-level views, and inform queen-level strategy.
+**Upward (Service → Strategy):** Implementation patterns bubble up through architecture, surface in patterns as cross-cutting insights, shape product-level views, and inform strategy-level decisions.
 
-**Downward (Queen → Surface):** Strategic decisions constrain nest priorities, which guide chamber-level patterns, which direct tunnel architecture, which shapes surface implementation.
+**Downward (Strategy → Service):** Strategic decisions constrain product priorities, which guide patterns-level conventions, which direct architecture design, which shapes service implementation.
 
 ```
         ↑ Signals                    ↓ Constraints
 
-Surface patterns reveal debt  →    Queen pivots reshape
-Tunnel bottlenecks emerge     →    Nest priorities
-Chamber insights surface      →    Tunnel architecture follows
+Service patterns reveal debt  →    Strategy pivots reshape
+Architecture bottlenecks      →    Product priorities
+Pattern insights surface      →    Architecture follows
 ```
 
 When both flows work, the colony stays aligned. When either breaks, silos form. Structure your docs to maintain both flows.
@@ -70,7 +70,7 @@ The five layers align with a knowledge spectrum from code-inferable to human-req
 
 ### Lower Layers: Code-Inferable (Programmatic Pool)
 
-**Surface & Tunnels** document what exists in code:
+**Service & Architecture** document what exists in code:
 - Service boundaries (visible in directory structure)
 - API contracts (visible in code)
 - Architecture patterns (discoverable by reading implementations)
@@ -79,18 +79,18 @@ Code is the source of truth. Document when the pattern isn't obvious or context 
 
 ### Middle Layer: Mixed (Tokenized Pool)
 
-**Chambers** documents cross-cutting patterns:
+**Patterns** documents cross-cutting conventions:
 - Why we chose this pattern over alternatives (intentional)
 - How to apply the pattern consistently (tokenized)
 - Where the pattern is implemented (programmatic)
 
 ### Upper Layers: Human-Required (Intentional Pool)
 
-**Nest & Queen** document knowledge that cannot be inferred from code:
-- Who are our users? (Nest - product context)
-- Why did we make this strategic choice? (Queen - strategic alignment)
-- What problem are we solving? (Nest - business rules)
-- What constraints must never be violated? (Queen - principles)
+**Product & Strategy** document knowledge that cannot be inferred from code:
+- Who are our users? (Product - product context)
+- Why did we make this strategic choice? (Strategy - strategic alignment)
+- What problem are we solving? (Product - business rules)
+- What constraints must never be violated? (Strategy - principles)
 
 No amount of code reading reveals this. Humans must capture it.
 
@@ -98,10 +98,10 @@ No amount of code reading reveals this. Humans must capture it.
 
 This explains why **you don't need all five layers on day one**:
 
-- Solo dev with coding agents? **Surface + Tunnels** (code-inferable docs)
-- Adding product manager? **Add Nest** (capture product context)
-- Scaling to multiple teams? **Add Chambers** (cross-cutting patterns)
-- Leadership needs visibility? **Add Queen** (strategic alignment)
+- Solo dev with coding agents? **Service + Architecture** (code-inferable docs)
+- Adding product manager? **Add Product** (capture product context)
+- Scaling to multiple teams? **Add Patterns** (cross-cutting conventions)
+- Leadership needs visibility? **Add Strategy** (strategic alignment)
 
 The layers aren't organizational hierarchy—they're a **knowledge capture spectrum**. Build what your context engines need to consume.
 
@@ -113,7 +113,7 @@ alexANTria implements RLM architecture at project scale:
 |------|-----------|----------------|---------------|
 | **Programmatic** | Code reality | Your codebase, git history | Engineers, agents |
 | **Tokenized** | How we work | ANT-* docs, .claude/rules/ | Worker ant, humans |
-| **Intentional** | Why we decided | Queen/Nest layers, ADRs | Humans only |
+| **Intentional** | Why we decided | Strategy/Product layers, ADRs | Humans only |
 
 `starting_level` controls automation: lower layers are code-adjacent (safe for agents), upper layers are strategic (human-required).
 
@@ -328,28 +328,28 @@ alexANTria starts as a coding agent scaffold but can grow into an organizational
 
 ### The Path from Mound to Mountain
 
-**Stage 1: Surface Only**
-- Surface docs (READMEs, code comments)
+**Stage 1: Service Only**
+- Service docs (READMEs, code comments)
 - Basic 4-layer hierarchy (Philosophy → Product → Architecture → Implementation)
 - Coding agents as the primary consumer
 
-**Stage 2: Digging Tunnels**
-- Add Tunnels layer (architecture rollups, API documentation)
+**Stage 2: Architecture Layer**
+- Add Architecture layer (architecture rollups, API documentation)
 - Engineers and agents both benefit
 - Cross-service patterns start to emerge
 
-**Stage 3: Building Chambers**
-- Add Chambers layer (cross-cutting analysis)
+**Stage 3: Patterns Layer**
+- Add Patterns layer (cross-cutting analysis)
 - Architects can see system-wide concerns
 - Technical debt becomes visible across boundaries
 
-**Stage 4: Organizing the Nest**
-- Add Nest layer (audience-specific views)
+**Stage 4: Product Layer**
+- Add Product layer (audience-specific views)
 - Product, Engineering, and other leads get tailored perspectives
 - Same underlying knowledge, different presentations
 
-**Stage 5: Queen's View**
-- Add Queen layer (executive analysis)
+**Stage 5: Strategy Layer**
+- Add Strategy layer (executive analysis)
 - Leadership sees vision-to-execution alignment
 - Organizational coherence becomes measurable
 
@@ -358,17 +358,17 @@ alexANTria starts as a coding agent scaffold but can grow into an organizational
 The anthill grows with your organization:
 
 **Start here (engineering focus):**
-- **Surface** — Service docs, READMEs
-- **Tunnels** — Architecture docs
+- **Service** — Service docs, READMEs
+- **Architecture** — Architecture docs
 - Works great for coding agents and engineering teams
 
 **Add when you scale organizationally:**
-- **Chambers** — When cross-cutting patterns emerge across teams
-- **Nest** — When product/business/eng need different views of the same system
-- **Queen** — When strategic alignment matters (vision-to-execution coherence)
+- **Patterns** — When cross-cutting conventions emerge across teams
+- **Product** — When product/business/eng need different views of the same system
+- **Strategy** — When strategic alignment matters (vision-to-execution coherence)
 
 The value is knowing the structure exists so you can:
-1. **Start with engineering context** — Surface + Tunnels (aligns with Claude Code patterns)
+1. **Start with engineering context** — Service + Architecture (aligns with Claude Code patterns)
 2. **Build higher when needed** — Add layers when their audience emerges
 3. **Maintain coherence** — Higher layers constrain lower ones at any scale
 

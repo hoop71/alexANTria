@@ -21,14 +21,14 @@ The `/ant-refresh-doc` command provides a manual outlet for refreshing specific 
 
 Worker ant normally runs automatically during commits, but sometimes you need:
 - Update docs without committing (preview changes)
-- Apply suggested reviews to higher-layer docs (ANT-TUNNELS.md, ANT-CHAMBERS.md)
+- Apply suggested reviews to higher-layer docs (ANT-ARCHITECTURE.md, ANT-PATTERNS.md)
 - Force refresh a doc that got out of sync
 - Test worker ant on a specific file
 
 ## Workflow
 
 ```
-User: "/ant-refresh-doc ANT-TUNNELS.md"
+User: "/ant-refresh-doc ANT-ARCHITECTURE.md"
 
 1. Validate file exists and is ANT-* file
    - If not ANT-*: Error "Only ANT-* files supported"
@@ -42,7 +42,7 @@ User: "/ant-refresh-doc ANT-TUNNELS.md"
    - git diff HEAD~5..HEAD
 
 4. Read current doc content
-   - Read ANT-TUNNELS.md
+   - Read ANT-ARCHITECTURE.md
 
 5. Analyze what needs updating:
    - Changes since last doc update
@@ -78,10 +78,10 @@ When the user says "/ant-refresh-doc <path>":
 
    Check if it's an ANT-* file:
    - ANT-SURFACE.md ✓
-   - ANT-TUNNELS.md ✓
-   - ANT-CHAMBERS.md ✓
-   - ANT-NEST.md ✓
-   - ANT-QUEEN.md ✓
+   - ANT-ARCHITECTURE.md ✓
+   - ANT-PATTERNS.md ✓
+   - ANT-PRODUCT.md ✓
+   - ANT-STRATEGY.md ✓
    - README.md ✗ (not supported, use /ant-migrate)
 
 2. **Read manifest:**
@@ -94,7 +94,7 @@ When the user says "/ant-refresh-doc <path>":
    {
      "suggested_reviews": [
        {
-         "doc": "ANT-TUNNELS.md",
+         "doc": "ANT-ARCHITECTURE.md",
          "reason": "Auth flow changed, architecture doc may be stale",
          "layer": "tunnels",
          "status": "pending"
@@ -135,22 +135,22 @@ When the user says "/ant-refresh-doc <path>":
    - Add new components/functions
    - Update usage examples
 
-   **For ANT-TUNNELS.md:**
+   **For ANT-ARCHITECTURE.md:**
    - Update architecture diagrams (ASCII/mermaid)
    - Update service interactions
    - Update data flow
 
-   **For ANT-CHAMBERS.md:**
+   **For ANT-PATTERNS.md:**
    - Document new patterns
    - Update coding conventions
    - Add shared utilities
 
-   **For ANT-NEST.md:**
+   **For ANT-PRODUCT.md:**
    - Update product context
    - Update business rules
    - Update use cases
 
-   **For ANT-QUEEN.md:**
+   **For ANT-STRATEGY.md:**
    - Update strategic vision
    - Update core principles
    - Update architectural constraints
@@ -186,8 +186,8 @@ When the user says "/ant-refresh-doc <path>":
 
 ### Example 1: Apply pending suggestions
 ```
-User: "/ant-refresh-doc ANT-TUNNELS.md"
-Agent: Found 2 pending suggestions for ANT-TUNNELS.md:
+User: "/ant-refresh-doc ANT-ARCHITECTURE.md"
+Agent: Found 2 pending suggestions for ANT-ARCHITECTURE.md:
   1. Auth flow changed (commit abc123)
   2. New API endpoint added (commit def456)
 Agent: Reading recent changes...
@@ -213,8 +213,8 @@ Agent: [Updates doc, stages changes]
 ### Example 3: Higher-layer doc
 ```
 User: "The auth architecture changed, update the architecture doc"
-Agent: Let me update ANT-TUNNELS.md.
-Agent: /ant-refresh-doc ANT-TUNNELS.md
+Agent: Let me update ANT-ARCHITECTURE.md.
+Agent: /ant-refresh-doc ANT-ARCHITECTURE.md
 Agent: [Analyzes auth changes, updates architecture sections]
 Agent: [Shows diff]
 Agent: Apply? [Yes/No]
@@ -224,7 +224,7 @@ Agent: [Updates doc, stages changes]
 
 ### Example 4: Preview mode
 ```
-User: "/ant-refresh-doc ANT-CHAMBERS.md"
+User: "/ant-refresh-doc ANT-PATTERNS.md"
 Agent: Found 1 pending suggestion.
 Agent: [Shows proposed updates]
 Agent: Apply? [Yes/Show me the full content first/No]

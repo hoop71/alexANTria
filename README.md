@@ -69,6 +69,26 @@ When agents edit `src/components/Button.tsx`, they auto-load `frontend.md` which
 
 **Drop-in philosophy:** alexANTria only auto-updates files it owns (`ANT-*` pattern, `.alexantria/`). Your docs (README.md, docs/, etc.) are never touched unless you explicitly opt-in. Safe to test, easy to remove.
 
+### Graduation Path
+
+ANT-* files are designed to graduate to native files when you're ready:
+
+```
+ANT-STRATEGY.md      → STRATEGY.md        (Strategic alignment)
+ANT-PRODUCT.md       → PRODUCT.md         (Product context)
+ANT-PATTERNS.md      → PATTERNS.md        (Cross-cutting patterns)
+ANT-ARCHITECTURE.md  → ARCHITECTURE.md    (System architecture)
+ANT-README.md        → README.md          (Service documentation)
+```
+
+**Adoption flow:**
+1. **Pilot** — ANT-* files coexist with your existing docs
+2. **Active** — Validate ANT-* files are well-maintained
+3. **Graduate** — Convert ANT-* → native files with `/ant-graduate`
+4. **Full** — System maintains your native files directly
+
+This lets you test alexANTria risk-free, then adopt fully when ready.
+
 ---
 
 ## Commands
@@ -87,7 +107,7 @@ Start here, go deeper as needed:
 
 - **[RLM-ARCHITECTURE.md](./RLM-ARCHITECTURE.md)** — **How RLM architecture prevents context rot** (deep dive)
 - **[CLAUDE.md](./CLAUDE.md)** — The anthill map (layers, what to read when)
-- **[ANT-FRAMEWORK.md](./ANT-FRAMEWORK.md)** — Organizational model (queen/nest/chambers/tunnels/surface)
+- **[ANT-FRAMEWORK.md](./ANT-FRAMEWORK.md)** — Organizational model (strategy/product/patterns/architecture/service)
 - **[ANT-SCHEMA.md](./ANT-SCHEMA.md)** — Documentation pattern (nesting dolls)
 - **[blog/gastown-context-infrastructure.md](./blog/gastown-context-infrastructure.md)** — Why orchestration needs context infrastructure
 

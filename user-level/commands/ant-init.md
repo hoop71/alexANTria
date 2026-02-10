@@ -147,15 +147,15 @@ Options:
    Description: Creates ANT-SURFACE.md in directories. Everything else gets suggestions only. Lowest risk, test the system.
 
 2. Tunnels level (architecture + surface)
-   Description: Creates ANT-SURFACE.md + ANT-TUNNELS.md. Auto-maintains both. Medium risk, suitable after pilot succeeds.
+   Description: Creates ANT-SURFACE.md + ANT-ARCHITECTURE.md. Auto-maintains both. Medium risk, suitable after pilot succeeds.
 
 3. Chambers level (patterns + architecture + surface)
-   Description: Creates ANT-SURFACE.md + ANT-TUNNELS.md + ANT-CHAMBERS.md. Auto-maintains all three. Higher risk, for full adoption.
+   Description: Creates ANT-SURFACE.md + ANT-ARCHITECTURE.md + ANT-PATTERNS.md. Auto-maintains all three. Higher risk, for full adoption.
 ```
 
 Based on selection, set `starting_level` to "surface", "tunnels", or "chambers".
 
-**Note:** ANT-NEST.md and ANT-QUEEN.md always require manual updates (strategic/product layers).
+**Note:** ANT-PRODUCT.md and ANT-STRATEGY.md always require manual updates (strategic/product layers).
 
 ### Ask: Adoption Mode
 
@@ -244,7 +244,7 @@ These directories contain read-only context from external sources:
 
 | Working on... | Read first |
 |--------------|------------|
-| Strategic decisions | Queen layer |
+| Strategic decisions | Strategy layer |
 | New features | Nest + Chambers |
 | Cross-service patterns | Chambers + Tunnels |
 | Service implementation | Tunnels + Surface |
@@ -254,7 +254,7 @@ These directories contain read-only context from external sources:
 
 Ask yourself:
 - Did I establish a **new pattern**? → Suggest updating Chambers/Tunnels
-- Did I change **product behavior**? → Suggest updating Nest layer
+- Did I change **product behavior**? → Suggest updating Product layer
 - Did I violate a **constraint**? → Discuss with user before proceeding
 - Did implementation diverge from architecture? → Update Surface or Tunnels
 ```
@@ -305,21 +305,21 @@ Based on the selected `starting_level`, create the appropriate ANT-* files:
 **If starting_level = "tunnels":**
 ```bash
 # Create ANT-SURFACE.md in each directory
-# Create ANT-TUNNELS.md at repo root
+# Create ANT-ARCHITECTURE.md at repo root
 # Use templates from templates/
 ```
 
 **If starting_level = "chambers":**
 ```bash
 # Create ANT-SURFACE.md in each directory
-# Create ANT-TUNNELS.md at root
-# Create ANT-CHAMBERS.md at root
+# Create ANT-ARCHITECTURE.md at root
+# Create ANT-PATTERNS.md at root
 # Use templates from templates/
 ```
 
 **Always create (not auto-maintained, but part of structure):**
-- ANT-NEST.md (optional, for product/business context)
-- ANT-QUEEN.md (optional, for strategic alignment)
+- ANT-PRODUCT.md (optional, for product/business context)
+- ANT-STRATEGY.md (optional, for strategic alignment)
 
 These higher-layer files are never auto-maintained, only get suggestions.
 
@@ -444,8 +444,8 @@ Created:
     ├── config.json            — Worker ant configuration
     └── manifest.json          — Change tracking and suggestions
   [ANT-SURFACE.md files]       — In managed directories
-  [ANT-TUNNELS.md]             — If starting_level >= tunnels
-  [ANT-CHAMBERS.md]            — If starting_level >= chambers
+  [ANT-ARCHITECTURE.md]             — If starting_level >= tunnels
+  [ANT-PATTERNS.md]            — If starting_level >= chambers
   .git/hooks/
     └── pre-commit             — Smart hook (detects agent commits)
 

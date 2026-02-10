@@ -11,7 +11,7 @@ allowed-tools: Read, Write, Edit, Bash, AskUserQuestion
 
 ## Overview
 
-The `/ant-review-suggestions` command provides a batch interface for reviewing all pending documentation suggestions detected by the worker ant. This is the primary way to maintain docs above the `starting_level` (e.g., ANT-CHAMBERS.md, ANT-NEST.md, ANT-QUEEN.md).
+The `/ant-review-suggestions` command provides a batch interface for reviewing all pending documentation suggestions detected by the worker ant. This is the primary way to maintain docs above the `starting_level` (e.g., ANT-PATTERNS.md, ANT-PRODUCT.md, ANT-STRATEGY.md).
 
 ## Problem
 
@@ -20,21 +20,21 @@ Worker ant auto-maintains docs at or below `starting_level`, but detects impacts
 ## Automation Boundary
 
 ```
-ANT-QUEEN.md (👑)        ← Suggestions only (strategic alignment)
-ANT-NEST.md (🐜)         ← Suggestions only (product/business)
-ANT-CHAMBERS.md (🏛️)     ← Suggestions only (cross-cutting patterns)
+ANT-STRATEGY.md (👑)        ← Suggestions only (strategic alignment)
+ANT-PRODUCT.md (🐜)         ← Suggestions only (product/business)
+ANT-PATTERNS.md (🏛️)     ← Suggestions only (cross-cutting patterns)
 ─────────────────────── Automation Boundary (if starting_level = "tunnels") ──
-ANT-TUNNELS.md (🚇)      ← Auto-maintained (architecture)
+ANT-ARCHITECTURE.md (🚇)      ← Auto-maintained (architecture)
 ANT-SURFACE.md (🌱)      ← Auto-maintained (surface docs)
 ```
 
 **If starting_level = "surface":**
 - Auto-maintained: ANT-SURFACE.md
-- Suggestions: ANT-TUNNELS.md, ANT-CHAMBERS.md, ANT-NEST.md, ANT-QUEEN.md
+- Suggestions: ANT-ARCHITECTURE.md, ANT-PATTERNS.md, ANT-PRODUCT.md, ANT-STRATEGY.md
 
 **If starting_level = "tunnels":**
-- Auto-maintained: ANT-SURFACE.md, ANT-TUNNELS.md
-- Suggestions: ANT-CHAMBERS.md, ANT-NEST.md, ANT-QUEEN.md
+- Auto-maintained: ANT-SURFACE.md, ANT-ARCHITECTURE.md
+- Suggestions: ANT-PATTERNS.md, ANT-PRODUCT.md, ANT-STRATEGY.md
 
 ## Workflow
 
@@ -43,14 +43,14 @@ User: "/ant-review-suggestions"
 
 1. Read manifest
    - Find all suggested_reviews with status: "pending"
-   - Group by doc (ANT-TUNNELS.md, ANT-CHAMBERS.md, etc.)
+   - Group by doc (ANT-ARCHITECTURE.md, ANT-PATTERNS.md, etc.)
    - Group by layer (tunnels, chambers, nest, queen)
 
 2. Show summary:
    "Found 5 pending suggestions:
-    - ANT-TUNNELS.md (2 suggestions)
-    - ANT-CHAMBERS.md (2 suggestions)
-    - ANT-QUEEN.md (1 suggestion)"
+    - ANT-ARCHITECTURE.md (2 suggestions)
+    - ANT-PATTERNS.md (2 suggestions)
+    - ANT-STRATEGY.md (1 suggestion)"
 
 3. Ask user:
    - Apply all
@@ -93,7 +93,7 @@ When the user says "/ant-review-suggestions":
    {
      "suggested_reviews": [
        {
-         "doc": "ANT-TUNNELS.md",
+         "doc": "ANT-ARCHITECTURE.md",
          "reason": "Auth flow changed, architecture doc may be stale",
          "layer": "tunnels",
          "status": "pending",
@@ -101,7 +101,7 @@ When the user says "/ant-review-suggestions":
          "commits": ["abc123", "def456"]
        },
        {
-         "doc": "ANT-CHAMBERS.md",
+         "doc": "ANT-PATTERNS.md",
          "reason": "New error handling pattern detected",
          "layer": "chambers",
          "status": "pending",
@@ -115,22 +115,22 @@ When the user says "/ant-review-suggestions":
    Filter for `status: "pending"`.
 
 2. **Group and count suggestions:**
-   - By doc (ANT-TUNNELS.md, ANT-CHAMBERS.md, etc.)
+   - By doc (ANT-ARCHITECTURE.md, ANT-PATTERNS.md, etc.)
    - By layer (tunnels, chambers, nest, queen)
 
 3. **Show summary to user:**
    ```
    Found 5 pending suggestions:
 
-   ANT-TUNNELS.md (🚇 Tunnels) - 2 suggestions
+   ANT-ARCHITECTURE.md (🚇 Tunnels) - 2 suggestions
      - Auth flow changed (commits: abc123, def456)
      - New API endpoint added (commit: ghi789)
 
-   ANT-CHAMBERS.md (🏛️ Chambers) - 2 suggestions
+   ANT-PATTERNS.md (🏛️ Chambers) - 2 suggestions
      - New error handling pattern detected (commit: jkl012)
      - Logging convention updated (commit: mno345)
 
-   ANT-QUEEN.md (👑 Queen) - 1 suggestion
+   ANT-STRATEGY.md (👑 Queen) - 1 suggestion
      - Security constraint may have been violated (commit: pqr678)
    ```
 
@@ -165,7 +165,7 @@ When the user says "/ant-review-suggestions":
    For each suggestion (sorted by layer, highest first):
    ```
    Show:
-   - Doc: ANT-TUNNELS.md (🚇 Tunnels)
+   - Doc: ANT-ARCHITECTURE.md (🚇 Tunnels)
    - Reason: Auth flow changed
    - Commits: abc123, def456
    - Detected: 2 days ago
@@ -202,12 +202,12 @@ When the user says "/ant-review-suggestions":
 ```
 User: "/ant-review-suggestions"
 Agent: Found 3 pending suggestions:
-  - ANT-TUNNELS.md (1 suggestion)
-  - ANT-CHAMBERS.md (2 suggestions)
+  - ANT-ARCHITECTURE.md (1 suggestion)
+  - ANT-PATTERNS.md (2 suggestions)
 Agent: Apply all / Review individually / Dismiss all?
 User: "Apply all"
-Agent: Updating ANT-TUNNELS.md...
-Agent: Updating ANT-CHAMBERS.md...
+Agent: Updating ANT-ARCHITECTURE.md...
+Agent: Updating ANT-PATTERNS.md...
 Agent: All suggestions applied. Run: /ant-commit 'Update higher-layer docs'
 ```
 
@@ -219,7 +219,7 @@ Agent: How to proceed? [Apply all/Review individually/Dismiss all]
 User: "Review individually"
 Agent:
   Suggestion 1/2:
-  - Doc: ANT-QUEEN.md (👑 Queen)
+  - Doc: ANT-STRATEGY.md (👑 Queen)
   - Reason: Security constraint may have been violated
   - Commit: abc123 "Allow HTTP fallback in auth"
   - Detected: 1 day ago
@@ -227,17 +227,17 @@ Agent:
   This is a strategic-level change. Review carefully.
   Apply? [Yes/Skip/Dismiss]
 User: "Yes"
-Agent: Updating ANT-QUEEN.md...
+Agent: Updating ANT-STRATEGY.md...
 Agent:
   Suggestion 2/2:
-  - Doc: ANT-CHAMBERS.md (🏛️ Chambers)
+  - Doc: ANT-PATTERNS.md (🏛️ Chambers)
   - Reason: New logging pattern detected
   - Commit: def456 "Add structured logging"
   - Detected: 3 hours ago
 
   Apply? [Yes/Skip/Dismiss]
 User: "Yes"
-Agent: Updating ANT-CHAMBERS.md...
+Agent: Updating ANT-PATTERNS.md...
 Agent: All suggestions reviewed. 2 applied, 0 skipped, 0 dismissed.
 Agent: Run: /ant-commit 'Update strategic and pattern docs'
 ```

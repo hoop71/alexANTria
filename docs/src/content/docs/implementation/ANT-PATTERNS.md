@@ -1,6 +1,11 @@
+---
+title: "ANT-PATTERNS - Cross-Cutting Patterns"
+description: "Internal patterns and conventions (Patterns layer)"
+---
+
 # alexANTria - Cross-Cutting Patterns
 
-**Layer:** Chambers (🏛️)
+**Layer:** Patterns (🏛️)
 
 ## Naming Conventions
 

@@ -1,8 +1,3 @@
----
-title: "ANT-CHAMBERS - Cross-Cutting Patterns"
-description: "Internal patterns and conventions (Chambers layer)"
----
-
 # alexANTria - Cross-Cutting Patterns
 
 **Layer:** Chambers (🏛️)
@@ -22,7 +17,7 @@ description: "Internal patterns and conventions (Chambers layer)"
 
 **Location:** `user-level/commands/`
 
-**Enforcement:** Bash checks + Surface Guardian
+**Enforcement:** Bash checks + Service Guardian
 
 ### Layer Documentation
 
@@ -129,7 +124,7 @@ After running `/ant-<name>`:
 - Gotchas
 ```
 
-**Enforcement:** Chambers Guardian checks all commands follow this structure.
+**Enforcement:** Patterns Guardian checks all commands follow this structure.
 
 ## Guardian Pattern
 
@@ -182,7 +177,7 @@ Violations:
 
 **Location:** `user-level/commands/guardians/<layer>-guardian.md`
 
-**Enforcement:** Chambers Guardian validates all guardians follow this pattern.
+**Enforcement:** Patterns Guardian validates all guardians follow this pattern.
 
 ## Validation Pattern
 
@@ -245,31 +240,31 @@ Guardians validate different types of knowledge based on layer position in the k
 
 ### Lower Layers: Code-Adjacent Validation
 
-**Surface Guardian:**
+**Service Guardian:**
 - **Validates:** Naming conventions, file structure, paths
 - **Method:** Bash checks (regex, file existence, JSON syntax)
 - **Cost:** Free (bash) + ~$0.002 (semantic check)
 
-**Tunnels Guardian:**
+**Architecture Guardian:**
 - **Validates:** Config schema, architecture coherence, service boundaries
 - **Method:** JSON validation + pattern matching
 - **Cost:** ~$0.003
 
 ### Middle Layer: Pattern Consistency
 
-**Chambers Guardian:**
+**Patterns Guardian:**
 - **Validates:** Cross-cutting pattern consistency, duplication detection
 - **Method:** Semantic analysis across files
 - **Cost:** ~$0.005
 
 ### Upper Layers: Strategic Alignment
 
-**Nest Guardian:**
+**Product Guardian:**
 - **Validates:** Product logic, workflow coherence, use case alignment
 - **Method:** Logical consistency + human prompts
 - **Cost:** ~$0.004
 
-**Queen Guardian:**
+**Strategy Guardian:**
 - **Validates:** Core principles, strategic constraints
 - **Method:** Principle violation detection + REQUIRES_APPROVAL status
 - **Cost:** ~$0.004

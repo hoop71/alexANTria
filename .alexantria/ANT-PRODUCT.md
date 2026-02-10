@@ -237,7 +237,7 @@ Worker ant only touches files in `managed_paths`. No wildcards without user appr
 - Layer docs: `ANT-SURFACE.md`, `ANT-TUNNELS.md`, etc.
 - Config: `.alexantria/*.json`
 
-**Enforcement:** Bash checks (free) + Surface Guardian (if enabled).
+**Enforcement:** Bash checks (free) + Service Guardian (if enabled).
 
 ### Rule 3: Validation Is Opt-In
 
@@ -257,7 +257,7 @@ ANT-NEST.md and ANT-QUEEN.md never auto-maintained, even if starting_level = "ch
 - **Active:** Multiple directories + surface/tunnels level
 - **Full:** Entire repo + tunnels/chambers level
 
-**Validation:** Nest Guardian checks logical consistency (pilot shouldn't have scope: `["**"]`).
+**Validation:** Product Guardian checks logical consistency (pilot shouldn't have scope: `["**"]`).
 
 ## Domain Model
 

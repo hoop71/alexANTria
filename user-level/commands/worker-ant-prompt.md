@@ -21,31 +21,31 @@ You are a worker ant. Your job: analyze staged changes, update ANT-* docs at or 
 Read `.alexantria/config.json` to find `scope.starting_level`:
 
 ```
-starting_level: "surface"
+starting_level: "service"
   ✓ Auto-update: ANT-SURFACE.md
-  ✗ Suggest only: ANT-TUNNELS.md, ANT-CHAMBERS.md, ANT-NEST.md, ANT-QUEEN.md
+  ✗ Suggest only: ANT-ARCHITECTURE.md, ANT-PATTERNS.md, ANT-PRODUCT.md, ANT-STRATEGY.md
 
-starting_level: "tunnels"
-  ✓ Auto-update: ANT-SURFACE.md, ANT-TUNNELS.md
-  ✗ Suggest only: ANT-CHAMBERS.md, ANT-NEST.md, ANT-QUEEN.md
+starting_level: "architecture"
+  ✓ Auto-update: ANT-SURFACE.md, ANT-ARCHITECTURE.md
+  ✗ Suggest only: ANT-PATTERNS.md, ANT-PRODUCT.md, ANT-STRATEGY.md
 
-starting_level: "chambers"
-  ✓ Auto-update: ANT-SURFACE.md, ANT-TUNNELS.md, ANT-CHAMBERS.md
-  ✗ Suggest only: ANT-NEST.md, ANT-QUEEN.md
+starting_level: "patterns"
+  ✓ Auto-update: ANT-SURFACE.md, ANT-ARCHITECTURE.md, ANT-PATTERNS.md
+  ✗ Suggest only: ANT-PRODUCT.md, ANT-STRATEGY.md
 ```
 
 **Always suggest only (never auto-update):**
-- ANT-NEST.md (product/business context)
-- ANT-QUEEN.md (strategic alignment)
+- ANT-PRODUCT.md (product/business context)
+- ANT-STRATEGY.md (strategic alignment)
 
 ## Layer Naming Reference
 
 ```
-ANT-QUEEN.md     (👑 Queen - Strategic alignment)
-ANT-NEST.md      (🐜 Nest - Product/business context)
-ANT-CHAMBERS.md  (🏛️ Chambers - Cross-cutting patterns)
-ANT-TUNNELS.md   (🚇 Tunnels - Architecture/service connections)
-ANT-SURFACE.md   (🌱 Surface - Individual service docs)
+ANT-STRATEGY.md      (👑 Strategy - Strategic alignment)
+ANT-PRODUCT.md       (🐜 Product - Product/business context)
+ANT-PATTERNS.md      (🏛️ Patterns - Cross-cutting conventions)
+ANT-ARCHITECTURE.md  (🚇 Architecture - Architecture/service connections)
+ANT-SURFACE.md       (🌱 Service - Individual service docs)
 ```
 
 ## Your Task
@@ -80,9 +80,9 @@ ANT-SURFACE.md   (🌱 Surface - Individual service docs)
    For each ANT-* file found:
    - **Check layer:** Is it at or below starting_level?
      - ANT-SURFACE.md → Always auto-update (if in managed_paths)
-     - ANT-TUNNELS.md → Auto-update only if starting_level >= "tunnels"
-     - ANT-CHAMBERS.md → Auto-update only if starting_level >= "chambers"
-     - ANT-NEST.md, ANT-QUEEN.md → NEVER auto-update (always suggest only)
+     - ANT-ARCHITECTURE.md → Auto-update only if starting_level >= "architecture"
+     - ANT-PATTERNS.md → Auto-update only if starting_level >= "patterns"
+     - ANT-PRODUCT.md, ANT-STRATEGY.md → NEVER auto-update (always suggest only)
 
    - **If auto-update:**
      - Use Edit tool for surgical updates
@@ -97,24 +97,24 @@ ANT-SURFACE.md   (🌱 Surface - Individual service docs)
 
    Check changed file paths for patterns that affect higher layers:
 
-   **Triggers for ANT-TUNNELS.md (Architecture):**
+   **Triggers for ANT-ARCHITECTURE.md (Architecture):**
    - API routes changed (`src/api/**`, `routes/**`)
    - Database schema changed (`src/db/**`, `migrations/**`)
    - Service boundaries changed (new services, service interactions)
    - Data flow changed (new pipelines, integrations)
 
-   **Triggers for ANT-CHAMBERS.md (Patterns):**
+   **Triggers for ANT-PATTERNS.md (Patterns):**
    - New cross-cutting pattern (logging, error handling)
    - Multiple services changed similarly (shared pattern emerging)
    - Utility/helper functions added (shared code)
    - Convention change (coding style, naming patterns)
 
-   **Triggers for ANT-NEST.md (Product/Business):**
+   **Triggers for ANT-PRODUCT.md (Product/Business):**
    - Business rules changed (`src/rules/**`, validation logic)
    - User-facing behavior changed (UI flows, workflows)
    - Feature scope changed (new capabilities)
 
-   **Triggers for ANT-QUEEN.md (Strategic):**
+   **Triggers for ANT-STRATEGY.md (Strategic):**
    - Security constraint violated (auth bypassed, encryption removed)
    - Performance constraint violated (blocking operations added)
    - Architectural principle violated (new dependencies, tech stack changes)
@@ -122,7 +122,7 @@ ANT-SURFACE.md   (🌱 Surface - Individual service docs)
    For each detected impact:
    - Add to suggested_reviews with clear reason
    - Include affected file paths
-   - Specify layer (tunnels, chambers, nest, queen)
+   - Specify layer (architecture, patterns, product, strategy)
 
 6. **Run Bash Validation Checks** (always, free)
 
@@ -145,9 +145,9 @@ ANT-SURFACE.md   (🌱 Surface - Individual service docs)
    # Check ANT-* file naming in directories
    for file in $(git diff --cached --name-only | grep "\.md$"); do
      filename=$(basename "$file")
-     # If file starts with ANT- it should be ANT-SURFACE, ANT-TUNNELS, etc.
-     if [[ "$filename" =~ ^ANT- ]] && [[ ! "$filename" =~ ^ANT-(SURFACE|TUNNELS|CHAMBERS|NEST|QUEEN|EXTERNAL)\.md$ ]]; then
-       VIOLATIONS+=("naming|$file|Invalid ANT-* filename|Use ANT-SURFACE.md, ANT-TUNNELS.md, etc.")
+     # If file starts with ANT- it should be ANT-SURFACE, ANT-ARCHITECTURE, etc.
+     if [[ "$filename" =~ ^ANT- ]] && [[ ! "$filename" =~ ^ANT-(SURFACE|ARCHITECTURE|PATTERNS|PRODUCT|STRATEGY|EXTERNAL)\.md$ ]]; then
+       VIOLATIONS+=("naming|$file|Invalid ANT-* filename|Use ANT-SURFACE.md, ANT-ARCHITECTURE.md, etc.")
      fi
    done
 
@@ -176,34 +176,34 @@ ANT-SURFACE.md   (🌱 Surface - Individual service docs)
 
    **Smart Triggers - only spawn guardian if layer SIGNIFICANTLY affected:**
 
-   **Surface Guardian - spawn if ANY:**
+   **Service Guardian - spawn if ANY:**
    - NEW command file created in `user-level/commands/ant-*.md`
    - NEW ANT-SURFACE.md file created
    - NEW template created in `templates/`
    - Changes to `user-level/commands/README.md` (might be missing new command)
    - Bash checks found naming violations
 
-   **Tunnels Guardian - spawn if ANY:**
+   **Architecture Guardian - spawn if ANY:**
    - `.alexantria/config.json` MODIFIED
    - `user-level/alexantria-config-schema.md` MODIFIED
-   - `ANT-TUNNELS.md` MODIFIED
+   - `ANT-ARCHITECTURE.md` MODIFIED
    - `worker-ant-prompt.md` MODIFIED (affects architecture)
    - 3+ command files modified (pattern consistency concern)
 
-   **Chambers Guardian - spawn if ANY:**
-   - `ANT-CHAMBERS.md` MODIFIED
+   **Patterns Guardian - spawn if ANY:**
+   - `ANT-PATTERNS.md` MODIFIED
    - Guardian prompts MODIFIED (`user-level/commands/guardians/*.md`)
    - 3+ files in different services changed similarly (pattern emerging)
    - Shared utilities added/modified (`lib/`, `utils/`, `shared/`)
 
-   **Nest Guardian - spawn if ANY:**
-   - `ANT-NEST.md` MODIFIED
+   **Product Guardian - spawn if ANY:**
+   - `ANT-PRODUCT.md` MODIFIED
    - `README.md` MODIFIED (product positioning)
    - Adoption stage changed in config
    - Workflow commands modified (`ant-init.md`, adoption-related commands)
 
-   **Queen Guardian - spawn if ANY:**
-   - `ANT-QUEEN.md` MODIFIED
+   **Strategy Guardian - spawn if ANY:**
+   - `ANT-STRATEGY.md` MODIFIED
    - `ANT-FRAMEWORK.md` MODIFIED (core principles)
    - Worker ant logic MODIFIED (automation boundary)
    - Changes that touch README.md auto-update logic (ANT-* only violation risk)

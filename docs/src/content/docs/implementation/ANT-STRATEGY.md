@@ -1,11 +1,11 @@
 ---
-title: "ANT-QUEEN - Strategic Alignment"
-description: "Core principles and constraints for alexANTria (Queen layer)"
+title: "ANT-STRATEGY - Strategic Alignment"
+description: "Core principles and constraints for alexANTria (Strategy layer)"
 ---
 
 # alexANTria - Strategic Alignment
 
-**Layer:** Queen (👑)
+**Layer:** Strategy (👑)
 
 ## Core Principles
 
@@ -21,7 +21,7 @@ These are the non-negotiable principles that guide all decisions in alexANTria:
 - Easy to remove (delete ANT-* files, system is gone)
 - No surprises (never modifies user's existing docs)
 
-**Never violate:** Worker ant must never auto-update README.md or other user docs.
+**Never violate:** Worker ant must never auto-update README.md or other user docs. Use `/ant-migrate` for README → ANT-SURFACE.
 
 ### 2. Read-Act-Repair Pattern
 

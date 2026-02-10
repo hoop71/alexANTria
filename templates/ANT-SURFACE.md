@@ -12,19 +12,19 @@ This directory contains template files used by `/ant-init` to scaffold new proje
 
 ### Layer Templates
 
-- **ANT-QUEEN.md.template** - Strategic alignment template
+- **ANT-STRATEGY.md.template** - Strategic alignment template
   - Placeholders: {{PROJECT_NAME}}
   - Sections: Core principles, architectural constraints, security, team values
 
-- **ANT-NEST.md.template** - Product context template
+- **ANT-PRODUCT.md.template** - Product context template
   - Placeholders: {{PROJECT_NAME}}
   - Sections: Overview, features, use cases, workflows, domain model
 
-- **ANT-CHAMBERS.md.template** - Cross-cutting patterns template
+- **ANT-PATTERNS.md.template** - Cross-cutting patterns template
   - Placeholders: {{PROJECT_NAME}}
   - Sections: Error handling, logging, auth, validation, conventions
 
-- **ANT-TUNNELS.md.template** - Architecture template
+- **ANT-ARCHITECTURE.md.template** - Architecture template
   - Placeholders: {{PROJECT_NAME}}
   - Sections: Architecture, service boundaries, data flow, tech stack
 
@@ -50,10 +50,10 @@ This directory contains template files used by `/ant-init` to scaffold new proje
 
 ```
 templates/
-├── ANT-QUEEN.md.template
-├── ANT-NEST.md.template
-├── ANT-CHAMBERS.md.template
-├── ANT-TUNNELS.md.template
+├── ANT-STRATEGY.md.template
+├── ANT-PRODUCT.md.template
+├── ANT-PATTERNS.md.template
+├── ANT-ARCHITECTURE.md.template
 ├── ANT-SURFACE.md.template
 ├── ANT-EXTERNAL.md.template
 ├── CLAUDE.md.template
@@ -130,11 +130,10 @@ Templates are plain markdown with minimal syntax:
 
 ## Recent Changes (Last 5-10 Commits)
 
-- Created ANT-QUEEN.md.template (strategic alignment)
-- Created ANT-NEST.md.template (product context)
-- Created ANT-CHAMBERS.md.template (cross-cutting patterns)
-- Created ANT-TUNNELS.md.template (architecture)
-- Updated ANT-SURFACE.md.template (recent changes + impacts sections)
+- Renamed all layer templates to graduation-ready names (ANT-STRATEGY, ANT-PRODUCT, ANT-PATTERNS, ANT-ARCHITECTURE)
+- Updated template references in documentation
+- Aligned template naming with RLM language
+- Removed old template files (ANT-QUEEN, ANT-NEST, ANT-CHAMBERS, ANT-TUNNELS)
 
 ## Higher-Layer Impacts (Detected by Worker Ant)
 

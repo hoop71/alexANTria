@@ -1,11 +1,11 @@
 ---
-title: "ANT-TUNNELS - Architecture"
-description: "System architecture and service connections (Tunnels layer)"
+title: "ANT-ARCHITECTURE - Architecture"
+description: "System architecture and service connections (Architecture layer)"
 ---
 
 # alexANTria - Architecture
 
-**Layer:** Tunnels (🚇)
+**Layer:** Architecture (🚇)
 
 ## System Architecture
 
@@ -13,16 +13,16 @@ alexANTria is a context infrastructure system for AI agent orchestration, struct
 
 ```
 ┌─────────────────────────────────────┐
-│  👑 ANT-QUEEN.md                    │  Strategic alignment
+│  👑 ANT-STRATEGY.md                 │  Strategic alignment
 │     (Core principles, constraints)   │
 ├─────────────────────────────────────┤
-│  🐜 ANT-NEST.md                     │  Product/business context
+│  🐜 ANT-PRODUCT.md                  │  Product/business context
 │     (What we're building, why)      │
 ├─────────────────────────────────────┤
-│  🏛️ ANT-CHAMBERS.md                 │  Cross-cutting patterns
+│  🏛️ ANT-PATTERNS.md                 │  Cross-cutting patterns
 │     (Documentation patterns)         │
 ├─────────────────────────────────────┤
-│  🚇 ANT-TUNNELS.md (this file)      │  Architecture/connections
+│  🚇 ANT-ARCHITECTURE.md (this file) │  Architecture/connections
 │     (How components connect)         │
 ├─────────────────────────────────────┤
 │  🌱 ANT-SURFACE.md                  │  Individual service docs
@@ -47,7 +47,7 @@ alexANTria is a context infrastructure system for AI agent orchestration, struct
 **Location:** `templates/`
 
 **Components:**
-- Layer templates (ANT-QUEEN, ANT-NEST, ANT-CHAMBERS, ANT-TUNNELS, ANT-SURFACE)
+- Layer templates (ANT-STRATEGY, ANT-PRODUCT, ANT-PATTERNS, ANT-ARCHITECTURE, ANT-SURFACE)
 - Rule templates (frontend.md, backend.md, etc.)
 - CLAUDE.md template
 
@@ -180,22 +180,22 @@ Worker ant stages manifest with log
 The `starting_level` config field controls what worker ant auto-maintains:
 
 ```
-starting_level: "surface"
+starting_level: "service"
   ✓ Auto: ANT-SURFACE.md
-  ✗ Suggest: ANT-TUNNELS, ANT-CHAMBERS, ANT-NEST, ANT-QUEEN
+  ✗ Suggest: ANT-ARCHITECTURE, ANT-PATTERNS, ANT-PRODUCT, ANT-STRATEGY
 
-starting_level: "tunnels"
-  ✓ Auto: ANT-SURFACE.md, ANT-TUNNELS.md
-  ✗ Suggest: ANT-CHAMBERS, ANT-NEST, ANT-QUEEN
+starting_level: "architecture"
+  ✓ Auto: ANT-SURFACE.md, ANT-ARCHITECTURE.md
+  ✗ Suggest: ANT-PATTERNS, ANT-PRODUCT, ANT-STRATEGY
 
-starting_level: "chambers"
-  ✓ Auto: ANT-SURFACE.md, ANT-TUNNELS.md, ANT-CHAMBERS.md
-  ✗ Suggest: ANT-NEST, ANT-QUEEN
+starting_level: "patterns"
+  ✓ Auto: ANT-SURFACE.md, ANT-ARCHITECTURE.md, ANT-PATTERNS.md
+  ✗ Suggest: ANT-PRODUCT, ANT-STRATEGY
 ```
 
 **Always manual:**
-- ANT-NEST.md (product decisions)
-- ANT-QUEEN.md (strategic principles)
+- ANT-PRODUCT.md (product decisions)
+- ANT-STRATEGY.md (strategic principles)
 
 ## Cost Model
 

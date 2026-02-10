@@ -7,22 +7,22 @@
 alexANTria is a context infrastructure system for AI agent orchestration, structured as a 5-layer anthill.
 
 ```
-┌─────────────────────────────────────┐
-│  👑 ANT-QUEEN.md                    │  Strategic alignment
-│     (Core principles, constraints)   │
-├─────────────────────────────────────┤
-│  🐜 ANT-NEST.md                     │  Product/business context
-│     (What we're building, why)      │
-├─────────────────────────────────────┤
-│  🏛️ ANT-CHAMBERS.md                 │  Cross-cutting patterns
-│     (Documentation patterns)         │
-├─────────────────────────────────────┤
-│  🚇 ANT-TUNNELS.md (this file)      │  Architecture/connections
-│     (How components connect)         │
-├─────────────────────────────────────┤
-│  🌱 ANT-SURFACE.md                  │  Individual service docs
-│     (Per-directory implementation)   │
-└─────────────────────────────────────┘
+┌──────────────────────────────────────┐
+│  ANT-STRATEGY.md                     │  Strategic alignment (Intentional pool)
+│  (Core principles, constraints)      │
+├──────────────────────────────────────┤
+│  ANT-PRODUCT.md                      │  Product context (Intentional pool)
+│  (What we're building, why)          │
+├──────────────────────────────────────┤
+│  ANT-PATTERNS.md                     │  Cross-cutting patterns (Tokenized pool)
+│  (Documentation patterns)            │
+├──────────────────────────────────────┤
+│  ANT-ARCHITECTURE.md (this file)     │  Architecture (Tokenized pool)
+│  (How components connect)            │
+├──────────────────────────────────────┤
+│  ANT-README.md / ANT-SURFACE.md      │  Service docs (Programmatic pool)
+│  (Per-directory implementation)      │
+└──────────────────────────────────────┘
 ```
 
 ## Service Boundaries
@@ -42,7 +42,7 @@ alexANTria is a context infrastructure system for AI agent orchestration, struct
 **Location:** `templates/`
 
 **Components:**
-- Layer templates (ANT-QUEEN, ANT-NEST, ANT-CHAMBERS, ANT-TUNNELS, ANT-SURFACE)
+- Layer templates (ANT-STRATEGY, ANT-PRODUCT, ANT-PATTERNS, ANT-ARCHITECTURE, ANT-SURFACE)
 - Rule templates (frontend.md, backend.md, etc.)
 - CLAUDE.md template
 

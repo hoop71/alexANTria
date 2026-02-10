@@ -83,10 +83,10 @@ When the user says "/ant-migrate <directory>":
 3. **Analyze content:**
    - Identify what belongs in ANT-SURFACE.md (surface-level: API, components, usage)
    - Identify what belongs elsewhere:
-     - Architecture diagrams → ANT-TUNNELS.md
-     - Cross-cutting patterns → ANT-CHAMBERS.md
-     - Product context → ANT-NEST.md
-     - Strategic vision → ANT-QUEEN.md
+     - Architecture diagrams → ANT-ARCHITECTURE.md
+     - Cross-cutting patterns → ANT-PATTERNS.md
+     - Product context → ANT-PRODUCT.md
+     - Strategic vision → ANT-STRATEGY.md
 
 4. **Read template:**
    ```
@@ -142,25 +142,25 @@ When the user says "/ant-migrate <directory>":
 - Dependencies (for this module)
 
 ### What Goes Elsewhere
-- **ANT-TUNNELS.md** (Architecture)
+- **ANT-ARCHITECTURE.md** (Architecture)
   - System architecture diagrams
   - Service interactions
   - Data flow
   - Integration points
 
-- **ANT-CHAMBERS.md** (Patterns)
+- **ANT-PATTERNS.md** (Patterns)
   - Cross-cutting patterns (logging, error handling)
   - Coding conventions
   - Shared utilities
   - Design patterns
 
-- **ANT-NEST.md** (Product/Business)
+- **ANT-PRODUCT.md** (Product/Business)
   - Product context
   - User stories
   - Business rules
   - Use cases
 
-- **ANT-QUEEN.md** (Strategic)
+- **ANT-STRATEGY.md** (Strategic)
   - Strategic vision
   - Core principles
   - Technical philosophy
@@ -185,8 +185,8 @@ Agent: Migration staged. Run: /ant-commit 'Migrate src/auth to ANT-SURFACE'
 User: "/ant-migrate src/core"
 Agent: Found README.md in src/core/. Analyzing content...
 Agent: ⚠️ Some content should be moved:
-  - Architecture diagram → Create ANT-TUNNELS.md at repo root
-  - Error handling pattern → Create ANT-CHAMBERS.md at repo root
+  - Architecture diagram → Create ANT-ARCHITECTURE.md at repo root
+  - Error handling pattern → Create ANT-PATTERNS.md at repo root
 Agent: I'll migrate the surface-level content to ANT-SURFACE.md.
 Agent: You'll need to manually create the higher-layer docs.
 Agent: Proceed? [Yes/No]

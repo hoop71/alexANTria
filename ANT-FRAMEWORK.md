@@ -47,7 +47,7 @@ Every AI-assisted codebase has three pools of knowledge:
 
 3. **Intentional Pool** (Human Knowledge)
    - What: Why we made strategic decisions
-   - Where: Queen/Nest layers, ADRs, strategic memos
+   - Where: Strategy/Product layers, ADRs, strategic memos
    - Human-only: Cannot be inferred, must be captured from humans
    - Example: "We chose JWT over sessions because we're going distributed"
 
@@ -56,17 +56,17 @@ Every AI-assisted codebase has three pools of knowledge:
 Different layers require different capture methods:
 
 ```
-Lower layers (Surface/Tunnels)  →  Higher layers (Nest/Queen)
-Code-inferable                  →  Human-required
-"What exists"                   →  "Why we decided"
-Agents can discover             →  Humans must document
+Lower layers (Service/Architecture)  →  Higher layers (Product/Strategy)
+Code-inferable                        →  Human-required
+"What exists"                         →  "Why we decided"
+Agents can discover                   →  Humans must document
 ```
 
-**Surface/Tunnels**: Code-inferable. Agents can discover these by reading implementations.
+**Service/Architecture**: Code-inferable. Agents can discover these by reading implementations.
 
-**Chambers**: Mixed. Patterns visible in code, rationale requires documentation.
+**Patterns**: Mixed. Patterns visible in code, rationale requires documentation.
 
-**Nest/Queen**: Human-required. Strategy, constraints, and "why" decisions were made.
+**Product/Strategy**: Human-required. Strategy, constraints, and "why" decisions were made.
 
 ### Why This Matters
 
@@ -84,15 +84,15 @@ Every anthill starts as a small mound. Stack layers as the colony grows:
                     ╱╲
                    ╱  ╲
                   ╱ 👑 ╲
-                 ╱QUEEN ╲            ← Strategic alignment
+                 ╱STRAT ╲            ← Strategic alignment
                 ╱────────╲              Leadership, Executives
-               ╱   NEST   ╲          ← Org-wide views
+               ╱ PRODUCT  ╲          ← Org-wide views
               ╱────────────╲            Department leads
-             ╱   CHAMBERS   ╲        ← Cross-cutting patterns
+             ╱   PATTERNS   ╲        ← Cross-cutting patterns
             ╱────────────────╲          Architects, Tech leads
-           ╱     TUNNELS      ╲      ← Service connections
+           ╱   ARCHITECTURE   ╲      ← Service connections
           ╱────────────────────╲        Engineers, Senior devs
-         ╱       SURFACE        ╲    ← Individual docs
+         ╱       SERVICE        ╲    ← Individual docs
         ╱────────────────────────╲      Contributors, Agents
 ═══════════════════════════════════════
               🌱 ground 🌱
@@ -102,33 +102,33 @@ Every anthill starts as a small mound. Stack layers as the colony grows:
 
 | Layer | Audience | Key Questions Answered |
 |-------|----------|----------------------|
-| 👑 **Queen** | Leadership | "Are we building the right thing? What's our strategic position?" |
-| 🐜 **Nest** | Department Leads | "How does my area connect to others? What's the cross-functional picture?" |
-| 🏛️ **Chambers** | Architects | "What patterns span systems? Where are the integration points?" |
-| 🚇 **Tunnels** | Engineers | "How do these services work together? What's the architecture?" |
-| 🌱 **Surface** | Contributors / Agents | "How does this specific service work? What's the implementation?" |
+| 👑 **Strategy** | Leadership | "Are we building the right thing? What's our strategic position?" |
+| 🐜 **Product** | Department Leads | "How does my area connect to others? What's the cross-functional picture?" |
+| 🏛️ **Patterns** | Architects | "What patterns span systems? Where are the integration points?" |
+| 🚇 **Architecture** | Engineers | "How do these services work together? What's the architecture?" |
+| 🌱 **Service** | Contributors / Agents | "How does this specific service work? What's the implementation?" |
 
 ## Bidirectional Flow
 
 Knowledge flows both directions through the anthill.
 
-### Upward: Surface → Queen
+### Upward: Service → Strategy
 
 ```
 Implementation details  →  Architectural patterns  →  System health  →  Strategic position
-(Surface)                  (Tunnels/Chambers)         (Nest)            (Queen)
+(Service)                  (Architecture/Patterns)    (Product)         (Strategy)
 ```
 
-What happens at the surface bubbles up. A proliferation of workarounds at the surface signals architectural debt in the chambers, which manifests as velocity problems at the nest level, which becomes a strategic concern for the queen.
+What happens at the service level bubbles up. A proliferation of workarounds at the service level signals architectural debt in the patterns, which manifests as velocity problems at the product level, which becomes a strategic concern.
 
-### Downward: Queen → Surface
+### Downward: Strategy → Service
 
 ```
 Strategic priorities  →  Department goals  →  Architectural decisions  →  Implementation choices
-(Queen)                  (Nest)               (Chambers/Tunnels)           (Surface)
+(Strategy)               (Product)            (Patterns/Architecture)      (Service)
 ```
 
-Vision constrains execution. A strategic pivot at the queen level reshapes department priorities at the nest, which redefines acceptable architectures in the chambers, which guides implementation at the surface.
+Vision constrains execution. A strategic pivot at the strategy level reshapes department priorities at the product level, which redefines acceptable architectures in the patterns, which guides implementation at the service level.
 
 ### The Feedback Loop
 
@@ -146,18 +146,18 @@ Different consumers access different layers of the anthill. Each is a "context e
 
 | Context Engine | Primary Layers | What It Does |
 |----------------|----------------|--------------|
-| Coding Agent | Surface, Tunnels | Implements features within architectural constraints |
-| Engineer | Surface, Tunnels, Chambers | Designs solutions that fit system patterns |
-| Architect | Chambers, Tunnels | Evolves system design based on emerging patterns |
-| Product Lead | Nest, Chambers | Makes roadmap decisions with technical context |
-| Engineering Lead | Nest, Chambers | Allocates resources based on system health |
-| Executive | Queen, Nest | Sets strategy based on organizational reality |
+| Coding Agent | Service, Architecture | Implements features within architectural constraints |
+| Engineer | Service, Architecture, Patterns | Designs solutions that fit system patterns |
+| Architect | Patterns, Architecture | Evolves system design based on emerging patterns |
+| Product Lead | Product, Patterns | Makes roadmap decisions with technical context |
+| Engineering Lead | Product, Patterns | Allocates resources based on system health |
+| Executive | Strategy, Product | Sets strategy based on organizational reality |
 
-Each engine needs **different context at different granularity**. The surface layer would overwhelm a CEO. The queen layer won't help an engineer fix a bug. The anthill structure lets each consumer access the appropriate level.
+Each engine needs **different context at different granularity**. The service layer would overwhelm a CEO. The strategy layer won't help an engineer fix a bug. The anthill structure lets each consumer access the appropriate level.
 
 ## Why Coding Agents Are Just the Start
 
-Coding agents read code and docs (programmatic + tokenized pools) but can't access the intentional pool without human capture. Surface/Tunnels sufficient for agents, Nest/Queen require humans.
+Coding agents read code and docs (programmatic + tokenized pools) but can't access the intentional pool without human capture. Service/Architecture sufficient for agents, Product/Strategy require humans.
 
 alexANTria began as a way to give coding agents better context. But coding agents are just one context engine—arguably the simplest one.
 
@@ -177,30 +177,30 @@ Start here                          Build to this
 ─────────────                       ─────────────
 
     ╱╲                                   ╱╲
-   ╱  ╲                                 ╱👑╲  ← Queen: Strategic
+   ╱  ╲                                 ╱👑╲  ← Strategy
   ╱    ╲                               ╱────╲
- ╱ 🌱  ╲                             ╱ NEST ╲  ← Department views
-╱SURFACE╲                           ╱────────╲
-──────────                         ╱ CHAMBERS ╲  ← Cross-cutting
+ ╱ 🌱  ╲                             ╱PRODUCT╲  ← Department views
+╱SERVICE╲                           ╱────────╲
+──────────                         ╱ PATTERNS ╲  ← Cross-cutting
                                   ╱────────────╲
-     ↓                           ╱   TUNNELS    ╲  ← Architecture
+     ↓                           ╱ ARCHITECTURE ╲  ← Architecture
                                 ╱────────────────╲
-    ╱╲                         ╱     SURFACE      ╲  ← Service docs
+    ╱╲                         ╱     SERVICE      ╲  ← Service docs
    ╱  ╲                       ╱────────────────────╲
   ╱🚇 ╲                      ══════════════════════════
- ╱TNLS╲
+ ╱ARCH╲
 ╱──────╲
-╱SURFACE╲
+╱SERVICE╲
 ──────────
 ```
 
 The path:
 
-1. **Surface** — Start with service-level docs that help coding agents
-2. **Tunnels** — Add architecture docs when services connect
-3. **Chambers** — Add cross-cutting analysis when patterns emerge across services
-4. **Nest** — Add audience-specific views when stakeholders need different perspectives
-5. **Queen** — Add strategic analysis when vision-to-execution alignment matters
+1. **Service** — Start with service-level docs that help coding agents
+2. **Architecture** — Add architecture docs when services connect
+3. **Patterns** — Add cross-cutting analysis when patterns emerge across services
+4. **Product** — Add audience-specific views when stakeholders need different perspectives
+5. **Strategy** — Add strategic analysis when vision-to-execution alignment matters
 
 You don't need all five layers on day one. The anthill scales with your organization's complexity.
 
@@ -208,7 +208,7 @@ You don't need all five layers on day one. The anthill scales with your organiza
 
 Higher layers constrain lower layers. This is fundamental.
 
-A strategic decision at the queen level ("we're pivoting to enterprise") constrains nest-level priorities ("product focuses on security features"), which constrains chamber-level architecture ("we need audit logging everywhere"), which constrains tunnel-level design ("here's the logging pattern"), which constrains surface-level implementation ("this service implements the pattern").
+A strategic decision at the strategy level ("we're pivoting to enterprise") constrains product-level priorities ("product focuses on security features"), which constrains patterns-level architecture ("we need audit logging everywhere"), which constrains architecture-level design ("here's the logging pattern"), which constrains service-level implementation ("this service implements the pattern").
 
 When conflicts arise between layers, higher layers win. This isn't bureaucracy—it's coherence. An organization where implementation decisions override strategic direction is an organization at war with itself.
 
@@ -218,10 +218,10 @@ Every action that changes reality must repair the map.
 
 In a healthy colony:
 - Code changes trigger doc reviews
-- Architecture decisions update the tunnels layer
-- Cross-cutting patterns get documented in chambers
-- Department priorities reflect at the nest level
-- Strategic shifts cascade down from the queen through all layers
+- Architecture decisions update the architecture layer
+- Cross-cutting patterns get documented in patterns
+- Department priorities reflect at the product level
+- Strategic shifts cascade down from the strategy level through all layers
 
 If a system acts without updating shared memory, it is drifting.
 
@@ -239,7 +239,7 @@ Alignment comes from shared constraints, not top-down control.
 
 alexANTria provides a template for organizational knowledge, not just code documentation:
 
-- **Five layers** (Surface → Tunnels → Chambers → Nest → Queen) map to organizational audiences
+- **Five layers** (Service → Architecture → Patterns → Product → Strategy) map to organizational audiences
 - **Bidirectional flow** maintains alignment between vision and execution
 - **Context engines** consume knowledge at appropriate granularity
 - **Higher constrains lower** ensures coherent decision-making

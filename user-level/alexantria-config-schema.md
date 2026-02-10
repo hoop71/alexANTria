@@ -14,7 +14,16 @@
   "scope": {
     "managed_paths": string[],
     "exclude_paths": string[],
-    "starting_level": "surface" | "tunnels" | "chambers"
+    "starting_level": "service" | "architecture" | "patterns",
+    "graduated_files": {
+      "<native-filename>": {
+        "graduated_from": string,
+        "graduated_at": string,
+        "auto_maintain": boolean,
+        "pool": "programmatic" | "tokenized" | "intentional",
+        "native_target": string
+      }
+    }
   },
   "auto_update": {
     "ant_files": boolean
@@ -72,14 +81,51 @@
 
 ### `scope.starting_level`
 - **Type:** string
-- **Options:** "surface", "tunnels", "chambers"
-- **Default:** "surface"
+- **Options:** "service", "architecture", "patterns"
+- **Default:** "service"
 - **Description:** Highest layer worker ant auto-maintains. Everything below = automated, everything above = suggestions only.
 - **Layers:**
-  - **surface** - Only ANT-SURFACE.md (directory-level docs)
-  - **tunnels** - ANT-SURFACE.md + ANT-TUNNELS.md (architecture)
-  - **chambers** - ANT-SURFACE.md + ANT-TUNNELS.md + ANT-CHAMBERS.md (patterns)
-- **Note:** ANT-NEST.md and ANT-QUEEN.md always require manual updates (strategic/product layers)
+  - **service** - Only ANT-README.md / ANT-SURFACE.md (directory-level docs)
+  - **architecture** - ANT-README.md + ANT-ARCHITECTURE.md (architecture)
+  - **patterns** - ANT-README.md + ANT-ARCHITECTURE.md + ANT-PATTERNS.md (patterns)
+- **Note:** ANT-PRODUCT.md and ANT-STRATEGY.md always require manual updates (strategic/product layers)
+
+### `scope.graduated_files`
+- **Type:** object (optional)
+- **Default:** {}
+- **Description:** Tracks files that have graduated from ANT-* to native names. Once graduated, worker ant maintains the native file directly.
+- **Schema:**
+```json
+{
+  "<native-filename>": {
+    "graduated_from": string,     // Original ANT-* filename
+    "graduated_at": string,        // ISO 8601 timestamp
+    "auto_maintain": boolean,      // Whether worker ant maintains this
+    "pool": string,                // "programmatic" | "tokenized" | "intentional"
+    "native_target": string        // Native filename (same as key)
+  }
+}
+```
+- **Example:**
+```json
+{
+  "README.md": {
+    "graduated_from": "ANT-README.md",
+    "graduated_at": "2026-02-10T12:00:00Z",
+    "auto_maintain": true,
+    "pool": "programmatic",
+    "native_target": "README.md"
+  },
+  "ARCHITECTURE.md": {
+    "graduated_from": "ANT-ARCHITECTURE.md",
+    "graduated_at": "2026-02-10T13:00:00Z",
+    "auto_maintain": true,
+    "pool": "tokenized",
+    "native_target": "ARCHITECTURE.md"
+  }
+}
+```
+- **Note:** After graduation, worker ant looks for native files (README.md) instead of ANT-* files in graduated directories
 
 ### `auto_update.ant_files`
 - **Type:** boolean
@@ -163,7 +209,7 @@
 ```
 **Result:**
 - ANT-SURFACE.md auto-maintained across src/ and lib/
-- Optionally upgrade starting_level to "tunnels" to auto-maintain ANT-TUNNELS.md
+- Optionally upgrade starting_level to "tunnels" to auto-maintain ANT-ARCHITECTURE.md
 - Can migrate README.md → ANT-SURFACE.md directory-by-directory
 
 ### Full (Complete Automation)
@@ -182,8 +228,8 @@
 ```
 **Result:**
 - ANT-SURFACE.md auto-maintained everywhere
-- ANT-TUNNELS.md auto-maintained (architecture)
-- ANT-CHAMBERS.md, ANT-NEST.md, ANT-QUEEN.md get suggestions only
+- ANT-ARCHITECTURE.md auto-maintained (architecture)
+- ANT-PATTERNS.md, ANT-PRODUCT.md, ANT-STRATEGY.md get suggestions only
 - All README.md files migrated to ANT-SURFACE.md
 
 ## Migration Paths

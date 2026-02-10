@@ -137,9 +137,9 @@ The insight: codebases have a **third pool** that RLMs don't address—**intenti
 **The Knowledge Spectrum:**
 
 ```
-Lower layers (Surface/Tunnels)  →  Higher layers (Nest/Queen)
-Code-inferable                  →  Human-required
-Agents can discover             →  Humans must document
+Lower layers (Service/Architecture)  →  Higher layers (Product/Strategy)
+Code-inferable                        →  Human-required
+Agents can discover                   →  Humans must document
 ```
 
 This explains why alexANTria has five layers: they map from code-adjacent reality (programmatic pool) to strategic intent (intentional pool). It's not organizational hierarchy—it's a knowledge capture spectrum.
