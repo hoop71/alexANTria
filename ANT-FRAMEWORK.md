@@ -1,5 +1,7 @@
 # ANT-FRAMEWORK: Organizational Knowledge Framework
 
+**RLM architecture at organizational scale.** Three-pool context separation (programmatic/tokenized/intentional) prevents context rot.
+
 The anthill pattern isn't just for code. It's an organizational pattern.
 
 ## The Core Insight

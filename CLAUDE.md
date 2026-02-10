@@ -6,6 +6,7 @@ This is a meta-repo: a documentation framework that documents itself.
 
 These docs explain HOW the 5-layer pattern works:
 
+- **[RLM-ARCHITECTURE.md](./RLM-ARCHITECTURE.md)** — RLM foundation (three-pool architecture, context rot prevention)
 - **[ANT-FRAMEWORK.md](./ANT-FRAMEWORK.md)** — Coordination model (intelligence through coordination)
 - **[ANT-SCHEMA.md](./ANT-SCHEMA.md)** — 5-layer nesting doll pattern
 - **[README.md](./README.md)** — User-facing overview
@@ -54,6 +55,7 @@ These docs USE the 5-layer pattern to document alexANTria itself. Higher layers 
 
 | Working on... | Read first |
 |--------------|------------|
+| Understanding RLM foundation | Meta docs (RLM-ARCHITECTURE.md) |
 | Understanding the pattern | Meta docs (ANT-FRAMEWORK.md, ANT-SCHEMA.md) |
 | Strategic decisions for alexANTria | Queen layer (.alexantria/ANT-QUEEN.md) |
 | Product features, use cases | Nest layer (.alexantria/ANT-NEST.md) |
@@ -89,6 +91,7 @@ This command:
 ## After Completing Work
 
 Ask yourself:
+- Did I change the **RLM foundation or three-pool architecture**? → Update meta docs (RLM-ARCHITECTURE.md)
 - Did I change the **coordination model or 5-layer pattern**? → Update meta docs (ANT-FRAMEWORK.md, ANT-SCHEMA.md)
 - Did I change **core principles or constraints**? → Update Queen layer (.alexantria/ANT-QUEEN.md)
 - Did I change **product features or use cases**? → Update Nest layer (.alexantria/ANT-NEST.md)

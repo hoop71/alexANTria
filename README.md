@@ -1,33 +1,38 @@
 # alexANTria
 
-**Living memory for your codebase.** Documentation that coding agents actually read, use, and maintain.
+**RLM architecture for project-scale context.** Prevent context rot with three-pool documentation: what agents can infer (code), what must be written (patterns), what only humans know (strategy).
 
 ![alexANTria](image.png)
 
 ---
 
-## The Problem
+## The Problem: Context Rot
 
 Every coding session starts from scratch:
 - You re-explain your architecture every time
 - Context bloats prompts (5,000+ tokens)
-- Documentation rots
+- Documentation rots (agents don't maintain it)
 - Multiple agents contradict each other
 
-This gets exponentially worse with teams, multiple sessions, or agent swarms.
+**Context rot is structural:** Models degrade when context exceeds soft limits, even within the window. This compounds with teams, multiple sessions, or agent swarms.
 
 ---
 
-## The Solution
+## The Solution: Three-Pool Architecture
 
-Persistent context infrastructure. Your docs become layered, auto-loading memory:
+RLM research reveals three types of context. alexANTria separates them:
 
+1. **Programmatic** (code) — What agents can infer by reading implementations
+2. **Tokenized** (docs) — Patterns and conventions that must be written
+3. **Intentional** (strategy) — Human knowledge: why decisions were made
+
+Your docs become layered, auto-loading memory:
 - **Survives sessions** — Context persists across restarts and compactions
-- **Layers with precedence** — Philosophy overrides implementation
-- **Evolves with code** — Agents read it, use it, help maintain it
-- **Scales** — Solo dev → teams → orchestrated swarms
+- **Layers with precedence** — Strategy constrains implementation
+- **Evolves with code** — Agents maintain lower layers, humans maintain upper
+- **Scales** — Solo dev → teams → orchestrated swarms (Gas Town)
 
-Like ant colony pheromone trails: paths that persist, fade, and get reinforced.
+See: [The Potential of RLMs](https://www.dbreunig.com/2026/02/09/the-potential-of-rlms.html)
 
 ---
 
@@ -80,6 +85,7 @@ When agents edit `src/components/Button.tsx`, they auto-load `frontend.md` which
 
 Start here, go deeper as needed:
 
+- **[RLM-ARCHITECTURE.md](./RLM-ARCHITECTURE.md)** — **How RLM architecture prevents context rot** (deep dive)
 - **[CLAUDE.md](./CLAUDE.md)** — The anthill map (layers, what to read when)
 - **[ANT-FRAMEWORK.md](./ANT-FRAMEWORK.md)** — Organizational model (queen/nest/chambers/tunnels/surface)
 - **[ANT-SCHEMA.md](./ANT-SCHEMA.md)** — Documentation pattern (nesting dolls)
