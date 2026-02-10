@@ -164,54 +164,174 @@ When user runs `/ant-validate-rlm`:
 
 ## Output Format
 
-After running all tests, output:
+After running all tests, output with **VISUAL FLAIR**:
 
 ```
-🔬 RLM Self-Validation Report
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+╔════════════════════════════════════════════════════════════════╗
+║                                                                ║
+║     🧬 RLM ARCHITECTURE: LIVE SELF-VALIDATION                  ║
+║                                                                ║
+║     Proving Selective Loading Prevents Context Rot            ║
+║                                                                ║
+╚════════════════════════════════════════════════════════════════╝
 
-Test 1: Baseline Knowledge
-  [✓] Described hierarchy without reading files
-  [✓] CLAUDE.md is always loaded
+┌────────────────────────────────────────────────────────────────┐
+│  THE PROBLEM: Traditional AI Agents Load Everything           │
+├────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  Without RLM architecture, agents load ALL documentation:      │
+│                                                                 │
+│  Total Context: ████████████████████████████████████ 282 KB   │
+│                                                                 │
+│  Result: Context rot, attention degradation, slow responses    │
+│  (Models degrade at soft limits even within stated window)     │
+│                                                                 │
+└────────────────────────────────────────────────────────────────┘
 
-Test 2: Selective Reading
-  [✓] Read ANT-STRATEGY.md only
-  [✓] Did not read other files
+┌────────────────────────────────────────────────────────────────┐
+│  THE SOLUTION: RLM Three-Pool Architecture                     │
+├────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  🔬 Running 7 Self-Tests...                                    │
+│                                                                 │
+│  Test 1: Baseline Knowledge............................ [✓]    │
+│    → CLAUDE.md loaded without reading all files               │
+│                                                                 │
+│  Test 2: Selective Reading............................. [✓]    │
+│    → Read ANT-STRATEGY.md ONLY (not all layers)               │
+│                                                                 │
+│  Test 3: Context Persistence........................... [✓]    │
+│    → Answered without re-reading (memory working)             │
+│                                                                 │
+│  Test 4: Context Rotation.............................. [✓]    │
+│    → Loaded ANT-PRODUCT.md for new task (dynamic)             │
+│                                                                 │
+│  Test 5: Hierarchy Filtering........................... [✓]    │
+│    → Used "When to Read" table (intelligent routing)          │
+│                                                                 │
+│  Test 6: Context Efficiency............................ [✓]    │
+│    → 48 of 50 files unread (97% efficiency!)                  │
+│                                                                 │
+│  Test 7: Context Savings............................... [✓]    │
+│    → Calculating reduction...                                  │
+│                                                                 │
+└────────────────────────────────────────────────────────────────┘
 
-Test 3: Context Persistence
-  [✓] Answered without re-reading
-  [✓] Context persisted in memory
+╔════════════════════════════════════════════════════════════════╗
+║                    THE THREE POOLS IN ACTION                   ║
+╚════════════════════════════════════════════════════════════════╝
 
-Test 4: Context Rotation
-  [✓] Read ANT-PRODUCT.md for new task
-  [✓] Context shifted appropriately
+  📁 PROGRAMMATIC POOL (Available for Retrieval)
+  ┌──────────────────────────────────────────────────────────────┐
+  │  Total Documentation: 282 KB                                 │
+  │  [██████████████████████████████████████████████████] 100%   │
+  │                                                               │
+  │  50+ files available on-demand                               │
+  │  Not loaded until needed → Prevents attention overload       │
+  └──────────────────────────────────────────────────────────────┘
 
-Test 5: Hierarchy Filtering
-  [✓] Referenced "When to Read" table
-  [✓] Suggested appropriate reading order
+  🔥 TOKENIZED POOL (Active in Attention Window)
+  ┌──────────────────────────────────────────────────────────────┐
+  │  Active Context: 6.5 KB                                      │
+  │  [█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 2.3%  │
+  │                                                               │
+  │  CLAUDE.md (5KB) + 2 task-relevant files                     │
+  │  Selectively loaded → Stays under soft limits                │
+  └──────────────────────────────────────────────────────────────┘
 
-Test 6: Context Efficiency
-  [✓] Most files remain unread
-  [✓] Only 2 files loaded (of 50+ available)
+  💡 INTENTIONAL POOL (Human Knowledge)
+  ┌──────────────────────────────────────────────────────────────┐
+  │  Strategic decisions, "why we decided"                       │
+  │  Read on-demand when context engine needs human wisdom       │
+  │                                                               │
+  │  ANT-STRATEGY.md, ANT-PRODUCT.md → Loaded when relevant      │
+  └──────────────────────────────────────────────────────────────┘
 
-Test 7: Context Savings
-  [✓] Reduction: 43x
-  [✓] Active: 15KB / Total: 282KB
-  [✓] 94.7% of docs unloaded
+╔════════════════════════════════════════════════════════════════╗
+║                      CONTEXT EFFICIENCY                        ║
+╚════════════════════════════════════════════════════════════════╝
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Tests Passed: 7/7
+  📊 BEFORE (Traditional Agent): Load Everything
+  ┌──────────────────────────────────────────────────────────────┐
+  │                                                               │
+  │  Context:  ████████████████████████████████████  282 KB     │
+  │  Tokens:   ~70,000 tokens (approaching soft limits!)         │
+  │  Status:   ⚠️  ATTENTION DEGRADATION RISK                     │
+  │                                                               │
+  └──────────────────────────────────────────────────────────────┘
 
-✅ RLM SELECTIVE LOADING: VERIFIED
+  📊 AFTER (RLM Architecture): Load Selectively
+  ┌──────────────────────────────────────────────────────────────┐
+  │                                                               │
+  │  Context:  ██                                     6.5 KB     │
+  │  Tokens:   ~1,600 tokens (well under limits!)                │
+  │  Status:   ✅ ATTENTION PROTECTED                             │
+  │                                                               │
+  └──────────────────────────────────────────────────────────────┘
 
-Key Findings:
-  • CLAUDE.md always loaded (tokenized pool)
-  • ANT-* files read on-demand (programmatic pool)
-  • Context rotates based on task
-  • 43x reduction in active context
-  • Selective loading prevents attention rot
+  🎯 CONTEXT REDUCTION: 43x SMALLER
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Exit Code: 0
+  Without RLM:  ████████████████████████████████████████████  282 KB
+  With RLM:     ██                                            6.5 KB
+                ↑
+                43x more efficient
+
+  Token Savings: 68,400 tokens saved
+  Result: Prevents context rot, maintains model quality
+
+╔════════════════════════════════════════════════════════════════╗
+║                      VALIDATION RESULTS                        ║
+╚════════════════════════════════════════════════════════════════╝
+
+  ✅ All 7 Tests PASSED
+
+  What This Proves:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ✓ Tokenized Pool:   CLAUDE.md always loaded (hierarchy map)
+  ✓ Selective Reading: Only task-relevant files read
+  ✓ Context Rotation:  Different work → different context
+  ✓ Efficiency:        97% of docs remain unloaded
+  ✓ Hierarchy:         "When to Read" table guides loading
+  ✓ Performance:       43x reduction prevents attention rot
+
+╔════════════════════════════════════════════════════════════════╗
+║                    WHY THIS MATTERS                            ║
+╚════════════════════════════════════════════════════════════════╝
+
+  🔬 RLM Research Shows:
+     Context rot is STRUCTURAL - models degrade when context
+     exceeds soft limits, even if it fits the stated window.
+
+  💡 The ANT Solution:
+     • Programmatic Pool - Code available for retrieval
+     • Tokenized Pool - Only active context in attention
+     • Intentional Pool - Human knowledge on-demand
+
+  🚀 The Result:
+     Agents that work smarter, not harder. Context stays fresh,
+     attention stays focused, quality stays high.
+
+  📈 Scale:
+     From solo dev → teams → 30-agent swarms (Gas Town scale)
+     Same architecture prevents context rot at any scale.
+
+╔════════════════════════════════════════════════════════════════╗
+║                                                                ║
+║           ✅ RLM SELECTIVE LOADING: VERIFIED                    ║
+║                                                                ║
+║     Your agent is using 43x LESS context with NO loss          ║
+║     in capability. This is how AI scales.                      ║
+║                                                                ║
+╚════════════════════════════════════════════════════════════════╝
+
+  Learn More:
+  • RLM Architecture: ./RLM-ARCHITECTURE.md
+  • ANT Framework: ./ANT-FRAMEWORK.md
+  • Source: https://github.com/hoop71/alexANTria
+
+  Exit Code: 0
 ```
 
 ## Key Insight
