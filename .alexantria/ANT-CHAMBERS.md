@@ -244,13 +244,11 @@ Guardians validate different types of knowledge based on layer position in the k
 - **Validates:** Naming conventions, file structure, paths
 - **Method:** Bash checks (regex, file existence, JSON syntax)
 - **Cost:** Free (bash) + ~$0.002 (semantic check)
-- **Reason:** Validating against code reality (programmatic pool)
 
 **Tunnels Guardian:**
 - **Validates:** Config schema, architecture coherence, service boundaries
 - **Method:** JSON validation + pattern matching
 - **Cost:** ~$0.003
-- **Reason:** Validating against implementation patterns (tokenized pool)
 
 ### Middle Layer: Pattern Consistency
 
@@ -258,7 +256,6 @@ Guardians validate different types of knowledge based on layer position in the k
 - **Validates:** Cross-cutting pattern consistency, duplication detection
 - **Method:** Semantic analysis across files
 - **Cost:** ~$0.005
-- **Reason:** Validating both "how" (patterns) and "why" (rationale)
 
 ### Upper Layers: Strategic Alignment
 
@@ -266,13 +263,11 @@ Guardians validate different types of knowledge based on layer position in the k
 - **Validates:** Product logic, workflow coherence, use case alignment
 - **Method:** Logical consistency + human prompts
 - **Cost:** ~$0.004
-- **Reason:** Validating intentional context (business rules)
 
 **Queen Guardian:**
 - **Validates:** Core principles, strategic constraints
 - **Method:** Principle violation detection + REQUIRES_APPROVAL status
 - **Cost:** ~$0.004
-- **Reason:** Validating strategic intent (intentional pool)
 
 ### Why Different Validation Methods
 
@@ -284,12 +279,7 @@ Based on three-pool architecture:
 | Chambers | Tokenized | Pattern consistency | Mostly (LLM-assisted) |
 | Nest/Queen | Intentional | Strategic alignment | Partially (requires human) |
 
-**Key insight:** Lower layers can be validated against code reality (does this file exist? is JSON valid?). Upper layers require validating against human intent (does this align with our strategy?).
-
-This is why:
-- Bash checks run first (free, catch code-reality violations)
-- Semantic guardians run second (cheap, catch pattern violations)
-- Strategic guardians use REQUIRES_APPROVAL (expensive, need human judgment)
+Lower layers validate against code reality. Upper layers validate against human intent.
 
 ### Smart Triggers Revisited
 

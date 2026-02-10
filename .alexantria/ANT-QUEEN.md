@@ -87,12 +87,10 @@ These are the non-negotiable principles that guide all decisions in alexANTria:
 - Chambers: Mixed (patterns + rationale)
 - Nest/Queen: Strategic, always require human authorship
 
-**Knowledge spectrum principle:** The five layers aren't arbitrary—they map from code-inferable (Surface) to human-required (Queen). This explains why `starting_level` controls automation boundary.
-
 **Never violate:**
-- Agents can maintain docs about code reality (what exists)
-- Agents can suggest docs about patterns (how we work)
-- Agents can NEVER capture strategic intent (why we decided) without human input
+- Agents maintain code reality docs (what exists)
+- Agents suggest pattern docs (how we work)
+- Agents NEVER capture strategic intent (why we decided)
 
 **Example:**
 - ✅ Agent updates ANT-SURFACE.md: "Added JWT authentication endpoints"

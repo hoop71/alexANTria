@@ -68,14 +68,12 @@ The five layers align with a knowledge spectrum from code-inferable to human-req
 
 ### Lower Layers: Code-Inferable (Programmatic Pool)
 
-**Surface & Tunnels** primarily document what exists in code:
+**Surface & Tunnels** document what exists in code:
 - Service boundaries (visible in directory structure)
 - API contracts (visible in code)
 - Architecture patterns (discoverable by reading implementations)
 
-Agents can often discover these by reading the codebase. Documentation helps them work faster, but code is the source of truth.
-
-**When to document:** When the pattern isn't obvious from code alone, or when context would take too long to infer.
+Code is the source of truth. Document when the pattern isn't obvious or context takes too long to infer.
 
 ### Middle Layer: Mixed (Tokenized Pool)
 
@@ -83,8 +81,6 @@ Agents can often discover these by reading the codebase. Documentation helps the
 - Why we chose this pattern over alternatives (intentional)
 - How to apply the pattern consistently (tokenized)
 - Where the pattern is implemented (programmatic)
-
-This layer bridges code reality with strategic intention.
 
 ### Upper Layers: Human-Required (Intentional Pool)
 
@@ -117,9 +113,7 @@ alexANTria implements RLM architecture at project scale:
 | **Tokenized** | How we work | ANT-* docs, .claude/rules/ | Worker ant, humans |
 | **Intentional** | Why we decided | Queen/Nest layers, ADRs | Humans only |
 
-Higher layers (Queen/Nest) are intentional by nature—they require human capture. Lower layers (Surface/Tunnels) can often be inferred from code, making them candidates for agent maintenance.
-
-This is why `starting_level` in config.json controls automation: lower layers are code-adjacent (safe for agents), upper layers are strategic (require human judgment).
+`starting_level` controls automation: lower layers are code-adjacent (safe for agents), upper layers are strategic (human-required).
 
 See [ANT-FRAMEWORK.md](./ANT-FRAMEWORK.md) for the theoretical foundation.
 
