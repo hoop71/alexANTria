@@ -1,0 +1,71 @@
+---
+title: alexANTria
+description: RLM architecture for project-scale context. Prevent context rot with three-pool documentation.
+template: splash
+hero:
+  tagline: Living memory for your codebase. RLM architecture prevents context rot at organizational scale.
+  image:
+    file: ../../assets/houston.webp
+  actions:
+    - text: Understanding RLM Architecture
+      link: /rlm-architecture/
+      icon: right-arrow
+      variant: primary
+    - text: View on GitHub
+      link: https://github.com/hoop71/alexANTria
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## The Problem: Context Rot
+
+Every coding session starts from scratch. You re-explain architecture, context bloats prompts, documentation rots, agents contradict each other. **Context rot is structural**—models degrade when context exceeds soft limits.
+
+## The Solution: Three-Pool Architecture
+
+Based on [RLM research](https://www.dbreunig.com/2026/02/09/the-potential-of-rlms.html), alexANTria separates three types of context:
+
+<CardGrid stagger>
+	<Card title="🔧 Programmatic Pool" icon="seti:config">
+		**What agents can infer from code**
+
+		Service boundaries, API contracts, architecture patterns—discoverable by reading implementations.
+	</Card>
+	<Card title="📝 Tokenized Pool" icon="document">
+		**What must be written down**
+
+		Patterns, conventions, the "how we do things"—explicit documentation that guides agents.
+	</Card>
+	<Card title="🧠 Intentional Pool" icon="star">
+		**What only humans know**
+
+		Strategy, constraints, "why" decisions were made—human knowledge that cannot be inferred.
+	</Card>
+</CardGrid>
+
+## Quick Start
+
+<CardGrid>
+	<Card title="Install" icon="rocket">
+		```bash
+		curl -fsSL https://raw.githubusercontent.com/hoop71/alexANTria/main/install.sh | bash
+		cd your-project/
+		/ant-init
+		```
+	</Card>
+	<Card title="Explore the Framework" icon="open-book">
+		- [RLM Architecture](/rlm-architecture/) - Deep dive into three-pool model
+		- [ANT-FRAMEWORK](/ant-framework/) - Organizational coordination
+		- [ANT-SCHEMA](/ant-schema/) - 5-layer documentation pattern
+	</Card>
+</CardGrid>
+
+## Why It Matters
+
+At 30 agents (Gas Town scale): **30 agents reading code** (programmatic ✓) + **30 agents reading docs** (tokenized ✓ with Beads) + **30 agents needing strategy** (intentional ✗ stuck in your head).
+
+alexANTria solves the intentional pool—capturing why decisions were made so agents don't need constant re-explanation.
+
+**Start with what you need. Build higher when the audience emerges.**

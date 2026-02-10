@@ -1,0 +1,21 @@
+/* Custom styles for alexANTria docs */
+
+:root {
+	--sl-color-accent-low: #1a1a2e;
+	--sl-color-accent: #4a90e2;
+	--sl-color-accent-high: #6fb3ff;
+}
+
+/* Improve code block readability */
+pre {
+	border-radius: 8px;
+}
+
+/* Enhance card styling */
+.card {
+	transition: transform 0.2s;
+}
+
+.card:hover {
+	transform: translateY(-2px);
+}
