@@ -36,6 +36,21 @@ See: [The Potential of RLMs](https://www.dbreunig.com/2026/02/09/the-potential-o
 
 ---
 
+## Proof It Works
+
+**Validated with automated self-tests.** Claude validates its own context loading behavior to prove selective loading works.
+
+→ **[See live proof: RLM-VALIDATION-PROOF.md](./RLM-VALIDATION-PROOF.md)**
+
+**Current metrics:**
+- 🎯 **14.8x context reduction** (317.7 KB → 21.3 KB)
+- 📊 **93.3% of docs unloaded** (only what's needed enters attention)
+- 💰 **75,871 tokens saved** (prevents attention degradation)
+
+Run validation yourself: `/ant-validate-rlm`
+
+---
+
 ## Install
 
 ```bash

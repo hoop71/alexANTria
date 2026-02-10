@@ -392,6 +392,59 @@ def validate_rlm():
     return results
 ```
 
+## Generate Markdown Artifact
+
+After completing all tests and showing the visual report, generate a markdown file for commit:
+
+**File:** `RLM-VALIDATION-PROOF.md` (repo root)
+
+**Instructions:**
+1. Use actual metrics from Test 7
+2. Keep it concise (under 200 lines)
+3. Marketing-focused (value proposition)
+4. GitHub-friendly markdown
+5. Include timestamp
+6. Use Write tool to create file
+
+**Template structure:**
+```markdown
+# RLM Selective Loading: Validated ✅
+
+> **14.8x context reduction** with zero loss in capability.
+> Last validated: [TIMESTAMP]
+
+## The Claim
+
+alexANTria uses RLM (Recursive Learning Model) architecture to prevent context rot through selective loading. Instead of loading all documentation, agents load only what they need, when they need it.
+
+## The Proof
+
+[Visual comparison with actual metrics]
+
+## What This Means
+
+[3-4 bullet points on impact]
+
+## Technical Validation
+
+[Concise test results table]
+
+## How It Works
+
+[Brief explanation of three pools]
+
+## Try It Yourself
+
+```bash
+/ant-validate-rlm
+```
+```
+
+**After writing file:**
+1. Tell user file was created
+2. Suggest: "Add this to README.md and commit"
+3. Show snippet for README reference
+
 ## Notes
 
 - This command is Claude testing itself
@@ -399,3 +452,4 @@ def validate_rlm():
 - No manual observation needed
 - Proves RLM is working automatically
 - Can be run in CI/CD
+- **Generates commitable proof artifact**
