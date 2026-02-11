@@ -1,6 +1,6 @@
 # alexANTria - Cross-Cutting Patterns
 
-**Layer:** Chambers (🏛️)
+**Layer:** Patterns (🏛️)
 
 ## Naming Conventions
 
@@ -24,14 +24,14 @@
 **Pattern:** `ANT-<LAYER>.md` (all caps for layer name)
 
 **Examples:**
-- `ANT-QUEEN.md` - Strategic alignment
-- `ANT-NEST.md` - Product context
-- `ANT-CHAMBERS.md` - Cross-cutting patterns
-- `ANT-TUNNELS.md` - Architecture
+- `ANT-STRATEGY.md` - Strategic alignment
+- `ANT-PRODUCT.md` - Product context
+- `ANT-PATTERNS.md` - Cross-cutting patterns
+- `ANT-ARCHITECTURE.md` - Architecture
 - `ANT-SURFACE.md` - Individual service docs
 
 **Location:**
-- Queen/Nest/Chambers/Tunnels: Repo root
+- Strategy/Product/Patterns/Architecture: `.alexantria/` directory
 - Surface: Within service directories
 
 ### Configuration & State
@@ -204,10 +204,10 @@ Violations:
 
 **Triggers:**
 - **Surface:** NEW command file OR naming violations
-- **Tunnels:** Config/schema changed
-- **Chambers:** 3+ files OR guardian prompts changed
-- **Nest:** Adoption stages OR workflows changed
-- **Queen:** Core principles OR ANT-* only logic changed
+- **Architecture:** Config/schema changed
+- **Patterns:** 3+ files OR guardian prompts changed
+- **Product:** Adoption stages OR workflows changed
+- **Strategy:** Core principles OR ANT-* only logic changed
 
 ### Validation Logging
 
@@ -275,9 +275,9 @@ Based on three-pool architecture:
 
 | Layer | Pool | Validation Type | Automatable? |
 |-------|------|----------------|--------------|
-| Surface/Tunnels | Programmatic | Code-adjacent checks | Yes (bash + simple LLM) |
-| Chambers | Tokenized | Pattern consistency | Mostly (LLM-assisted) |
-| Nest/Queen | Intentional | Strategic alignment | Partially (requires human) |
+| Surface/Architecture | Programmatic | Code-adjacent checks | Yes (bash + simple LLM) |
+| Patterns | Tokenized | Pattern consistency | Mostly (LLM-assisted) |
+| Product/Strategy | Intentional | Strategic alignment | Partially (requires human) |
 
 Lower layers validate against code reality. Upper layers validate against human intent.
 
@@ -285,9 +285,9 @@ Lower layers validate against code reality. Upper layers validate against human 
 
 Guardians only spawn when their layer is SIGNIFICANTLY affected:
 
-- **Surface/Tunnels:** NEW files, naming violations, structural changes
-- **Chambers:** 3+ files changed, guardian prompts modified
-- **Nest/Queen:** Core principles, strategic docs, adoption logic
+- **Surface/Architecture:** NEW files, naming violations, structural changes
+- **Patterns:** 3+ files changed, guardian prompts modified
+- **Product/Strategy:** Core principles, strategic docs, adoption logic
 
 This saves cost by not running strategic validation (intentional pool) on code-reality changes (programmatic pool).
 
@@ -403,10 +403,10 @@ User can proceed with commit or fix issue
 ### Layer-Appropriate Detail
 
 **Pattern:**
-- **Queen:** WHY (strategic reasons, constraints)
-- **Nest:** WHAT (features, use cases, workflows)
-- **Chambers:** HOW (patterns applied consistently)
-- **Tunnels:** HOW (architecture, connections)
+- **Strategy:** WHY (strategic reasons, constraints)
+- **Product:** WHAT (features, use cases, workflows)
+- **Patterns:** HOW (patterns applied consistently)
+- **Architecture:** HOW (architecture, connections)
 - **Surface:** WHAT (API, components, implementation)
 
 ## Cost Tracking Pattern
@@ -447,6 +447,279 @@ yearly_projection = monthly_projection * 12
 ```
 
 **Report:** In `/ant-validation-report`
+
+## Collaboration Mode Pattern
+
+### Local-Only vs Team-Shared
+
+**Pattern:** alexANTria supports two collaboration modes for different adoption stages.
+
+**Modes:**
+
+**Local-Only (Private Experimentation):**
+- All alexANTria files (except config.json) gitignored
+- User tests privately without team coordination
+- Worker ant, guardians, validation all work normally
+- Team doesn't see any ANT-* docs
+- Transition to team-shared via `/ant-publish`
+
+**Team-Shared (Standard Adoption):**
+- All alexANTria files tracked in git
+- Team sees all ANT-* docs from day 1
+- Standard collaboration model
+- Can't transition back to local-only (one-way)
+
+### Gitignore Management
+
+**Pattern for local-only mode:**
+
+```gitignore
+# alexANTria (local-only mode)
+.alexantria/
+!.alexantria/config.json
+CLAUDE.md
+.claude/
+**/ANT-SURFACE.md
+ANT-ARCHITECTURE.md
+ANT-PATTERNS.md
+ANT-PRODUCT.md
+ANT-STRATEGY.md
+
+```
+
+**Why config.json is NOT gitignored:**
+- Documents your configuration choices
+- No secrets (just settings)
+- Makes publishing smoother (team sees what you configured)
+- Historical record of decisions
+
+### Publishing Workflow
+
+**Pattern:** One-way transition from local-only to team-shared.
+
+```
+User runs /ant-publish
+  ↓
+Validate currently in local-only mode
+  ↓
+Show what will be published (git status --ignored)
+  ↓
+Confirm with user
+  ↓
+Remove .gitignore section
+  ↓
+Update config.collaboration.mode = "team_shared"
+  ↓
+Update config.collaboration.published_at = now()
+  ↓
+Stage all alexANTria files
+  ↓
+Show team adoption checklist
+  ↓
+Suggest commit message
+```
+
+**No unpublishing:** Once team-shared, stays team-shared (prevents team disruption).
+
+### Config Schema
+
+**Pattern:**
+```json
+{
+  "collaboration": {
+    "mode": "local_only" | "team_shared",
+    "gitignored_at": "ISO-8601 timestamp | null",
+    "published_at": "ISO-8601 timestamp | null"
+  }
+}
+```
+
+**Field meanings:**
+- `mode`: Current collaboration mode
+- `gitignored_at`: When local-only mode was enabled (preserved after publishing)
+- `published_at`: When published to team (null if never published or always team-shared)
+
+### Migration Awareness
+
+**Pattern:** `/ant-migrate` respects collaboration mode.
+
+When migrating README.md → ANT-SURFACE.md in local-only mode:
+```bash
+# After creating ANT-SURFACE.md
+mode=$(jq -r '.collaboration.mode' .alexantria/config.json)
+if [ "$mode" = "local_only" ]; then
+  echo "<directory>/ANT-SURFACE.md" >> .gitignore
+  echo "📍 Local-only mode: ANT-SURFACE.md gitignored"
+fi
+```
+
+Ensures migrated files respect user's privacy intent.
+
+### Status Display
+
+**Pattern:** `/ant-status` shows collaboration mode at top.
+
+```
+📍 Collaboration Mode: Local-only (private)
+   Gitignored since: 2026-02-11 10:30
+   Files private: .alexantria/, CLAUDE.md, .claude/, ANT-*.md
+
+   → Run /ant-publish to share with team
+```
+
+Makes current mode immediately visible.
+
+### Edge Cases
+
+**Edge Case 1: .gitignore in .gitignore**
+- Detect: `git check-ignore .gitignore`
+- Action: Warn user, pause init/publish
+- Why: Can't manage gitignore if it's itself ignored
+
+**Edge Case 2: Already published**
+- Detect: `config.collaboration.mode == "team_shared"`
+- Action: Show "Already in team-shared mode", exit gracefully
+- Why: Prevents confusion, no-op is safe
+
+**Edge Case 3: Partial gitignore state**
+- Detect: Some alexANTria files ignored, section missing
+- Action: Show warning, ask user to clean up manually
+- Why: Unknown state, let user resolve
+
+### Commands Affected
+
+**Commands that check collaboration mode:**
+- `/ant-init` - Asks for mode, creates gitignore if needed
+- `/ant-publish` - Transitions local-only → team-shared
+- `/ant-migrate` - Respects mode when creating ANT-SURFACE.md
+- `/ant-status` - Shows current mode
+
+**Commands that work the same in both modes:**
+- `/ant-commit` - Worker ant operates identically
+- `/ant-validate` - Validation works the same
+- `/ant-review-suggestions` - Suggestions work the same
+- `/ant-check-consistency` - Guardians work the same
+
+## Benchmarking Pattern
+
+### Quality Scoring Framework
+
+**Pattern:** Objective measurement of output quality across 4 dimensions.
+
+**Dimensions (100 points total):**
+1. **Objective Criteria (40 points):** Automated checks against task success criteria
+   - File naming conventions (regex checks)
+   - Required sections present (structure validation)
+   - YAML frontmatter valid (parse check)
+   - No placeholder text (content validation)
+
+2. **Pattern Adherence (30 points):** Compliance with documented patterns
+   - Command structure matches ANT-PATTERNS.md
+   - Naming conventions followed
+   - Frontmatter format correct
+   - Agent instructions follow format
+   - Read-act-repair pattern demonstrated
+
+3. **Correctness (20 points):** No hallucinations, valid references
+   - All file references exist in repo
+   - No made-up commands or tools
+   - No placeholder/dummy content
+   - Factually accurate
+
+4. **Completeness (10 points):** Production-ready solution
+   - All success criteria addressed
+   - Required sections present
+   - Edge cases handled
+
+**Location:** `.alexantria/benchmarks/quality-scoring.md`
+
+### Comparative Analysis Pattern
+
+**Pattern:** Run identical tasks with different approaches, measure differences objectively.
+
+**Structure:**
+```json
+{
+  "task_id": "task-name",
+  "control": {
+    "approach": "raw_repo",
+    "context_tokens": 1014096,
+    "time_seconds": 65,
+    "accuracy_score": 7
+  },
+  "test": {
+    "approach": "ant_framework",
+    "context_tokens": 6701,
+    "time_seconds": 22,
+    "accuracy_score": 9
+  },
+  "improvements": {
+    "token_reduction": "151.3x",
+    "speed_improvement": "3.0x",
+    "accuracy_improvement": "+29%",
+    "roi_improvement": "194.6x"
+  }
+}
+```
+
+**Process:**
+1. Define benchmark task with clear success criteria
+2. Run control approach (raw repo, all files loaded)
+3. Run test approach (ANT framework, selective loading)
+4. Score both outputs using quality framework
+5. Calculate improvements across dimensions
+6. Store results for historical tracking
+
+**Location:** `.alexantria/benchmarks/comparison-results.md`
+
+### LLM-as-Judge Pattern
+
+**Pattern:** Use third-party agent to evaluate outputs objectively.
+
+**Evaluation Criteria:**
+- Clarity (0-10): How understandable is the output?
+- Pattern Adherence (0-10): Does it follow documented patterns?
+- Completeness (0-10): Does it fully address the task?
+- Production-Readiness (0-10): Could this be merged as-is?
+
+**Implementation:**
+```markdown
+You are a code reviewer evaluating two implementations.
+
+Rate each on:
+1. Clarity (0-10)
+2. Adherence to Patterns (0-10)
+3. Completeness (0-10)
+4. Production-Readiness (0-10)
+
+Provide scores and brief justification.
+```
+
+**Why:** Provides consistent, unbiased evaluation across multiple outputs.
+
+### Anti-Pattern Detection
+
+**Pattern:** Identify common failures in agent outputs.
+
+**Control (too much context) anti-patterns:**
+- References files that don't exist (hallucinations)
+- Verbose, unfocused explanations
+- Copies patterns from wrong sources
+- Includes irrelevant information
+- Inconsistent with established patterns
+
+**Test (ideal) characteristics:**
+- References only relevant files
+- Concise, focused implementation
+- Follows ANT-PATTERNS.md precisely
+- Relevant information only
+- Consistent with existing commands
+
+**Commands:**
+- `/ant-benchmark` - Run comparative benchmarks
+- `/ant-validate-rlm` - Validate RLM selective loading
+
+**Enforcement:** Patterns Guardian validates benchmarking infrastructure follows this pattern.
 
 ## Recent Changes (Last 5-10 Commits)
 

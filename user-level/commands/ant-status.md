@@ -42,6 +42,9 @@ Use a single consolidated bash command to check all critical files:
   if [ -f .alexantria/config.json ]; then
     jq -r '.scope.starting_level // "unknown"' .alexantria/config.json 2>/dev/null | xargs echo "starting_level="
     jq -r '.scope.adoption_stage // "unknown"' .alexantria/config.json 2>/dev/null | xargs echo "adoption_stage="
+    jq -r '.collaboration.mode // "team_shared"' .alexantria/config.json 2>/dev/null | xargs echo "collaboration_mode="
+    jq -r '.collaboration.gitignored_at // "null"' .alexantria/config.json 2>/dev/null | xargs echo "gitignored_at="
+    jq -r '.collaboration.published_at // "null"' .alexantria/config.json 2>/dev/null | xargs echo "published_at="
   fi
 
   echo "=== MANIFEST ==="
@@ -132,6 +135,19 @@ Based on status, recommend:
 🐜 Colony Status Report
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+📍 Collaboration Mode
+  [If local_only:]
+    Mode: Local-only (private)
+    Gitignored since: [timestamp]
+    Files private: .alexantria/ (except config.json), CLAUDE.md, .claude/, ANT-*.md
+
+    → Run /ant-publish to share with team
+
+  [If team_shared:]
+    Mode: Team-shared
+    [If published_at not null:] Published: [timestamp]
+    Files tracked in git
+
 📊 Installation State
   [✓] CLAUDE.md found
   [✓] .alexantria/ directory found
@@ -191,6 +207,14 @@ Determine final status:
 ```
 🐜 Colony Status Report
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📍 Collaboration Mode: [Local-only | Team-shared]
+  [If local-only:]
+    Gitignored since: [timestamp]
+    Files private: .alexantria/, CLAUDE.md, .claude/, ANT-*.md
+    → Run /ant-publish to share with team
+  [If team-shared:]
+    [If published:] Published: [timestamp]
 
 📊 Installation State
   [✓] CLAUDE.md

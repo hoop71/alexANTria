@@ -1,6 +1,6 @@
 # alexANTria - Architecture
 
-**Layer:** Tunnels (🚇)
+**Layer:** Architecture (🚇)
 
 ## System Architecture
 
@@ -76,7 +76,18 @@ Scout discovers existing docs
   ↓
 Map to 5-layer hierarchy
   ↓
-Ask user: starting_level, adoption_mode, scope
+Ask user: starting_level, adoption_mode, collaboration_mode, scope
+  ↓
+If collaboration_mode = local_only:
+  - Check if .gitignore is gitignored (error if true)
+  - Create/append .gitignore section
+  - Set config.collaboration.mode = "local_only"
+  - Set config.collaboration.gitignored_at = now()
+  - Show local-only mode messaging
+  ↓
+If collaboration_mode = team_shared:
+  - Set config.collaboration.mode = "team_shared"
+  - No .gitignore changes
   ↓
 Generate CLAUDE.md, .claude/rules/, .alexantria/
   ↓
@@ -84,7 +95,7 @@ Create ANT-* files based on starting_level
   ↓
 Install pre-commit hook
   ↓
-Present team adoption checklist
+Present team adoption checklist (or local-only messaging)
 ```
 
 ### 2. Commit Flow (Agent)
@@ -136,6 +147,67 @@ Report results to worker ant
 Worker ant stages manifest with log
 ```
 
+### 4. Publish Flow (Local-Only → Team-Shared)
+```
+User runs /ant-publish
+  ↓
+Validate config.collaboration.mode == "local_only"
+  ↓
+If not local_only: Show "Already team-shared", exit
+  ↓
+Show what will be published (git status --ignored)
+  ↓
+Ask user confirmation
+  ↓
+If user confirms:
+  Remove .gitignore section
+    ↓
+  Update config:
+    - collaboration.mode = "team_shared"
+    - collaboration.published_at = now()
+    - Keep gitignored_at (historical record)
+    ↓
+  Stage all alexANTria files:
+    - .alexantria/ (including manifest, config)
+    - CLAUDE.md
+    - .claude/
+    - ANT-*.md (all layers)
+    - **/ANT-SURFACE.md (in subdirectories)
+    - .gitignore (updated)
+    ↓
+  Show team adoption checklist
+    ↓
+  Suggest commit message
+    ↓
+User runs /ant-commit to create commit
+```
+
+### 5. Migration Flow (with Collaboration Awareness)
+```
+User runs /ant-migrate <directory>
+  ↓
+Read <directory>/README.md
+  ↓
+Generate <directory>/ANT-SURFACE.md
+  ↓
+Check config.collaboration.mode
+  ↓
+If local_only:
+  Append "<directory>/ANT-SURFACE.md" to .gitignore
+  Notify user: "Local-only mode: file gitignored"
+  ↓
+If team_shared:
+  No .gitignore changes
+  ↓
+Stage migration:
+  - git add <directory>/ANT-SURFACE.md
+  - git rm <directory>/README.md
+  - git add .gitignore (if modified)
+  - Update manifest
+  ↓
+Suggest commit
+```
+
 ## Technology Stack
 
 ### Core Platform
@@ -177,20 +249,20 @@ The `starting_level` config field controls what worker ant auto-maintains:
 ```
 starting_level: "surface"
   ✓ Auto: ANT-SURFACE.md
-  ✗ Suggest: ANT-TUNNELS, ANT-CHAMBERS, ANT-NEST, ANT-QUEEN
+  ✗ Suggest: ANT-ARCHITECTURE, ANT-PATTERNS, ANT-PRODUCT, ANT-STRATEGY
 
-starting_level: "tunnels"
-  ✓ Auto: ANT-SURFACE.md, ANT-TUNNELS.md
-  ✗ Suggest: ANT-CHAMBERS, ANT-NEST, ANT-QUEEN
+starting_level: "architecture"
+  ✓ Auto: ANT-SURFACE.md, ANT-ARCHITECTURE.md
+  ✗ Suggest: ANT-PATTERNS, ANT-PRODUCT, ANT-STRATEGY
 
-starting_level: "chambers"
-  ✓ Auto: ANT-SURFACE.md, ANT-TUNNELS.md, ANT-CHAMBERS.md
-  ✗ Suggest: ANT-NEST, ANT-QUEEN
+starting_level: "patterns"
+  ✓ Auto: ANT-SURFACE.md, ANT-ARCHITECTURE.md, ANT-PATTERNS.md
+  ✗ Suggest: ANT-PRODUCT, ANT-STRATEGY
 ```
 
 **Always manual:**
-- ANT-NEST.md (product decisions)
-- ANT-QUEEN.md (strategic principles)
+- ANT-PRODUCT.md (product decisions)
+- ANT-STRATEGY.md (strategic principles)
 
 ## Cost Model
 

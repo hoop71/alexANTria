@@ -14,13 +14,21 @@ This directory contains all executable alexANTria commands. Each command is a ma
 
 - **ant-init.md** - Initialize alexANTria in a project
   - Crawls existing docs, proposes hierarchy, generates structure
-  - Asks: starting_level, adoption_mode, scope
+  - Asks: starting_level, adoption_mode, collaboration_mode, scope
   - Creates: CLAUDE.md, .claude/rules/, .alexantria/, ANT-* files
+  - Supports local-only and team-shared modes
 
 - **ant-commit.md** - Automated commit with worker ant
   - Agent-only command
   - Spawns worker ant (blocking)
   - Single commit: code + docs + manifest
+
+- **ant-publish.md** - Publish local-only alexANTria to team
+  - Transitions from local-only → team-shared (one-way)
+  - Removes gitignore entries
+  - Stages all alexANTria files
+  - Shows team adoption checklist
+  - Only works when in local-only mode
 
 - **ant-validate.md** - Check installation health
   - Verifies: Files exist, structure correct, JSON valid
@@ -116,6 +124,7 @@ This directory contains all executable alexANTria commands. Each command is a ma
 user-level/commands/
 ├── ant-init.md
 ├── ant-commit.md
+├── ant-publish.md
 ├── ant-graduate.md
 ├── ant-migrate.md
 ├── ant-validate.md
@@ -172,6 +181,10 @@ Commands read configuration from:
 
 ## Recent Changes (Last 5-10 Commits)
 
+- Added ant-publish.md command (local-only → team-shared transition)
+- Updated ant-init.md, ant-migrate.md with collaboration mode support
+- Added collaboration tracking to config.json (mode, gitignored_at, published_at)
+- Updated ANT-ARCHITECTURE.md with publish flow and migration collaboration awareness
 - Added ant-status.md command (shows colony health, config, recent commits, pending reviews)
 - Added benchmark infrastructure (.alexantria/benchmarks/) with quality-scoring.md and comparison-results.md
 - Updated ANT-SURFACE.md with ant-status, ant-benchmark, ant-validate-rlm entries

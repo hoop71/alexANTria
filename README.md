@@ -68,6 +68,38 @@ cd your-project/
 
 ---
 
+## Quick Start (Local-Only)
+
+**Want to test privately before sharing with your team?**
+
+```bash
+cd your-project/
+/ant-init
+# Choose "Local-only (private experimentation)" when asked
+
+# Work normally for days/weeks
+# All features work: worker ant, validation, guardians
+# Your team doesn't see any changes (files gitignored)
+
+# When ready to share:
+/ant-publish
+```
+
+**What happens:**
+- All alexANTria files (except config.json) are gitignored
+- You can experiment freely without team coordination
+- Worker ant maintains docs locally as normal
+- When confident: `/ant-publish` removes gitignore and stages everything
+- One-way transition (no unpublishing to prevent team disruption)
+
+**Perfect for:**
+- Individual developers testing alexANTria
+- Pilots where team hasn't bought in yet
+- Proving value before asking for team adoption
+- Clean exit if it doesn't work (just don't publish)
+
+---
+
 ## What You Get
 
 ```

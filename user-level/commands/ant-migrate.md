@@ -118,6 +118,16 @@ When the user says "/ant-migrate <directory>":
    # Write new file
    Use Write tool to create <directory>/ANT-SURFACE.md
 
+   # Check collaboration mode
+   mode=$(jq -r '.collaboration.mode // "team_shared"' .alexantria/config.json)
+
+   # If local-only mode, add ANT-SURFACE.md to .gitignore
+   if [ "$mode" = "local_only" ]; then
+     echo "<directory>/ANT-SURFACE.md" >> .gitignore
+     git add .gitignore
+     echo "📍 Local-only mode: ANT-SURFACE.md gitignored"
+   fi
+
    # Stage new file and remove old file
    git add <directory>/ANT-SURFACE.md && git rm <directory>/README.md
 

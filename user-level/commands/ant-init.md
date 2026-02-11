@@ -176,6 +176,25 @@ Based on selection:
 - **ANT-only:** Create only ANT-* files, suggest migrating any existing README.md files
 - **Hybrid-to-ANT:** Create ANT-* files alongside existing README.md files
 
+### Ask: Collaboration Mode
+
+```
+Use AskUserQuestion:
+
+Question: "How will you use alexANTria?"
+Header: "Collaboration Mode"
+Options:
+1. Local-only (Recommended for individual testing)
+   Description: Gitignore all alexANTria files except config.json. Test privately before sharing with team. Run /ant-publish when ready.
+
+2. Team-shared (Recommended for established projects)
+   Description: Track alexANTria files in git. Team sees all ANT-* docs from day 1. Standard adoption path.
+```
+
+Based on selection:
+- **Local-only:** Set `collaboration.mode = "local_only"`, `gitignored_at = <current ISO timestamp>`, `published_at = null`. Create .gitignore section.
+- **Team-shared:** Set `collaboration.mode = "team_shared"`, `gitignored_at = null`, `published_at = null`. No .gitignore changes.
+
 ### Ask: Scope
 
 For existing repos, ask which directories to manage:
@@ -204,6 +223,49 @@ Based on selection, set `managed_paths` in config.json:
 ## Phase 3: Generate
 
 Create the context files based on confirmed mappings.
+
+### Create .gitignore Section (If Local-Only Mode)
+
+If user selected collaboration mode = "local_only":
+
+**First, check if .gitignore is itself gitignored:**
+```bash
+git check-ignore .gitignore
+```
+
+If exit code 0 (is ignored):
+- Show: "⚠️  .gitignore is gitignored. This will cause issues with local-only mode."
+- Show: "Remove .gitignore from .gitignore first, then retry /ant-init."
+- Pause: Exit command without making changes
+
+**If .gitignore is not ignored, proceed:**
+
+```bash
+# Append alexANTria section to .gitignore (or create if doesn't exist)
+cat >> .gitignore <<'EOF'
+
+# alexANTria (local-only mode)
+.alexantria/
+!.alexantria/config.json
+CLAUDE.md
+.claude/
+**/ANT-SURFACE.md
+ANT-ARCHITECTURE.md
+ANT-PATTERNS.md
+ANT-PRODUCT.md
+ANT-STRATEGY.md
+
+EOF
+
+# Stage .gitignore
+git add .gitignore
+
+echo "✓ Created .gitignore section for local-only mode"
+```
+
+**Note:** config.json is NOT gitignored (documents your configuration, makes publishing smoother).
+
+If collaboration mode = "team_shared", skip this step entirely.
 
 ### Create CLAUDE.md
 
@@ -361,7 +423,12 @@ Create config for worker ant behavior based on user selections:
   "commit_tracking": {
     "enabled": true
   },
-  "adoption_stage": "[pilot|active|full]"
+  "adoption_stage": "[pilot|active|full]",
+  "collaboration": {
+    "mode": "[local_only|team_shared]",
+    "gitignored_at": "[ISO timestamp if local_only, null if team_shared]",
+    "published_at": null
+  }
 }
 ```
 
@@ -369,6 +436,10 @@ Create config for worker ant behavior based on user selections:
 - Single directory + surface → "pilot"
 - Multiple directories + surface/tunnels → "active"
 - Entire repo + tunnels/chambers → "full"
+
+**Collaboration field:**
+- If local_only selected: `"mode": "local_only"`, `"gitignored_at": "<current ISO timestamp>"`, `"published_at": null`
+- If team_shared selected: `"mode": "team_shared"`, `"gitignored_at": null`, `"published_at": null`
 
 ### Configure Worker Ant (Optional)
 
@@ -433,6 +504,7 @@ Configuration:
   Starting Level: [surface | tunnels | chambers]
   Managed Paths: [scope from config]
   Adoption Stage: [pilot | active | full]
+  Collaboration Mode: [local-only | team-shared]
 
 Created:
   CLAUDE.md                    — 5-layer anthill hierarchy
@@ -463,6 +535,37 @@ Automation Boundary:
 External context feeds (read-only):
   [path/to/external/] (ANT-EXTERNAL) - [Description]
 ```
+
+### Post-Init Messaging
+
+**If collaboration mode = local-only, show:**
+
+```
+📍 Local-Only Mode Active
+
+Your alexANTria files are private (gitignored).
+
+What this means:
+  ✓ You can experiment freely without team seeing changes
+  ✓ Worker ant still maintains docs locally
+  ✓ All features work normally (validation, guardians, etc.)
+
+  ✗ Team members won't see your ANT-* docs
+  ✗ Your docs won't be in version control (except config.json)
+
+When ready to share with team: /ant-publish
+
+Files gitignored:
+  .alexantria/ (except config.json)
+  CLAUDE.md
+  .claude/
+  ANT-*.md
+
+File tracked:
+  .alexantria/config.json (documents your configuration)
+```
+
+**If collaboration mode = team-shared, skip this message.**
 
 ### Team Adoption Checklist
 

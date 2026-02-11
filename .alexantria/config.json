@@ -25,5 +25,10 @@
       "on_demand": true
     }
   },
-  "adoption_stage": "full"
+  "adoption_stage": "full",
+  "collaboration": {
+    "mode": "team_shared",
+    "gitignored_at": null,
+    "published_at": null
+  }
 }

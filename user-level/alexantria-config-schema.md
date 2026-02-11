@@ -39,7 +39,12 @@
       "on_demand": boolean
     }
   },
-  "adoption_stage": "pilot" | "active" | "full"
+  "adoption_stage": "pilot" | "active" | "full",
+  "collaboration": {
+    "mode": "local_only" | "team_shared",
+    "gitignored_at": string | null,
+    "published_at": string | null
+  }
 }
 ```
 
@@ -164,6 +169,30 @@
 - **Default:** true
 - **Description:** Allow /ant-check-consistency command
 - **Note:** Runs all 5 guardians for comprehensive validation
+
+### `collaboration.mode`
+- **Type:** string
+- **Options:** "local_only", "team_shared"
+- **Default:** "team_shared"
+- **Description:** Collaboration mode - determines file visibility
+- **Modes:**
+  - **local_only:** All alexANTria files (except config.json) gitignored. Test privately before sharing with team.
+  - **team_shared:** All alexANTria files tracked in git. Team sees all ANT-* docs.
+- **Note:** Transition from local_only to team_shared via /ant-publish (one-way)
+
+### `collaboration.gitignored_at`
+- **Type:** string | null
+- **Default:** null
+- **Description:** ISO 8601 timestamp when local-only mode was enabled
+- **Example:** "2026-02-11T10:30:00Z"
+- **Note:** Set by /ant-init when choosing local-only mode. Preserved after publishing (historical record).
+
+### `collaboration.published_at`
+- **Type:** string | null
+- **Default:** null
+- **Description:** ISO 8601 timestamp when published to team
+- **Example:** "2026-02-11T11:45:00Z"
+- **Note:** Set by /ant-publish when transitioning to team-shared mode. Null if never published or always team-shared.
 
 ### `adoption_stage`
 - **Type:** string
