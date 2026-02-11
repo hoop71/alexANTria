@@ -12,19 +12,30 @@ Every session starts from scratch. You re-explain architecture, context bloats (
 
 **Context rot is structural** — models degrade beyond soft limits, even within the window. Compounds with teams and swarms.
 
+[RLMs](https://www.dbreunig.com/2026/02/09/the-potential-of-rlms.html) solve this with two context pools: **programmatic** (code environment) and **tokenized** (docs). But they don't maintain themselves:
+
+- **Tokenized** (docs): Go out of sync, rot
+- **Intentional** (strategy): Rarely captured at all — why decisions were made, who this is for, core principles. Lives in heads, Slack, evaporates.
+
 ---
 
 ## The Solution
 
-**Three-pool RLM architecture:**
+**alexANTria extends RLMs with a third intentional pool** and gives you **tools that automate, remind, and assist** in keeping all three maintained:
 
 1. **Programmatic** (code) — Agents infer from implementations
 2. **Tokenized** (docs) — Patterns that must be written
 3. **Intentional** (strategy) — Human knowledge: why decisions were made
 
-**Result:** Layered auto-loading memory that survives sessions, evolves with code, scales from solo → teams → swarms.
+**Infrastructure that maintains them:**
 
-[The Potential of RLMs](https://www.dbreunig.com/2026/02/09/the-potential-of-rlms.html)
+- `/ant-commit` — Validates, updates docs, commits atomically
+- `/ant-update` — Syncs docs after code changes
+- `/ant-validate` — Health checks
+- Auto-loading rules — Delivers context at the right time
+- Selective loading — Only loads what's needed (14.8x reduction)
+
+**Result:** Layered memory that survives sessions, doesn't rot, scales from solo → teams → swarms.
 
 ---
 
