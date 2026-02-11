@@ -1,3 +1,8 @@
+---
+title: ANT Schema
+description: Documentation Hierarchy Pattern. Maps RLM three-pool architecture to five organizational layers.
+---
+
 # ANT-SCHEMA: Documentation Hierarchy Pattern
 
 **Knowledge spectrum from code-inferable to human-required.** Maps RLM three-pool architecture to five organizational layers.

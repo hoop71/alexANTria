@@ -93,10 +93,11 @@ jq -r '.version' .alexantria/config.json
 
 # If this IS the framework repo
 git fetch origin
+UPDATES=$(git log --oneline HEAD..origin/main | wc -l | tr -d ' ')
 git log --oneline HEAD..origin/main | head -10
 
 # Show available updates
-echo "Updates available: <count> commits ahead"
+echo "Updates available: $UPDATES commits ahead"
 ```
 
 ### Step 2: Show Changelog
@@ -170,30 +171,38 @@ Use AskUserQuestion:
 ### Step 4: Backup Current Installation
 
 ```bash
-# Create backup directory
-OLD_VERSION=$(jq -r '.version' .alexantria/config.json)
-mkdir -p .alexantria/backup/v${OLD_VERSION}
+# Create backup directory with timestamp
+BACKUP_DIR="$HOME/.claude/backup/$(date +%Y%m%d_%H%M%S)"
+mkdir -p "$BACKUP_DIR"
 
-# Backup selected components
-cp -r user-level/commands/*.md .alexantria/backup/v${OLD_VERSION}/commands/
-cp -r user-level/commands/guardians/ .alexantria/backup/v${OLD_VERSION}/guardians/
-cp -r templates/*.template .alexantria/backup/v${OLD_VERSION}/templates/
-cp user-level/commands/worker-ant-prompt.md .alexantria/backup/v${OLD_VERSION}/
+# Backup current installation from ~/.claude/
+cp "$HOME/.claude/CLAUDE.md" "$BACKUP_DIR/" 2>/dev/null || true
+cp -r "$HOME/.claude/commands/" "$BACKUP_DIR/" 2>/dev/null || true
 
-echo "✓ Backup created at .alexantria/backup/v${OLD_VERSION}/"
+echo "✓ Backup created at $BACKUP_DIR"
 ```
 
 ### Step 5: Upgrade Components
 
 **If this IS the framework repo (alexANTria itself):**
 ```bash
-git pull origin main
+# Pull latest changes and reinstall
+git pull origin main && ./install.sh
 ```
 
 **If this is a PROJECT using alexANTria:**
-- Copy updated files from framework repo location
-- Or fetch from a remote source
-- User must specify where framework files are
+```bash
+# Navigate to framework repo and pull
+cd /path/to/alexANTria && git pull origin main
+
+# Reinstall from that location
+./install.sh
+
+# Return to project directory
+cd -
+```
+
+If user doesn't have local framework repo, ask where it's located first.
 
 ### Step 6: Migrate Config
 
@@ -240,24 +249,22 @@ ls -1 user-level/commands/ant-*.md | wc -l
 ✅ Upgrade Complete
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-🔄 Updated:
-  [✓] 8 commands
-  [✓] 5 guardians
-  [✓] 5 templates
-  [✓] worker-ant-prompt.md
-  [✓] config.json (v0.1 → v0.2)
+🔄 Updated & Reinstalled:
+  [✓] Repository updated (git pull)
+  [✓] Commands reinstalled to ~/.claude/commands/
+  [✓] CLAUDE.md updated
+  [✓] All command files refreshed
 
 💾 Backup:
-  [i] Previous version backed up to .alexantria/backup/v0.1/
+  [i] Previous version backed up to ~/.claude/backup/<timestamp>/
 
-✨ New Commands Available:
-  • /ant-refresh-doc
-  • /ant-upgrade
+✨ New Features:
+  [List any new commands or features from changelog]
 
 ⚠️  Action Required:
-  → Review config changes: git diff .alexantria/config.json
-  → Test new features: /ant-validate
-  → Commit upgrade: git add . && git commit -m "Upgrade alexANTria to v0.2"
+  → Restart Claude Code to load new commands
+  → Run /ant-validate to verify installation
+  → Review changelog for breaking changes
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```

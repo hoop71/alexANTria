@@ -1,3 +1,8 @@
+---
+title: RLM Architecture
+description: How to apply Retrieval-Augmented Language Model principles to prevent context rot at organizational scale.
+---
+
 # RLM Architecture for Project Documentation
 
 **How to apply Retrieval-Augmented Language Model principles to prevent context rot at organizational scale.**

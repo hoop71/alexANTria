@@ -1,3 +1,8 @@
+---
+title: ANT Framework
+description: Organizational Knowledge Framework. RLM architecture at organizational scale with three-pool context separation.
+---
+
 # ANT-FRAMEWORK: Organizational Knowledge Framework
 
 **RLM architecture at organizational scale.** Three-pool context separation (programmatic/tokenized/intentional) prevents context rot.
