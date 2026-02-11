@@ -222,7 +222,7 @@ When the user says "/ant-check-consistency":
          "timestamp": "<ISO-8601>",
          "status": "PASS|FAIL",
          "violations": [...],
-         "guardians_consulted": ["surface", "tunnels", "chambers", "nest", "queen"]
+         "guardians_consulted": ["surface", "docs", "docs", "product", "strategy"]
        }
      ]
    }

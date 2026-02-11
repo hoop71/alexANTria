@@ -63,9 +63,9 @@ These are the non-negotiable principles that guide all decisions in alexANTria:
 **Why:** Higher layers (strategic, product) require human judgment.
 
 **Never violate:**
-- ANT-NEST.md always requires manual updates
-- ANT-QUEEN.md always requires manual updates
-- Even if starting_level = "chambers", never auto-update nest/queen
+- ANT-PRODUCT.md always requires manual updates
+- ANT-STRATEGY.md always requires manual updates
+- Even if starting_level: "patterns", never auto-update product/strategy
 
 ### 6. Opt-In Complexity
 
@@ -99,8 +99,8 @@ These are the non-negotiable principles that guide all decisions in alexANTria:
 
 **Example:**
 - ✅ Agent updates ANT-SURFACE.md: "Added JWT authentication endpoints"
-- ✅ Agent suggests ANT-CHAMBERS.md: "Detected auth pattern across 3 services"
-- ✗ Agent writes ANT-NEST.md: "We're targeting enterprise customers" (requires human capture)
+- ✅ Agent suggests ANT-PATTERNS.md: "Detected auth pattern across 3 services"
+- ✗ Agent writes ANT-PRODUCT.md: "We're targeting enterprise customers" (requires human capture)
 
 ### 8. Platform Convention Exceptions
 
@@ -137,10 +137,10 @@ These are the non-negotiable principles that guide all decisions in alexANTria:
 
 **Options:**
 - `surface`: Only ANT-SURFACE.md auto-maintained
-- `tunnels`: ANT-SURFACE + ANT-TUNNELS auto-maintained
-- `chambers`: ANT-SURFACE + ANT-TUNNELS + ANT-CHAMBERS auto-maintained
+- `architecture`: ANT-SURFACE + ANT-ARCHITECTURE auto-maintained
+- `patterns`: ANT-SURFACE + ANT-ARCHITECTURE + ANT-PATTERNS auto-maintained
 
-**Never:** `starting_level: "queen"` - strategic docs always manual
+**Never:** `starting_level: "strategy"` - strategic docs always manual
 
 ### Clean Removal Path
 

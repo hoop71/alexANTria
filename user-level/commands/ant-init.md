@@ -80,7 +80,7 @@ Read each discovered doc file briefly to understand its purpose. Map to the 5-la
 - Examples: Design system docs, shared API patterns
 
 **🚇 Tunnels - Architecture/Service Connections** (look for):
-- Files with "architecture", "patterns", "conventions", "contributing", "api" in name
+- Files with "docs", "docs", "conventions", "contributing", "api" in name
 - Content with "we use", "structure", "components"
 - Tech stack docs, coding standards, service boundaries
 - Examples: `ARCHITECTURE.md`, `CONTRIBUTING.md`, `API.md`
@@ -153,7 +153,7 @@ Options:
    Description: Creates ANT-SURFACE.md + ANT-ARCHITECTURE.md + ANT-PATTERNS.md. Auto-maintains all three. Higher risk, for full adoption.
 ```
 
-Based on selection, set `starting_level` to "surface", "tunnels", or "chambers".
+Based on selection, set `starting_level: "docs".
 
 **Note:** ANT-PRODUCT.md and ANT-STRATEGY.md always require manual updates (strategic/product layers).
 
@@ -364,14 +364,14 @@ Based on the selected `starting_level`, create the appropriate ANT-* files:
 # Use template from templates/ANT-SURFACE.md.template
 ```
 
-**If starting_level = "tunnels":**
+**If starting_level: "docs":**
 ```bash
 # Create ANT-SURFACE.md in each directory
 # Create ANT-ARCHITECTURE.md at repo root
 # Use templates from templates/
 ```
 
-**If starting_level = "chambers":**
+**If starting_level: "docs":**
 ```bash
 # Create ANT-SURFACE.md in each directory
 # Create ANT-ARCHITECTURE.md at root

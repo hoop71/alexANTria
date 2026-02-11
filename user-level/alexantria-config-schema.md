@@ -14,7 +14,7 @@
   "scope": {
     "managed_paths": string[],
     "exclude_paths": string[],
-    "starting_level": "service" | "architecture" | "patterns",
+    "starting_level": "surface" | "docs" | "strategy",
     "graduated_files": {
       "<native-filename>": {
         "graduated_from": string,
@@ -86,14 +86,14 @@
 
 ### `scope.starting_level`
 - **Type:** string
-- **Options:** "service", "architecture", "patterns"
-- **Default:** "service"
-- **Description:** Highest layer worker ant auto-maintains. Everything below = automated, everything above = suggestions only.
-- **Layers:**
-  - **service** - Only ANT-README.md / ANT-SURFACE.md (directory-level docs)
-  - **architecture** - ANT-README.md + ANT-ARCHITECTURE.md (architecture)
-  - **patterns** - ANT-README.md + ANT-ARCHITECTURE.md + ANT-PATTERNS.md (patterns)
-- **Note:** ANT-PRODUCT.md and ANT-STRATEGY.md always require manual updates (strategic/product layers)
+- **Options:** "surface", "docs", "strategy"
+- **Default:** "surface"
+- **Description:** Highest level worker ant auto-maintains. At or below = automated, above = suggestions only.
+- **Levels:**
+  - **surface** - Only ANT-SURFACE.md (programmatic - code-adjacent)
+  - **docs** - ANT-SURFACE.md + ANT-DOCS.md (tokenized - system structure & patterns)
+  - **strategy** - All levels (intentional - strategic context, rarely used)
+- **Note:** ANT-STRATEGY.md typically requires manual updates. starting_level="strategy" means full automation (use with caution).
 
 ### `scope.graduated_files`
 - **Type:** object (optional)
@@ -238,7 +238,7 @@
 ```
 **Result:**
 - ANT-SURFACE.md auto-maintained across src/ and lib/
-- Optionally upgrade starting_level to "tunnels" to auto-maintain ANT-ARCHITECTURE.md
+- Optionally upgrade starting_level: "docs" to auto-maintain ANT-ARCHITECTURE.md
 - Can migrate README.md → ANT-SURFACE.md directory-by-directory
 
 ### Full (Complete Automation)
@@ -247,7 +247,7 @@
 {
   "scope": {
     "managed_paths": ["**"],
-    "starting_level": "tunnels"
+    "starting_level: "docs"
   },
   "auto_update": {
     "ant_files": true

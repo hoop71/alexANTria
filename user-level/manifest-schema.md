@@ -61,7 +61,7 @@
 {
   "doc": string,                 // Path to doc that needs review
   "reason": string,              // Why it needs review
-  "layer": string                // "strategy" | "product" | "patterns" | "architecture" | "service"
+  "layer": string                // "strategy" | "product" | "docs" | "docs" | "surface"
 }
 ```
 
@@ -80,7 +80,7 @@
   "backup_created": string,      // Backup filename (if existing file was replaced)
   "commit": string,              // Commit hash where graduation happened
   "pool": string,                // "programmatic" | "tokenized" | "intentional"
-  "layer": string                // "strategy" | "product" | "patterns" | "architecture" | "service"
+  "layer": string                // "strategy" | "product" | "docs" | "docs" | "surface"
 }
 ```
 
@@ -144,7 +144,7 @@
       "backup_created": "src/auth/README.md.backup",
       "commit": "def5678",
       "pool": "programmatic",
-      "layer": "service"
+      "layer": "surface"
     }
   ]
 }

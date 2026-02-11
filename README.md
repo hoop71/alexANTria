@@ -6,48 +6,37 @@
 
 ---
 
-## The Problem: Context Rot
+## The Problem
 
-Every coding session starts from scratch:
-- You re-explain your architecture every time
-- Context bloats prompts (5,000+ tokens)
-- Documentation rots (agents don't maintain it)
-- Multiple agents contradict each other
+Every session starts from scratch. You re-explain architecture, context bloats (5K+ tokens), docs rot, agents contradict each other.
 
-**Context rot is structural:** Models degrade when context exceeds soft limits, even within the window. This compounds with teams, multiple sessions, or agent swarms.
+**Context rot is structural** — models degrade beyond soft limits, even within the window. Compounds with teams and swarms.
 
 ---
 
-## The Solution: Three-Pool Architecture
+## The Solution
 
-RLM research reveals three types of context. alexANTria separates them:
+**Three-pool RLM architecture:**
 
-1. **Programmatic** (code) — What agents can infer by reading implementations
-2. **Tokenized** (docs) — Patterns and conventions that must be written
+1. **Programmatic** (code) — Agents infer from implementations
+2. **Tokenized** (docs) — Patterns that must be written
 3. **Intentional** (strategy) — Human knowledge: why decisions were made
 
-Your docs become layered, auto-loading memory:
-- **Survives sessions** — Context persists across restarts and compactions
-- **Layers with precedence** — Strategy constrains implementation
-- **Evolves with code** — Agents maintain lower layers, humans maintain upper
-- **Scales** — Solo dev → teams → orchestrated swarms (Gas Town)
+**Result:** Layered auto-loading memory that survives sessions, evolves with code, scales from solo → teams → swarms.
 
-See: [The Potential of RLMs](https://www.dbreunig.com/2026/02/09/the-potential-of-rlms.html)
+[The Potential of RLMs](https://www.dbreunig.com/2026/02/09/the-potential-of-rlms.html)
 
 ---
 
-## Proof It Works
+## Proof
 
-**Validated with automated self-tests.** Claude validates its own context loading behavior to prove selective loading works.
+Automated self-tests validate selective loading. **[RLM-VALIDATION-PROOF.md](./RLM-VALIDATION-PROOF.md)**
 
-→ **[See live proof: RLM-VALIDATION-PROOF.md](./RLM-VALIDATION-PROOF.md)**
-
-**Current metrics:**
 - 🎯 **14.8x context reduction** (317.7 KB → 21.3 KB)
-- 📊 **93.3% of docs unloaded** (only what's needed enters attention)
-- 💰 **75,871 tokens saved** (prevents attention degradation)
+- 📊 **93.3% unloaded** (only needed docs enter attention)
+- 💰 **75,871 tokens saved**
 
-Run validation yourself: `/ant-validate-rlm`
+Run: `/ant-validate-rlm`
 
 ---
 
@@ -55,48 +44,25 @@ Run validation yourself: `/ant-validate-rlm`
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/hoop71/alexANTria/main/install.sh | bash
+# Restart Claude Code
+cd your-project/ && /ant-init
 ```
 
-Restart Claude Code, then:
-
-```bash
-cd your-project/
-/ant-init
-```
-
-**Teams:** Each dev installs commands individually. Project structure lives in git. Fork if you need custom commands.
+**Teams:** Each dev installs commands. Project structure in git. Fork for custom commands.
 
 ---
 
-## Quick Start (Local-Only)
+## Local-Only Mode
 
-**Want to test privately before sharing with your team?**
+Test privately before sharing with your team:
 
 ```bash
-cd your-project/
-/ant-init
-# Choose "Local-only (private experimentation)" when asked
-
-# Work normally for days/weeks
-# All features work: worker ant, validation, guardians
-# Your team doesn't see any changes (files gitignored)
-
-# When ready to share:
-/ant-publish
+/ant-init  # Choose "Local-only"
+# All features work, files gitignored
+/ant-publish  # When ready to share (one-way)
 ```
 
-**What happens:**
-- All alexANTria files (except config.json) are gitignored
-- You can experiment freely without team coordination
-- Worker ant maintains docs locally as normal
-- When confident: `/ant-publish` removes gitignore and stages everything
-- One-way transition (no unpublishing to prevent team disruption)
-
-**Perfect for:**
-- Individual developers testing alexANTria
-- Pilots where team hasn't bought in yet
-- Proving value before asking for team adoption
-- Clean exit if it doesn't work (just don't publish)
+Perfect for pilots, proving value, or clean exit if it doesn't work.
 
 ---
 
@@ -104,90 +70,74 @@ cd your-project/
 
 ```
 your-project/
-├── CLAUDE.md              # The map (hierarchy of docs)
-├── .claude/rules/         # Auto-loads by file path
-│   ├── frontend.md        # Loads for src/components/**
-│   └── backend.md         # Loads for src/server/**
-└── .alexantria/          # Worker ant tracking
+├── CLAUDE.md           # Hierarchy map
+├── .claude/rules/      # Auto-loads by path
+│   ├── frontend.md     # Loads for src/components/**
+│   └── backend.md      # Loads for src/server/**
+└── .alexantria/       # Tracking
     └── manifest.json
 ```
 
-When agents edit `src/components/Button.tsx`, they auto-load `frontend.md` which points to your design philosophy. They work within your constraints automatically.
+Edit `src/components/Button.tsx` → auto-loads `frontend.md` → points to design philosophy → agents work within constraints.
 
-**Drop-in philosophy:** alexANTria only auto-updates files it owns (`ANT-*` pattern, `.alexantria/`). Your docs (README.md, docs/, etc.) are never touched unless you explicitly opt-in. Safe to test, easy to remove.
+**Drop-in:** Only updates files it owns (`ANT-*`, `.alexantria/`). Your docs untouched. Safe to test, easy to remove.
 
-### Graduation Path
+### Graduation
 
-ANT-* files are designed to graduate to native files when you're ready:
+ANT-* files graduate to native files when ready:
 
 ```
-ANT-STRATEGY.md      → STRATEGY.md        (Strategic alignment)
-ANT-PRODUCT.md       → PRODUCT.md         (Product context)
-ANT-PATTERNS.md      → PATTERNS.md        (Cross-cutting patterns)
-ANT-ARCHITECTURE.md  → ARCHITECTURE.md    (System architecture)
-ANT-README.md        → README.md          (Service documentation)
+ANT-STRATEGY.md → STRATEGY.md
+ANT-PRODUCT.md  → PRODUCT.md
+ANT-PATTERNS.md → PATTERNS.md
+...
 ```
 
-**Adoption flow:**
-1. **Pilot** — ANT-* files coexist with your existing docs
-2. **Active** — Validate ANT-* files are well-maintained
-3. **Graduate** — Convert ANT-* → native files with `/ant-graduate`
-4. **Full** — System maintains your native files directly
-
-This lets you test alexANTria risk-free, then adopt fully when ready.
+**Flow:** Pilot (coexist) → Active (validate) → Graduate (`/ant-graduate`) → Full (maintain native)
 
 ---
 
 ## Commands
 
-- `/ant-init` — Crawl existing docs, scaffold structure
-- `/ant-update` — Process commits, update surface docs
-- `/ant-validate` — Check colony health
+- `/ant-init` — Scaffold structure
+- `/ant-update` — Update docs
+- `/ant-validate` — Check health
 
-**Behavior:** Read → Act → Repair
-
----
-
-## Progressive Discovery
-
-Start here, go deeper as needed:
-
-- **[RLM-ARCHITECTURE.md](./RLM-ARCHITECTURE.md)** — **How RLM architecture prevents context rot** (deep dive)
-- **[CLAUDE.md](./CLAUDE.md)** — The anthill map (layers, what to read when)
-- **[ANT-FRAMEWORK.md](./ANT-FRAMEWORK.md)** — Organizational model (strategy/product/patterns/architecture/service)
-- **[ANT-SCHEMA.md](./ANT-SCHEMA.md)** — Documentation pattern (nesting dolls)
-- **[blog/gastown-context-infrastructure.md](./blog/gastown-context-infrastructure.md)** — Why orchestration needs context infrastructure
+Pattern: Read → Act → Repair
 
 ---
 
-## Core Principles
+## Docs
 
-1. **Context is load-bearing** — If context is wrong, behavior will be wrong
-2. **Read, act, repair** — Every action assumes context; changing reality changes context
-3. **Small actions scale** — Consistency emerges from accumulation, not authority
-4. **No central brain** — Alignment from shared constraints, not top-down control
-5. **History matters** — Past decisions explain why things look the way they do
+- **[RLM-ARCHITECTURE.md](./RLM-ARCHITECTURE.md)** — Three-pool architecture, prevents context rot
+- **[CLAUDE.md](./CLAUDE.md)** — Hierarchy map
+- **[ANT-FRAMEWORK.md](./ANT-FRAMEWORK.md)** — Coordination model
+- **[ANT-SCHEMA.md](./ANT-SCHEMA.md)** — 3-level pattern
+- **[blog/gastown-context-infrastructure.md](./blog/gastown-context-infrastructure.md)** — Why swarms need context
+
+---
+
+## Principles
+
+1. **Context is load-bearing** — Wrong context = wrong behavior
+2. **Read, act, repair** — Actions assume context; reality changes context
+3. **Small actions scale** — Consistency from accumulation, not authority
+4. **No central brain** — Alignment from shared constraints
+5. **History matters** — Past decisions explain present state
 
 ---
 
 ## Customization
 
-Fork when you need:
-- Custom command behavior
-- Team-specific templates
-- Your own `/ant-*` commands
+Fork for custom commands, team templates, or new `/ant-*` commands. Otherwise install from upstream.
 
-Otherwise, install from upstream and customize per project.
-
-See `user-level/` and `templates/` directories.
+See `user-level/` and `templates/`.
 
 ---
 
 ## Platform
 
-Currently implemented on Claude Code. Pattern works with any agent that reads markdown (Cursor, Copilot, Windsurf, Aider). Only the hook mechanism differs.
-
-Not just for coding agents. Same structure helps orgs share knowledge at scale.
+Claude Code implementation. Pattern works with any markdown-reading agent (Cursor, Copilot, Windsurf, Aider). Also for org knowledge management.
 
 ---
 

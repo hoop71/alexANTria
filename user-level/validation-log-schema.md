@@ -235,7 +235,7 @@ Use `/ant-validation-report` to analyze log:
       "cost_usd": 0.0035
     },
     {
-      "layer": "tunnels",
+      "layer": "docs",
       "reason": "Full consistency check",
       "status": "PASS",
       "violations": [],
@@ -243,7 +243,7 @@ Use `/ant-validation-report` to analyze log:
       "cost_usd": 0.004
     },
     {
-      "layer": "chambers",
+      "layer": "docs",
       "reason": "Full consistency check",
       "status": "FAIL",
       "violations": [
@@ -257,7 +257,7 @@ Use `/ant-validation-report` to analyze log:
       "cost_usd": 0.0045
     },
     {
-      "layer": "nest",
+      "layer": "product",
       "reason": "Full consistency check",
       "status": "PASS",
       "violations": [],
@@ -265,7 +265,7 @@ Use `/ant-validation-report` to analyze log:
       "cost_usd": 0.0032
     },
     {
-      "layer": "queen",
+      "layer": "strategy",
       "reason": "Full consistency check",
       "status": "PASS",
       "violations": [],

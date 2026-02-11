@@ -23,7 +23,7 @@ Worker ant auto-maintains docs at or below `starting_level`, but detects impacts
 ANT-STRATEGY.md (👑)        ← Suggestions only (strategic alignment)
 ANT-PRODUCT.md (🐜)         ← Suggestions only (product/business)
 ANT-PATTERNS.md (🏛️)     ← Suggestions only (cross-cutting patterns)
-─────────────────────── Automation Boundary (if starting_level = "tunnels") ──
+─────────────────────── Automation Boundary (if starting_level: "docs") ──
 ANT-ARCHITECTURE.md (🚇)      ← Auto-maintained (architecture)
 ANT-SURFACE.md (🌱)      ← Auto-maintained (surface docs)
 ```
@@ -32,7 +32,7 @@ ANT-SURFACE.md (🌱)      ← Auto-maintained (surface docs)
 - Auto-maintained: ANT-SURFACE.md
 - Suggestions: ANT-ARCHITECTURE.md, ANT-PATTERNS.md, ANT-PRODUCT.md, ANT-STRATEGY.md
 
-**If starting_level = "tunnels":**
+**If starting_level: "docs":**
 - Auto-maintained: ANT-SURFACE.md, ANT-ARCHITECTURE.md
 - Suggestions: ANT-PATTERNS.md, ANT-PRODUCT.md, ANT-STRATEGY.md
 
@@ -95,7 +95,7 @@ When the user says "/ant-review-suggestions":
        {
          "doc": "ANT-ARCHITECTURE.md",
          "reason": "Auth flow changed, architecture doc may be stale",
-         "layer": "tunnels",
+         "layer": "docs",
          "status": "pending",
          "detected_at": "2026-01-20T10:30:00Z",
          "commits": ["abc123", "def456"]
@@ -103,7 +103,7 @@ When the user says "/ant-review-suggestions":
        {
          "doc": "ANT-PATTERNS.md",
          "reason": "New error handling pattern detected",
-         "layer": "chambers",
+         "layer": "docs",
          "status": "pending",
          "detected_at": "2026-01-20T11:00:00Z",
          "commits": ["ghi789"]
@@ -273,8 +273,8 @@ Dismissed suggestions are kept in manifest for audit trail.
 
 Works with any `starting_level`:
 - **starting_level: "surface"** - All higher layers get suggestions
-- **starting_level: "tunnels"** - Chambers, nest, queen get suggestions
-- **starting_level: "chambers"** - Only nest and queen get suggestions
+- **starting_level: "docs"** - Chambers, nest, queen get suggestions
+- **starting_level: "docs"** - Only nest and queen get suggestions
 
 ## Verification
 

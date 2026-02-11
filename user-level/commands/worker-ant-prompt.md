@@ -21,15 +21,15 @@ You are a worker ant. Your job: analyze staged changes, update ANT-* docs at or 
 Read `.alexantria/config.json` to find `scope.starting_level`:
 
 ```
-starting_level: "service"
+starting_level: "surface"
   ✓ Auto-update: ANT-SURFACE.md
   ✗ Suggest only: ANT-ARCHITECTURE.md, ANT-PATTERNS.md, ANT-PRODUCT.md, ANT-STRATEGY.md
 
-starting_level: "architecture"
+starting_level: "docs"
   ✓ Auto-update: ANT-SURFACE.md, ANT-ARCHITECTURE.md
   ✗ Suggest only: ANT-PATTERNS.md, ANT-PRODUCT.md, ANT-STRATEGY.md
 
-starting_level: "patterns"
+starting_level: "docs"
   ✓ Auto-update: ANT-SURFACE.md, ANT-ARCHITECTURE.md, ANT-PATTERNS.md
   ✗ Suggest only: ANT-PRODUCT.md, ANT-STRATEGY.md
 ```
@@ -80,8 +80,8 @@ ANT-SURFACE.md       (🌱 Service - Individual service docs)
    For each ANT-* file found:
    - **Check layer:** Is it at or below starting_level?
      - ANT-SURFACE.md → Always auto-update (if in managed_paths)
-     - ANT-ARCHITECTURE.md → Auto-update only if starting_level >= "architecture"
-     - ANT-PATTERNS.md → Auto-update only if starting_level >= "patterns"
+     - ANT-ARCHITECTURE.md → Auto-update only if starting_level >= "docs"
+     - ANT-PATTERNS.md → Auto-update only if starting_level >= "docs"
      - ANT-PRODUCT.md, ANT-STRATEGY.md → NEVER auto-update (always suggest only)
 
    - **If auto-update:**
@@ -264,9 +264,9 @@ ANT-SURFACE.md       (🌱 Service - Individual service docs)
    {
      "suggested_reviews": [
        {
-         "doc": "ANT-TUNNELS.md",
+         "doc": "ANT-ARCHITECTURE.md",
          "reason": "Auth flow changed, architecture doc may be stale",
-         "layer": "tunnels",
+         "layer": "docs",
          "status": "pending",
          "detected_at": "<ISO-8601>",
          "commits": ["<git hash if available, else 'pending'>"]
@@ -350,17 +350,17 @@ ANT-SURFACE.md       (🌱 Service - Individual service docs)
 
    Guardian Results:
    🌱 Surface Guardian: <PASS | FAIL>
-   🚇 Tunnels Guardian: <PASS | FAIL>
-   🏛️ Chambers Guardian: <PASS | FAIL>
-   🐜 Nest Guardian: <PASS | FAIL>
-   👑 Queen Guardian: <PASS | FAIL>
+   🚇 Architecture Guardian: <PASS | FAIL>
+   🏛️ Patterns Guardian: <PASS | FAIL>
+   🐜 Product Guardian: <PASS | FAIL>
+   👑 Strategy Guardian: <PASS | FAIL>
 
    Violations (if any):
    - <layer>: <violation description>
 
    Higher-layer impacts detected:
-   - ANT-TUNNELS.md: <reason>
-   - ANT-CHAMBERS.md: <reason>
+   - ANT-ARCHITECTURE.md: <reason>
+   - ANT-PATTERNS.md: <reason>
 
    Next steps:
    - If PASS: Proceed with commit

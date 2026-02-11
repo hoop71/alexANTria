@@ -194,7 +194,7 @@ For each higher-layer doc that might be affected, add to a list:
 {
   "doc": "docs/auth-patterns.md",
   "reason": "Auth implementation changed (src/auth/login.ts, src/auth/session.ts)",
-  "layer": "tunnels"
+  "layer": "docs"
 }
 ```
 
@@ -238,7 +238,7 @@ mkdir -p .alexantria
         {
           "doc": "docs/auth-patterns.md",
           "reason": "Auth implementation changed",
-          "layer": "tunnels"
+          "layer": "docs"
         }
       ],
       "action": "updated|no-op|skipped",

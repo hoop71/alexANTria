@@ -157,7 +157,7 @@ Zero trace left. No lock-in.
 **Path:**
 1. Run `/ant-init` with full scope
 2. Enable guardians (`validation.enabled: true`)
-3. Set starting_level: "tunnels" (surface + architecture)
+3. Set starting_level: "architecture" (surface + architecture)
 4. Guardians catch naming violations, pattern drift
 5. `/ant-validation-report` shows ROI
 6. Gradually expand to patterns level
@@ -312,10 +312,10 @@ Project
   ├─ config (starting_level, managed_paths, adoption_stage)
   ├─ manifest (changes[], validation_log[], suggested_reviews[])
   ├─ ANT-* files (layer docs)
-  │   ├─ ANT-QUEEN.md (strategic - always manual)
-  │   ├─ ANT-NEST.md (product - always manual)
-  │   ├─ ANT-CHAMBERS.md (patterns - auto if starting_level >= chambers)
-  │   ├─ ANT-TUNNELS.md (architecture - auto if starting_level >= tunnels)
+  │   ├─ ANT-STRATEGY.md (strategic - always manual)
+  │   ├─ ANT-PRODUCT.md (product - always manual)
+  │   ├─ ANT-PATTERNS.md (patterns - auto if starting_level >= patterns)
+  │   ├─ ANT-ARCHITECTURE.md (architecture - auto if starting_level >= architecture)
   │   └─ ANT-SURFACE.md (surface - always auto)
   ├─ Commands (ant-init, ant-commit, ant-migrate, etc.)
   └─ Guardians (5 specialized Haiku agents)

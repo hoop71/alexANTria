@@ -1,46 +1,41 @@
 # User-Level Configuration
 
-This directory contains files that get installed to `~/.claude/` and apply to **all your projects**.
+Files here install to `~/.claude/` and apply to **all projects**.
 
-## What's Here
+## Structure
 
 ```
 user-level/
-├── CLAUDE.md          # Universal agent philosophy
+├── CLAUDE.md          # Universal philosophy
 └── commands/
-    ├── ant-init.md    # /ant-init command
-    └── ant-update.md  # /ant-update command
+    ├── ant-init.md    # /ant-init
+    └── ant-update.md  # /ant-update
 ```
 
-## How It Works
+## Install
 
-When you run `./install.sh`, these files are copied to `~/.claude/`:
+`./install.sh` copies these to `~/.claude/`:
 
 | Source | Destination | Purpose |
 |--------|-------------|---------|
-| `CLAUDE.md` | `~/.claude/CLAUDE.md` | Loaded for every project |
-| `commands/*.md` | `~/.claude/commands/*.md` | Available as slash commands |
+| `CLAUDE.md` | `~/.claude/CLAUDE.md` | Every project |
+| `commands/*.md` | `~/.claude/commands/*.md` | Slash commands |
 
 ## CLAUDE.md
 
-The universal philosophy file. This teaches agents:
-- Read before you act
-- Document hierarchy pattern
-- When to suggest updates
-- How `.claude/rules/` works
+Universal philosophy: read before acting, doc hierarchy, when to update, how `.claude/rules/` works.
 
-This is the "how I work" baseline. Project-level CLAUDE.md files can override it.
+Project-level CLAUDE.md overrides this.
 
 ## Commands
 
-Slash commands available in any Claude Code session. See [commands/README.md](./commands/README.md) for details.
+Slash commands for any session. See [commands/README.md](./commands/README.md).
 
 ## Customizing
 
-Edit these files **before** running `install.sh`:
+Edit **before** `install.sh`:
+1. Change philosophy → Edit `CLAUDE.md`
+2. Modify commands → Edit command files
+3. Add commands → Create `.md` files in `commands/`
 
-1. **Change the philosophy** - Edit `CLAUDE.md` to match how you want agents to behave
-2. **Modify commands** - Edit command files to change scaffolding behavior
-3. **Add new commands** - Create new `.md` files in `commands/`
-
-After editing, run `./install.sh` again to update `~/.claude/`.
+Run `./install.sh` again to update `~/.claude/`.

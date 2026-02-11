@@ -29,10 +29,10 @@ description: "Internal patterns and conventions (Patterns layer)"
 **Pattern:** `ANT-<LAYER>.md` (all caps for layer name)
 
 **Examples:**
-- `ANT-QUEEN.md` - Strategic alignment
-- `ANT-NEST.md` - Product context
-- `ANT-CHAMBERS.md` - Cross-cutting patterns
-- `ANT-TUNNELS.md` - Architecture
+- `ANT-STRATEGY.md` - Strategic alignment
+- `ANT-PRODUCT.md` - Product context
+- `ANT-PATTERNS.md` - Cross-cutting patterns
+- `ANT-ARCHITECTURE.md` - Architecture
 - `ANT-SURFACE.md` - Individual service docs
 
 **Location:**

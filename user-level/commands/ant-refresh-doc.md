@@ -96,7 +96,7 @@ When the user says "/ant-refresh-doc <path>":
        {
          "doc": "ANT-ARCHITECTURE.md",
          "reason": "Auth flow changed, architecture doc may be stale",
-         "layer": "tunnels",
+         "layer": "docs",
          "status": "pending"
        }
      ]

@@ -67,8 +67,8 @@ alexANTria is a context infrastructure system for AI agent orchestration. It sol
 Worker ant only auto-maintains docs at or below `starting_level`:
 
 - **Surface:** Directory-level docs (ANT-SURFACE.md)
-- **Tunnels:** Architecture docs (ANT-TUNNELS.md)
-- **Chambers:** Pattern docs (ANT-CHAMBERS.md)
+- **Tunnels:** Architecture docs (ANT-ARCHITECTURE.md)
+- **Chambers:** Pattern docs (ANT-PATTERNS.md)
 - **Nest/Queen:** Always manual (product/strategic)
 
 User controls boundary via config. Everything above = suggestions only.
@@ -137,7 +137,7 @@ Zero trace left. No lock-in.
 **Path:**
 1. Run `/ant-init` with full scope
 2. Enable guardians (`validation.enabled: true`)
-3. Set starting_level: "tunnels" (surface + architecture)
+3. Set starting_level: "architecture" (surface + architecture)
 4. Guardians catch naming violations, pattern drift
 5. `/ant-validation-report` shows ROI
 6. Gradually expand to chambers level
@@ -152,8 +152,8 @@ Zero trace left. No lock-in.
 1. Install alexANTria in all projects
 2. Use same CLAUDE.md structure across clients
 3. Share templates and guardian configs
-4. Client-specific context in ANT-NEST.md
-5. Standard patterns in ANT-CHAMBERS.md
+4. Client-specific context in ANT-PRODUCT.md
+5. Standard patterns in ANT-PATTERNS.md
 
 **Result:** Consistent onboarding, portable knowledge, agents work same way across projects.
 
@@ -239,7 +239,7 @@ Worker ant only touches files in `managed_paths`. No wildcards without user appr
 ### Rule 2: Naming Conventions Are Enforced
 
 - Commands: `ant-*.md`
-- Layer docs: `ANT-SURFACE.md`, `ANT-TUNNELS.md`, etc.
+- Layer docs: `ANT-SURFACE.md`, `ANT-ARCHITECTURE.md`, etc.
 - Config: `.alexantria/*.json`
 
 **Enforcement:** Bash checks (free) + Surface Guardian (if enabled).
@@ -252,7 +252,7 @@ Guardians disabled by default (`validation.enabled: false`).
 
 ### Rule 4: Higher Layers Need Approval
 
-ANT-NEST.md and ANT-QUEEN.md never auto-maintained, even if starting_level = "chambers".
+ANT-PRODUCT.md and ANT-STRATEGY.md never auto-maintained, even if starting_level: "patterns".
 
 **Why:** Strategic and product decisions require human judgment.
 
@@ -271,10 +271,10 @@ Project
   ├─ config (starting_level, managed_paths, adoption_stage)
   ├─ manifest (changes[], validation_log[], suggested_reviews[])
   ├─ ANT-* files (layer docs)
-  │   ├─ ANT-QUEEN.md (strategic - always manual)
-  │   ├─ ANT-NEST.md (product - always manual)
-  │   ├─ ANT-CHAMBERS.md (patterns - auto if starting_level >= chambers)
-  │   ├─ ANT-TUNNELS.md (architecture - auto if starting_level >= tunnels)
+  │   ├─ ANT-STRATEGY.md (strategic - always manual)
+  │   ├─ ANT-PRODUCT.md (product - always manual)
+  │   ├─ ANT-PATTERNS.md (patterns - auto if starting_level >= chambers)
+  │   ├─ ANT-ARCHITECTURE.md (architecture - auto if starting_level >= tunnels)
   │   └─ ANT-SURFACE.md (surface - always auto)
   ├─ Commands (ant-init, ant-commit, ant-migrate, etc.)
   └─ Guardians (5 specialized Haiku agents)

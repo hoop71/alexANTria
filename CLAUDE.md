@@ -1,124 +1,70 @@
 # alexANTria – Context
 
-This is a meta-repo: a documentation framework that documents itself.
+Meta-repo: framework documents itself using RLM three-pool architecture.
 
-## Meta Documentation (Defines the Pattern)
+## Meta Docs (The Pattern)
 
-These docs explain HOW the 5-layer pattern works:
+- **[RLM-ARCHITECTURE.md](./RLM-ARCHITECTURE.md)** — Three-pool architecture
+- **[ANT-FRAMEWORK.md](./ANT-FRAMEWORK.md)** — Coordination model
+- **[ANT-SCHEMA.md](./ANT-SCHEMA.md)** — Documentation pattern
+- **[README.md](./README.md)** — User overview
 
-- **[RLM-ARCHITECTURE.md](./RLM-ARCHITECTURE.md)** — RLM foundation (three-pool architecture, context rot prevention)
-- **[ANT-FRAMEWORK.md](./ANT-FRAMEWORK.md)** — Coordination model (intelligence through coordination)
-- **[ANT-SCHEMA.md](./ANT-SCHEMA.md)** — 5-layer nesting doll pattern
-- **[README.md](./README.md)** — User-facing overview
+## Implementation Docs (Using the Pattern)
 
-## Implementation (alexANTria Documenting Itself)
+**RLM:** Programmatic (code) → Tokenized (attention) → Intentional (intent)
 
-These docs USE the 5-layer pattern to document alexANTria itself. Higher layers constrain lower layers.
+Higher levels constrain lower levels.
 
-### Intentional Pool (Human-Only Context)
+### Level 1: Programmatic
 
-**Strategy Layer** — Core principles and strategic constraints
-- **[.alexantria/ANT-STRATEGY.md](./.alexantria/ANT-STRATEGY.md)** — alexANTria's strategic alignment
-  - ANT-* only principle
-  - Read-act-repair pattern
-  - No central brain
-  - Automation boundary
-  - Cost constraints
+**Surface** — [user-level/commands/ANT-SURFACE.md](./user-level/commands/ANT-SURFACE.md), [templates/ANT-SURFACE.md](./templates/ANT-SURFACE.md)
 
-**Product Layer** — Product context and business rules
-- **[.alexantria/ANT-PRODUCT.md](./.alexantria/ANT-PRODUCT.md)** — alexANTria's product context
-  - What we solve (context drift, Gastown, adoption friction)
-  - Key features (adoption ramp, guardians, clean removal)
-  - Use cases (greenfield, brownfield, large teams)
-  - User workflows
-  - Success metrics
+Code-adjacent. Agents discover by reading files.
 
-### Tokenized Pool (Documentation)
+### Level 2: Tokenized
 
-**Patterns Layer** — Cross-cutting patterns and conventions
-- **[.alexantria/ANT-PATTERNS.md](./.alexantria/ANT-PATTERNS.md)** — alexANTria's internal patterns
-  - Naming conventions (ant-*, ANT-*, .alexantria/)
-  - Command structure pattern
-  - Guardian pattern
-  - Validation pattern
-  - Error handling pattern
+**Docs** — [.alexantria/ANT-DOCS.md](./.alexantria/ANT-DOCS.md)
 
-**Architecture Layer** — System architecture and service connections
-- **[.alexantria/ANT-ARCHITECTURE.md](./.alexantria/ANT-ARCHITECTURE.md)** — alexANTria's architecture
-  - System architecture
-  - Service boundaries
-  - Data flows (init, commit, validation)
-  - Technology stack
-  - Automation boundary
+Active in attention. System structure, patterns, conventions. Selective RAG.
 
-### Programmatic Pool (Code-Adjacent)
+### Level 3: Intentional
 
-**Service Layer** — Individual service documentation
-- **[user-level/commands/ANT-SURFACE.md](./user-level/commands/ANT-SURFACE.md)** — Commands documentation
-- **[templates/ANT-SURFACE.md](./templates/ANT-SURFACE.md)** — Templates documentation
+**Strategy** — [.alexantria/ANT-STRATEGY.md](./.alexantria/ANT-STRATEGY.md)
 
-## When to Read
+Our intent. Why we do this, who for, core principles. Human-only.
 
-| Working on... | Read first | Pool |
-|--------------|------------|------|
-| Understanding RLM foundation | Meta docs (RLM-ARCHITECTURE.md) | — |
-| Understanding the pattern | Meta docs (ANT-FRAMEWORK.md, ANT-SCHEMA.md) | — |
-| Strategic decisions for alexANTria | Strategy layer (ANT-STRATEGY.md) | Intentional |
-| Product features, use cases | Product layer (ANT-PRODUCT.md) | Intentional |
-| Internal patterns, conventions | Patterns layer (ANT-PATTERNS.md) | Tokenized |
-| Architecture, data flows | Architecture layer (ANT-ARCHITECTURE.md) | Tokenized |
-| Specific commands or templates | Service layer (ANT-SURFACE.md in directories) | Programmatic |
+## Quick Reference
 
-## Before Committing Code
+| Working on... | Read | Level |
+|--------------|------|-------|
+| RLM foundation | RLM-ARCHITECTURE.md | — |
+| Pattern itself | ANT-FRAMEWORK.md, ANT-SCHEMA.md | — |
+| Commands/surface docs | ANT-SURFACE.md | Programmatic |
+| System structure/patterns | ANT-DOCS.md | Tokenized |
+| Strategy/why/who | ANT-STRATEGY.md | Intentional |
 
-**Use `/ant-commit` for automated workflow:**
+## Committing
 
-When you're ready to commit code changes:
+**Use `/ant-commit "message"`** — Worker ant validates, updates docs, manifests, commits atomically.
 
-```
-Run: /ant-commit "your commit message"
-```
+## After Changes
 
-This command:
-1. Checks staging area (stages files if needed)
-2. Spawns worker ant sub-agent (blocking)
-3. Worker ant:
-   - Runs bash validation checks (naming, structure, JSON)
-   - Spawns guardians for affected layers (if validation enabled)
-   - Updates ANT-* docs at or below starting_level
-   - Detects higher-layer impacts
-   - Updates manifest (changes + validation_log)
-   - Stages everything
-4. Creates single commit (code + docs + manifest)
-5. Shows commit results
+Update docs if you changed:
+- **RLM/pattern itself** → Meta docs (RLM-ARCHITECTURE.md, ANT-FRAMEWORK.md, ANT-SCHEMA.md)
+- **Commands/surface** → Surface (ANT-SURFACE.md) [Programmatic]
+- **System/patterns** → Docs (ANT-DOCS.md) [Tokenized]
+- **Strategy/why/who** → Strategy (ANT-STRATEGY.md) [Intentional]
 
-**Why:** This ensures docs and manifest stay in sync automatically. Everything rides in one commit. Worker ant completes before committing (blocking).
+## Naming
 
-## After Completing Work
-
-Ask yourself:
-- Did I change the **RLM foundation or three-pool architecture**? → Update meta docs (RLM-ARCHITECTURE.md)
-- Did I change the **coordination model or 5-layer pattern**? → Update meta docs (ANT-FRAMEWORK.md, ANT-SCHEMA.md)
-- Did I change **core principles or constraints**? → Update Strategy layer (ANT-STRATEGY.md)
-- Did I change **product features or use cases**? → Update Product layer (ANT-PRODUCT.md)
-- Did I change **internal patterns or conventions**? → Update Patterns layer (ANT-PATTERNS.md)
-- Did I change **architecture or data flows**? → Update Architecture layer (ANT-ARCHITECTURE.md)
-- Did I change **specific commands or templates**? → Update Service layer (ANT-SURFACE.md in directories)
-
-## Naming Convention
-
-All alexANTria artifacts follow the `ANT-*` or `ant-*` pattern:
-- Conceptual docs: `ANT-*.md`
+- Docs: `ANT-*.md`
 - Commands: `ant-*`
 - State: `.alexantria/`
+- Exception: `README.md`
 
-Exception: `README.md` (GitHub convention)
+## Platform
 
-## Platform Implementation
-
-alexANTria is a universal framework. This project uses Claude Code as the implementation platform.
-
-**Current implementation:**
-- Rules: `.claude/rules/*.md` (path-based guidance)
-- Commands: `user-level/commands/ant-*.md` (executable commands)
-- Memory: `CLAUDE.md` (always-loaded hierarchy)
+Claude Code implementation:
+- Rules: `.claude/rules/*.md`
+- Commands: `user-level/commands/ant-*.md`
+- Memory: `CLAUDE.md`
