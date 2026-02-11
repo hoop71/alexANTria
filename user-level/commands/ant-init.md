@@ -59,33 +59,39 @@ You are the first ant entering new territory. Your job is to:
 
 ### Classify Found Docs
 
-Read each discovered doc file briefly to understand its purpose. Map to the 5-layer anthill:
+Read each discovered doc file briefly to understand its purpose. Map to the RLM 3-pool architecture:
 
-**👑 Queen - Strategic Alignment** (look for):
+**Pool 3: Intentional (Human Knowledge)**
+
+**Strategy Layer** (look for):
 - Files with "strategy", "vision", "mission", "philosophy" in name
 - Content with "always", "never", "must", "non-negotiable"
 - Core principles, security constraints, company values
 - Examples: `PHILOSOPHY.md`, `PRINCIPLES.md`, main `CLAUDE.md`
 
-**🐜 Nest - Product/Business Context** (look for):
+**Product Layer** (look for):
 - Files with "product", "prd", "requirements", "scope", "brief" in name
 - Content with "users can", "the system should", "features"
 - Business rules, domain logic docs
 - Examples: `product-brief.md`, `REQUIREMENTS.md`, `business-rules.md`
 
-**🏛️ Chambers - Cross-Cutting Patterns** (look for):
+**Pool 2: Tokenized (Active in Attention)**
+
+**Patterns Layer** (look for):
 - Design systems, shared component libraries
 - Cross-service patterns, integration guides
 - Org-wide conventions that span multiple services
 - Examples: Design system docs, shared API patterns
 
-**🚇 Tunnels - Architecture/Service Connections** (look for):
-- Files with "docs", "docs", "conventions", "contributing", "api" in name
+**Pool 1: Programmatic (Code-Inferable)**
+
+**Architecture Layer** (look for):
+- Files with "architecture", "conventions", "contributing", "api" in name
 - Content with "we use", "structure", "components"
 - Tech stack docs, coding standards, service boundaries
 - Examples: `ARCHITECTURE.md`, `CONTRIBUTING.md`, `API.md`
 
-**🌱 Surface - Individual Service Docs** (look for):
+**Service Layer** (look for):
 - README files, package-specific documentation
 - Per-app/per-package CLAUDE.md files
 - Service-level implementation details
@@ -100,25 +106,31 @@ Present findings to the user:
 ```
 ## Found Documentation
 
-I found these docs and mapped them to the 5-layer anthill:
+I found these docs and mapped them to the RLM architecture:
 
-### 👑 Queen: Strategic Alignment
+### Pool 3: Intentional (Human Knowledge)
+
+**Strategy Layer**
 - [x] CLAUDE.md "Core Principles" — Non-negotiables
 - [ ] (none found)
 
-### 🐜 Nest: Product/Business Context
+**Product Layer**
 - [x] docs/product-brief.md — Product requirements
 - [ ] (none found)
 
-### 🏛️ Chambers: Cross-Cutting Patterns
+### Pool 2: Tokenized (Active in Attention)
+
+**Patterns Layer**
 - [x] packages/design-system/ — Shared UI components
 - [ ] (none found)
 
-### 🚇 Tunnels: Architecture/Service Connections
+### Pool 1: Programmatic (Code-Inferable)
+
+**Architecture Layer**
 - [x] ARCHITECTURE.md — System design
 - [x] CONTRIBUTING.md — Code conventions
 
-### 🌱 Surface: Individual Service Docs
+**Service Layer**
 - [x] apps/*/README.md — Per-app documentation
 - [x] packages/*/CLAUDE.md — Per-package context
 
@@ -143,14 +155,14 @@ Use AskUserQuestion:
 Question: "Which layer should worker ant auto-maintain?"
 Header: "Starting Level"
 Options:
-1. Surface level only (Recommended for pilot)
+1. Service only (Recommended for pilot)
    Description: Creates ANT-SURFACE.md in directories. Everything else gets suggestions only. Lowest risk, test the system.
 
-2. Tunnels level (architecture + surface)
-   Description: Creates ANT-SURFACE.md + ANT-ARCHITECTURE.md. Auto-maintains both. Medium risk, suitable after pilot succeeds.
+2. Architecture level (architecture + service)
+   Description: Creates ANT-SURFACE.md + ANT-ARCHITECTURE.md. Auto-maintains both programmatic layers. Medium risk, suitable after pilot succeeds.
 
-3. Chambers level (patterns + architecture + surface)
-   Description: Creates ANT-SURFACE.md + ANT-ARCHITECTURE.md + ANT-PATTERNS.md. Auto-maintains all three. Higher risk, for full adoption.
+3. Patterns level (patterns + architecture + service)
+   Description: Creates ANT-SURFACE.md + ANT-ARCHITECTURE.md + ANT-PATTERNS.md. Auto-maintains all through tokenized layer. Higher risk, for full adoption.
 ```
 
 Based on selection, set `starting_level: "docs".
@@ -274,23 +286,31 @@ Generate a project-level CLAUDE.md with:
 ```markdown
 # [Project Name] – Context
 
-## The Anthill
+## RLM Architecture
 
-This project uses the 5-layer anthill structure. Higher layers constrain lower layers.
+This project uses the RLM 3-pool architecture. Higher pools constrain lower pools.
 
-### 👑 Queen: Strategic Alignment
+**RLM:** Programmatic (code) → Tokenized (attention) → Intentional (intent)
+
+### Pool 3: Intentional (Human Knowledge)
+
+**Strategy Layer**
 - **[doc-name.md](./path)** — Non-negotiable principles
 
-### 🐜 Nest: Product/Business Context
+**Product Layer**
 - **[doc-name.md](./path)** — What we're building
 
-### 🏛️ Chambers: Cross-Cutting Patterns
-- **[doc-name.md](./path)** — Patterns that span services
+### Pool 2: Tokenized (Active in Attention)
 
-### 🚇 Tunnels: Architecture/Service Connections
-- **[doc-name.md](./path)** — How services connect
+**Patterns Layer**
+- **[doc-name.md](./path)** — Cross-cutting conventions
 
-### 🌱 Surface: Individual Service Docs
+### Pool 1: Programmatic (Code-Inferable)
+
+**Architecture Layer**
+- **[doc-name.md](./path)** — System structure
+
+**Service Layer**
 - **[doc-name.md](./path)** — Per-service implementation
 
 ## External Context Feeds
@@ -306,19 +326,19 @@ These directories contain read-only context from external sources:
 
 | Working on... | Read first |
 |--------------|------------|
-| Strategic decisions | Strategy layer |
-| New features | Nest + Chambers |
-| Cross-service patterns | Chambers + Tunnels |
-| Service implementation | Tunnels + Surface |
-| Bug fixes | Surface + Tunnels |
+| Strategic decisions | Strategy (Intentional) |
+| New features | Product + Patterns |
+| Cross-service patterns | Patterns (Tokenized) |
+| Service implementation | Architecture + Service (Programmatic) |
+| Bug fixes | Service + Architecture |
 
 ## After Completing Work
 
 Ask yourself:
-- Did I establish a **new pattern**? → Suggest updating Chambers/Tunnels
-- Did I change **product behavior**? → Suggest updating Product layer
+- Did I establish a **new pattern**? → Suggest updating Patterns (Tokenized)
+- Did I change **product behavior**? → Suggest updating Product (Intentional)
 - Did I violate a **constraint**? → Discuss with user before proceeding
-- Did implementation diverge from architecture? → Update Surface or Tunnels
+- Did implementation diverge from architecture? → Update Service or Architecture (Programmatic)
 ```
 
 ### Create .claude/rules/
@@ -358,20 +378,20 @@ Only create rules for code directories that actually exist.
 
 Based on the selected `starting_level`, create the appropriate ANT-* files:
 
-**If starting_level = "surface":**
+**If starting_level = "service":**
 ```bash
 # Create ANT-SURFACE.md in each directory under managed_paths
 # Use template from templates/ANT-SURFACE.md.template
 ```
 
-**If starting_level: "docs":**
+**If starting_level = "architecture":**
 ```bash
 # Create ANT-SURFACE.md in each directory
 # Create ANT-ARCHITECTURE.md at repo root
 # Use templates from templates/
 ```
 
-**If starting_level: "docs":**
+**If starting_level = "patterns":**
 ```bash
 # Create ANT-SURFACE.md in each directory
 # Create ANT-ARCHITECTURE.md at root
@@ -415,7 +435,7 @@ Create config for worker ant behavior based on user selections:
   "scope": {
     "managed_paths": ["[from user selection]"],
     "exclude_paths": [],
-    "starting_level": "[surface|tunnels|chambers]"
+    "starting_level": "[service|architecture|patterns]"
   },
   "auto_update": {
     "ant_files": true
@@ -501,13 +521,13 @@ Show what was created:
 
 Configuration:
   Adoption Mode: [ANT-only | Hybrid-to-ANT]
-  Starting Level: [surface | tunnels | chambers]
+  Starting Level: [service | architecture | patterns]
   Managed Paths: [scope from config]
   Adoption Stage: [pilot | active | full]
   Collaboration Mode: [local-only | team-shared]
 
 Created:
-  CLAUDE.md                    — 5-layer anthill hierarchy
+  CLAUDE.md                    — RLM 3-pool hierarchy
   .claude/rules/
     ├── frontend.md            — For src/components/**
     ├── backend.md             — For src/server/**
@@ -516,17 +536,15 @@ Created:
     ├── config.json            — Worker ant configuration
     └── manifest.json          — Change tracking and suggestions
   [ANT-SURFACE.md files]       — In managed directories
-  [ANT-ARCHITECTURE.md]             — If starting_level >= tunnels
-  [ANT-PATTERNS.md]            — If starting_level >= chambers
+  [ANT-ARCHITECTURE.md]             — If starting_level >= architecture
+  [ANT-PATTERNS.md]            — If starting_level >= patterns
   .git/hooks/
     └── pre-commit             — Smart hook (detects agent commits)
 
-The anthill structure:
-  👑 Queen: [Strategic docs] (manual updates only)
-  🐜 Nest: [Product docs] (manual updates only)
-  🏛️ Chambers: [Cross-cutting patterns] (auto if starting_level >= chambers, else suggestions)
-  🚇 Tunnels: [Architecture docs] (auto if starting_level >= tunnels, else suggestions)
-  🌱 Surface: [Per-service docs] (always auto-maintained)
+The RLM architecture:
+  Pool 3 (Intentional): Strategy + Product [manual updates only]
+  Pool 2 (Tokenized): Patterns [suggestions only]
+  Pool 1 (Programmatic): Architecture + Service [auto-maintained based on starting_level]
 
 Automation Boundary:
   Below starting_level: Fully automated

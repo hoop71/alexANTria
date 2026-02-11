@@ -7,7 +7,7 @@ allowed-tools: Read, Write, Edit, Bash, AskUserQuestion
 
 **Purpose:** Review and apply pending suggestions for higher-layer documentation that's above the automation boundary.
 
-**Layer:** Tunnels (🚇)
+**Layer:** Architecture (Programmatic)
 
 ## Overview
 
@@ -20,19 +20,25 @@ Worker ant auto-maintains docs at or below `starting_level`, but detects impacts
 ## Automation Boundary
 
 ```
-ANT-STRATEGY.md (👑)        ← Suggestions only (strategic alignment)
-ANT-PRODUCT.md (🐜)         ← Suggestions only (product/business)
-ANT-PATTERNS.md (🏛️)     ← Suggestions only (cross-cutting patterns)
-─────────────────────── Automation Boundary (if starting_level: "docs") ──
-ANT-ARCHITECTURE.md (🚇)      ← Auto-maintained (architecture)
-ANT-SURFACE.md (🌱)      ← Auto-maintained (surface docs)
+Pool 3 (Intentional):
+  ANT-STRATEGY.md         ← Suggestions only (strategic alignment)
+  ANT-PRODUCT.md          ← Suggestions only (product/business)
+
+Pool 2 (Tokenized):
+  ANT-PATTERNS.md         ← Suggestions only (cross-cutting patterns)
+
+─────────────────────── Automation Boundary (if starting_level = "architecture") ──
+
+Pool 1 (Programmatic):
+  ANT-ARCHITECTURE.md     ← Auto-maintained (architecture)
+  ANT-SURFACE.md          ← Auto-maintained (service docs)
 ```
 
-**If starting_level = "surface":**
+**If starting_level = "service":**
 - Auto-maintained: ANT-SURFACE.md
 - Suggestions: ANT-ARCHITECTURE.md, ANT-PATTERNS.md, ANT-PRODUCT.md, ANT-STRATEGY.md
 
-**If starting_level: "docs":**
+**If starting_level = "architecture":**
 - Auto-maintained: ANT-SURFACE.md, ANT-ARCHITECTURE.md
 - Suggestions: ANT-PATTERNS.md, ANT-PRODUCT.md, ANT-STRATEGY.md
 
@@ -116,21 +122,21 @@ When the user says "/ant-review-suggestions":
 
 2. **Group and count suggestions:**
    - By doc (ANT-ARCHITECTURE.md, ANT-PATTERNS.md, etc.)
-   - By layer (tunnels, chambers, nest, queen)
+   - By layer (architecture, patterns, product, strategy)
 
 3. **Show summary to user:**
    ```
    Found 5 pending suggestions:
 
-   ANT-ARCHITECTURE.md (🚇 Tunnels) - 2 suggestions
+   ANT-ARCHITECTURE.md (Architecture - Programmatic) - 2 suggestions
      - Auth flow changed (commits: abc123, def456)
      - New API endpoint added (commit: ghi789)
 
-   ANT-PATTERNS.md (🏛️ Chambers) - 2 suggestions
+   ANT-PATTERNS.md (Patterns - Tokenized) - 2 suggestions
      - New error handling pattern detected (commit: jkl012)
      - Logging convention updated (commit: mno345)
 
-   ANT-STRATEGY.md (👑 Queen) - 1 suggestion
+   ANT-STRATEGY.md (Strategy - Intentional) - 1 suggestion
      - Security constraint may have been violated (commit: pqr678)
    ```
 
@@ -165,7 +171,7 @@ When the user says "/ant-review-suggestions":
    For each suggestion (sorted by layer, highest first):
    ```
    Show:
-   - Doc: ANT-ARCHITECTURE.md (🚇 Tunnels)
+   - Doc: ANT-ARCHITECTURE.md (Architecture - Programmatic)
    - Reason: Auth flow changed
    - Commits: abc123, def456
    - Detected: 2 days ago
@@ -219,7 +225,7 @@ Agent: How to proceed? [Apply all/Review individually/Dismiss all]
 User: "Review individually"
 Agent:
   Suggestion 1/2:
-  - Doc: ANT-STRATEGY.md (👑 Queen)
+  - Doc: ANT-STRATEGY.md (Strategy - Intentional)
   - Reason: Security constraint may have been violated
   - Commit: abc123 "Allow HTTP fallback in auth"
   - Detected: 1 day ago
@@ -230,7 +236,7 @@ User: "Yes"
 Agent: Updating ANT-STRATEGY.md...
 Agent:
   Suggestion 2/2:
-  - Doc: ANT-PATTERNS.md (🏛️ Chambers)
+  - Doc: ANT-PATTERNS.md (Patterns - Tokenized)
   - Reason: New logging pattern detected
   - Commit: def456 "Add structured logging"
   - Detected: 3 hours ago
@@ -272,9 +278,9 @@ Dismissed suggestions are kept in manifest for audit trail.
 ## Configuration
 
 Works with any `starting_level`:
-- **starting_level: "surface"** - All higher layers get suggestions
-- **starting_level: "docs"** - Chambers, nest, queen get suggestions
-- **starting_level: "docs"** - Only nest and queen get suggestions
+- **starting_level: "service"** - All higher layers get suggestions
+- **starting_level: "architecture"** - Patterns, product, strategy get suggestions
+- **starting_level: "patterns"** - Only product and strategy get suggestions
 
 ## Verification
 

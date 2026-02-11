@@ -7,7 +7,7 @@ allowed-tools: Read, Bash, Glob, Grep
 
 **Purpose:** Display comprehensive snapshot of alexANTria state: files, validation status, recent commits with ANT updates, and suggested next actions.
 
-**Layer:** Surface (🌱)
+**Layer:** Service (Programmatic)
 
 **Scope:** Installation health + manifest history + automation status + ANT doc updates + pending reviews
 **Not in scope:** Deep validation (use `/ant-validate` for that) or metrics analysis (use `/ant-validation-report`)
@@ -161,22 +161,22 @@ From manifest.changes[].suggested_reviews array:
 
 📋 Pending Doc Reviews (4 Waiting)
 
-  👑 Strategy Layer:
+  Strategy Layer (Intentional):
      ANT-STRATEGY.md
      Reason: Core framework principles updated with graduation-ready naming
      Detected: 2026-02-10
 
-  🐜 Product Layer:
+  Product Layer (Intentional):
      ANT-PRODUCT.md
      Reason: Product positioning and adoption stages now include graduation path
      Detected: 2026-02-10
 
-  🏛️ Patterns Layer:
+  Patterns Layer (Tokenized):
      ANT-PATTERNS.md
      Reason: Guardian pattern updated with new layer naming
      Detected: 2026-02-10
 
-  🚇 Architecture Layer:
+  Architecture Layer (Programmatic):
      ANT-ARCHITECTURE.md
      Reason: Automation boundary updated with graduation-ready names
      Detected: 2026-02-10
@@ -224,7 +224,7 @@ Determine status:
 ════════════════════════════════════
 
 📁 Installation
-  [✓] CLAUDE.md (5-layer hierarchy present)
+  [✓] CLAUDE.md (RLM 3-pool hierarchy present)
   [✓] .claude/ (rules: 5 files)
   [✓] .alexantria/ (config, manifest valid)
   [✓] Commands: 15 available

@@ -7,11 +7,11 @@ allowed-tools: Read, Bash, Task
 
 **Purpose:** Run all guardian agents to validate that the project follows alexANTria patterns and rules.
 
-**Layer:** Chambers (🏛️)
+**Layer:** Patterns (Tokenized)
 
 ## Overview
 
-The `/ant-check-consistency` command spawns all 5 guardian agents (Surface, Tunnels, Chambers, Nest, Queen) to validate consistency across the entire project. This is an on-demand deep check for pattern violations, rule compliance, and strategic alignment.
+The `/ant-check-consistency` command spawns all 5 guardian agents (Service, Architecture, Patterns, Product, Strategy) to validate consistency across the entire project. This is an on-demand deep check for pattern violations, rule compliance, and strategic alignment.
 
 ## Problem
 
@@ -33,7 +33,7 @@ Without systematic validation, violations accumulate and the system degrades.
 - After implementing a plan (verify patterns followed)
 
 **Don't run constantly:**
-- Worker ant runs surface/tunnels guardians at commit time
+- Worker ant runs service/architecture guardians at commit time
 - This is for comprehensive, cross-layer validation
 - Cost is ~$0.01-0.02 per run (all 5 Haiku agents)
 
@@ -51,11 +51,11 @@ User: "/ant-check-consistency"
    - Find all relevant files (commands, ANT-* docs, config, templates)
 
 3. Spawn guardian agents (in parallel)
-   - 🌱 Surface Guardian
-   - 🚇 Tunnels Guardian
-   - 🏛️ Chambers Guardian
-   - 🐜 Nest Guardian
-   - 👑 Queen Guardian
+   - 🌱 Service Guardian
+   - 🚇 Architecture Guardian
+   - 🏛️ Patterns Guardian
+   - 🐜 Product Guardian
+   - 👑 Strategy Guardian
 
 4. Collect reports from all guardians
 
@@ -106,12 +106,12 @@ When the user says "/ant-check-consistency":
 
    Use Task tool for each guardian:
 
-   **Surface Guardian:**
+   **Service Guardian:**
    ```
    - subagent_type: "general-purpose"
    - model: "haiku"
-   - description: "Surface Guardian validation"
-   - prompt: "Read user-level/commands/guardians/surface-guardian.md and follow instructions.
+   - description: "Service Guardian validation"
+   - prompt: "Read user-level/commands/guardians/service-guardian.md and follow instructions.
 
      Validate entire project for surface-level consistency:
      - All commands in user-level/commands/
@@ -120,12 +120,12 @@ When the user says "/ant-check-consistency":
      - commands/README.md coherence"
    ```
 
-   **Tunnels Guardian:**
+   **Architecture Guardian:**
    ```
    - subagent_type: "general-purpose"
    - model: "haiku"
-   - description: "Tunnels Guardian validation"
-   - prompt: "Read user-level/commands/guardians/tunnels-guardian.md and follow instructions.
+   - description: "Architecture Guardian validation"
+   - prompt: "Read user-level/commands/guardians/architecture-guardian.md and follow instructions.
 
      Validate:
      - Config schema matches actual config
@@ -134,12 +134,12 @@ When the user says "/ant-check-consistency":
      - Template structure"
    ```
 
-   **Chambers Guardian:**
+   **Patterns Guardian:**
    ```
    - subagent_type: "general-purpose"
    - model: "haiku"
-   - description: "Chambers Guardian validation"
-   - prompt: "Read user-level/commands/guardians/chambers-guardian.md and follow instructions.
+   - description: "Patterns Guardian validation"
+   - prompt: "Read user-level/commands/guardians/patterns-guardian.md and follow instructions.
 
      Validate:
      - Pattern consistency across commands
@@ -148,12 +148,12 @@ When the user says "/ant-check-consistency":
      - Duplication detection"
    ```
 
-   **Nest Guardian:**
+   **Product Guardian:**
    ```
    - subagent_type: "general-purpose"
    - model: "haiku"
-   - description: "Nest Guardian validation"
-   - prompt: "Read user-level/commands/guardians/nest-guardian.md and follow instructions.
+   - description: "Product Guardian validation"
+   - prompt: "Read user-level/commands/guardians/product-guardian.md and follow instructions.
 
      Validate:
      - Adoption stages are logical
@@ -162,12 +162,12 @@ When the user says "/ant-check-consistency":
      - Business rules consistent"
    ```
 
-   **Queen Guardian:**
+   **Strategy Guardian:**
    ```
    - subagent_type: "general-purpose"
    - model: "haiku"
-   - description: "Queen Guardian validation"
-   - prompt: "Read user-level/commands/guardians/queen-guardian.md and follow instructions.
+   - description: "Strategy Guardian validation"
+   - prompt: "Read user-level/commands/guardians/strategy-guardian.md and follow instructions.
 
      Validate:
      - Core principles not violated
@@ -192,11 +192,11 @@ When the user says "/ant-check-consistency":
    Overall Status: [PASS | FAIL | REQUIRES_APPROVAL]
 
    Guardian Results:
-   🌱 Surface Guardian:   [✓ PASS | ✗ FAIL]
-   🚇 Tunnels Guardian:   [✓ PASS | ✗ FAIL]
-   🏛️ Chambers Guardian:  [✓ PASS | ✗ FAIL]
-   🐜 Nest Guardian:      [✓ PASS | ✗ FAIL]
-   👑 Queen Guardian:     [✓ PASS | ✗ FAIL]
+   🌱 Service Guardian:   [✓ PASS | ✗ FAIL]
+   🚇 Architecture Guardian:   [✓ PASS | ✗ FAIL]
+   🏛️ Patterns Guardian:  [✓ PASS | ✗ FAIL]
+   🐜 Product Guardian:      [✓ PASS | ✗ FAIL]
+   👑 Strategy Guardian:     [✓ PASS | ✗ FAIL]
 
    Critical Violations (must fix):
    1. [layer]: [violation]

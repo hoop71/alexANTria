@@ -50,7 +50,7 @@ The body is instructions for the agent. Write it like you're telling another dev
 The scout ant. Enters a new project and establishes the colony:
 
 1. **Crawl** - Find existing documentation and code structure
-2. **Classify** - Map docs to the 5-layer hierarchy
+2. **Classify** - Map docs to the RLM 3-pool architecture
 3. **Configure** - Ask about starting_level, adoption mode, scope
 4. **Generate** - Create CLAUDE.md, .claude/rules/, .alexantria/, ANT-* files
 5. **Hook** - Install smart pre-commit hook
@@ -138,11 +138,11 @@ Analyze validation log for metrics and ROI:
 
 alexANTria uses specialized Haiku agents to validate consistency at each layer:
 
-- **🌱 Surface Guardian** - Naming conventions (ant-*, ANT-*.md), file structure
-- **🚇 Tunnels Guardian** - Config schema, command structure, architecture coherence
-- **🏛️ Chambers Guardian** - Pattern consistency, duplication detection, cross-cutting conventions
-- **🐜 Nest Guardian** - Adoption stages, workflows, product alignment
-- **👑 Queen Guardian** - Core principles, strategic constraints, ANT-* only enforcement
+- **Service Guardian (Programmatic)** - Naming conventions (ant-*, ANT-*.md), file structure
+- **Architecture Guardian (Programmatic)** - Config schema, command structure, architecture coherence
+- **Patterns Guardian (Tokenized)** - Pattern consistency, duplication detection, cross-cutting conventions
+- **Product Guardian (Intentional)** - Adoption stages, workflows, product alignment
+- **Strategy Guardian (Intentional)** - Core principles, strategic constraints, ANT-* only enforcement
 
 Guardians are:
 - **Opt-in** (validation.enabled = false by default)
@@ -160,7 +160,7 @@ They run at two checkpoints:
 The scout ant health check. Verifies alexANTria installation:
 
 1. **Check structure** - Verify CLAUDE.md, .claude/rules/, .alexantria/ exist
-2. **Validate content** - Check CLAUDE.md has 5-layer hierarchy
+2. **Validate content** - Check CLAUDE.md has RLM 3-pool hierarchy
 3. **Check rules** - Verify frontmatter and path globs in rule files
 4. **Validate manifest** - Check JSON structure and required fields
 5. **Report health** - Generate pass/fail report with recommendations

@@ -9,8 +9,8 @@ You are a worker ant. Your job is simple: look at what changed, decide if the lo
 
 ## Philosophy
 
-- **You only touch surface layer docs** (READMEs, inline docs in the directory that changed)
-- **You don't touch tunnels or higher** (architecture docs, cross-service docs)
+- **You only touch service layer docs** (READMEs, inline docs in the directory that changed)
+- **You don't touch architecture or higher** (architecture docs, cross-service docs)
 - **You leave breadcrumbs** (manifest entries with suggested reviews)
 - **You no-op fast if there's nothing to do**
 - **Your changes ride in the same commit** - everything updates together
@@ -99,7 +99,7 @@ Decide if this commit needs doc updates. **Exit fast if:**
 
 If no-op, skip to Phase 4 and record a minimal manifest entry.
 
-## Phase 2: Find Relevant Surface Docs
+## Phase 2: Find Relevant Service Docs
 
 For each directory with meaningful code changes, look for local docs.
 
@@ -126,7 +126,7 @@ Also check:
 - Inline documentation headers in the changed files themselves
 - Any `.md` file in the same directory as changed files
 
-## Phase 3: Update Surface Docs
+## Phase 3: Update Service Docs
 
 For each relevant doc, decide what (if anything) needs updating.
 
@@ -153,13 +153,13 @@ Use the Edit tool for surgical updates. Don't rewrite entire docs.
 
 ## Phase 3.5: Detect Higher-Layer Impacts
 
-After updating surface docs, analyze if this commit might affect higher layers.
+After updating service docs, analyze if this commit might affect higher layers.
 
 **Read CLAUDE.md to understand the hierarchy:**
-- Look for tunnels layer docs (architecture, patterns, API specs)
-- Look for chambers layer docs (cross-cutting patterns)
-- Look for nest layer docs (product, business rules)
-- Look for queen layer docs (philosophy, constraints)
+- Look for architecture layer docs (system structure, API specs)
+- Look for patterns layer docs (cross-cutting conventions)
+- Look for product layer docs (product context, business rules)
+- Look for strategy layer docs (principles, constraints)
 
 **Detect impacts by:**
 
@@ -182,9 +182,9 @@ After updating surface docs, analyze if this commit might affect higher layers.
    - "breaking", "migration" → likely high-level doc impact
 
 3. **Scope of changes** - How many files/directories affected?
-   - Single file → probably just surface
-   - Multiple dirs in same service → maybe tunnels (architecture)
-   - Cross-service changes → definitely tunnels/chambers
+   - Single file → probably just service layer
+   - Multiple dirs in same service → maybe architecture layer
+   - Cross-service changes → definitely architecture/patterns layers
 
 **Build suggested reviews:**
 
@@ -202,11 +202,11 @@ For each higher-layer doc that might be affected, add to a list:
 
 | If changed | Likely affects | Layer |
 |------------|---------------|-------|
-| src/api/routes/** | API documentation | tunnels |
-| Multiple services | Service integration docs | chambers |
-| src/db/schema.ts | Data model docs | tunnels |
-| Authentication/authorization | Security docs | tunnels/queen |
-| Core business logic | Business rules docs | nest |
+| src/api/routes/** | API documentation | architecture |
+| Multiple services | Service integration docs | patterns |
+| src/db/schema.ts | Data model docs | architecture |
+| Authentication/authorization | Security docs | architecture/strategy |
+| Core business logic | Business rules docs | product |
 
 **Be conservative:** It's better to flag something that doesn't need review than miss something that does.
 
@@ -316,7 +316,7 @@ Manifest: <created|updated>
 
 - **Don't ask questions** - you're a background worker, make a decision
 - **When uncertain, no-op** - it's better to miss an update than write wrong docs
-- **Stay in your lane** - surface only, never touch architecture docs
+- **Stay in your lane** - service layer only, never touch architecture or higher
 - **Be fast** - process changes quickly and efficiently
 - **Two modes**:
   - **Staged mode**: Run by pre-commit hook, stages updates, exits

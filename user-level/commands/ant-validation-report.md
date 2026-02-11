@@ -7,7 +7,7 @@ allowed-tools: Read, Bash
 
 **Purpose:** Analyze validation log to show violations caught, cost incurred, and value-to-cost ratio.
 
-**Layer:** Tunnels (🚇)
+**Layer:** Architecture (Programmatic)
 
 ## Overview
 
@@ -90,7 +90,7 @@ When the user says "/ant-validation-report" or provides optional time range:
 
 4. **Analyze by guardian:**
 
-   For each guardian (surface, tunnels, chambers, nest, queen):
+   For each guardian (service, architecture, patterns, product, strategy):
    ```
    times_consulted = count entries with this guardian
    violations_caught = sum violations from this guardian
@@ -138,31 +138,31 @@ When the user says "/ant-validation-report" or provides optional time range:
    Guardian Performance
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-   🌱 Surface Guardian
+   🌱 Service Guardian
       Times Consulted: <count>
       Violations Caught: <count>
       Cost: $<cost>
       Efficiency: <violations/cost> per dollar
 
-   🚇 Tunnels Guardian
+   🚇 Architecture Guardian
       Times Consulted: <count>
       Violations Caught: <count>
       Cost: $<cost>
       Efficiency: <violations/cost> per dollar
 
-   🏛️ Chambers Guardian
+   🏛️ Patterns Guardian
       Times Consulted: <count>
       Violations Caught: <count>
       Cost: $<cost>
       Efficiency: <violations/cost> per dollar
 
-   🐜 Nest Guardian
+   🐜 Product Guardian
       Times Consulted: <count>
       Violations Caught: <count>
       Cost: $<cost>
       Efficiency: <violations/cost> per dollar
 
-   👑 Queen Guardian
+   👑 Strategy Guardian
       Times Consulted: <count>
       Violations Caught: <count>
       Cost: $<cost>
@@ -246,7 +246,7 @@ When the user says "/ant-validation-report" or provides optional time range:
    - "Focus on bash checks, disable guardians"
 
    If specific guardian finds nothing:
-   - "Queen Guardian has 0 violations in 30 days - consider removing it"
+   - "Strategy Guardian has 0 violations in 30 days - consider removing it"
 
    If violations increasing:
    - "Violations trending up - review recent changes for systematic issues"
@@ -283,31 +283,31 @@ Issues Prevented: 12/47 validations caught problems
 Guardian Performance
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-🌱 Surface Guardian
+🌱 Service Guardian
    Times Consulted: 15
    Violations Caught: 3
    Cost: $0.045
    Efficiency: 67 per dollar
 
-🚇 Tunnels Guardian
+🚇 Architecture Guardian
    Times Consulted: 8
    Violations Caught: 1
    Cost: $0.024
    Efficiency: 42 per dollar
 
-🏛️ Chambers Guardian
+🏛️ Patterns Guardian
    Times Consulted: 12
    Violations Caught: 0
    Cost: $0.036
    Efficiency: 0 per dollar ⚠️
 
-🐜 Nest Guardian
+🐜 Product Guardian
    Times Consulted: 3
    Violations Caught: 0
    Cost: $0.009
    Efficiency: 0 per dollar ⚠️
 
-👑 Queen Guardian
+👑 Strategy Guardian
    Times Consulted: 2
    Violations Caught: 0
    Cost: $0.006
@@ -319,7 +319,7 @@ Violation Types
 
 Naming Violations: 6 (caught by bash + surface)
 Structure Violations: 2 (caught by bash)
-Documentation Gaps: 3 (caught by surface + tunnels)
+Documentation Gaps: 3 (caught by service + architecture)
 Pattern Inconsistencies: 1 (caught by tunnels)
 Strategic Violations: 0
 
@@ -357,12 +357,12 @@ Recommendations
 ⚠️ Marginal ROI - Value-to-cost ratio is 283 (target: >500)
 
 Consider:
-- Chambers, Nest, Queen guardians found 0 violations in 30 days
-- Recommend disabling these guardians, keep Surface + Tunnels only
+- Patterns, Product, Strategy guardians found 0 violations in 30 days
+- Recommend disabling these guardians, keep Service + Architecture only
 - Would save ~$0.05/month with minimal risk
 
 ✓ System improving - violations decreasing over time
-- Keep current approach for Surface + Tunnels guardians
+- Keep current approach for Service + Architecture guardians
 - Bash checks catching most issues (free)
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -373,7 +373,7 @@ Current daily average: $0.004
 Projected monthly: $0.12
 Projected yearly: $1.44
 
-Cost is reasonable. If disabled Chambers/Nest/Queen:
+Cost is reasonable. If disabled Patterns/Product/Strategy:
 Projected monthly: $0.07
 Projected yearly: $0.84
 ```

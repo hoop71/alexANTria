@@ -314,7 +314,7 @@ ANT-SURFACE.md       (🌱 Service - Individual service docs)
          },
          "guardians_consulted": [
            {
-             "layer": "surface|tunnels|chambers|nest|queen",
+             "layer": "service|architecture|patterns|product|strategy",
              "reason": "why triggered",
              "status": "PASS|FAIL|REQUIRES_APPROVAL",
              "violations": [...],
