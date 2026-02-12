@@ -26,29 +26,30 @@ fi
 
 # Copy user-level files (not symlink, so repo can be moved/deleted)
 cp "$SCRIPT_DIR/user-level/CLAUDE.md" "$CLAUDE_DIR/CLAUDE.md"
+
+# Clean and recreate commands directory (remove old commands)
+rm -rf "$CLAUDE_DIR/commands"
 mkdir -p "$CLAUDE_DIR/commands"
-# Only copy ant-*.md command files (skip ANT-SURFACE.md, worker-ant-prompt.md, README.md)
+
+# Only copy ant-*.md command files (skip ANT-PROGRAMMATIC.md, worker-ant-prompt.md, README.md, etc.)
 cp "$SCRIPT_DIR/user-level/commands/ant-"*.md "$CLAUDE_DIR/commands/"
 
 echo ""
 echo "✅ Installed to $CLAUDE_DIR:"
 echo "  • CLAUDE.md (global context)"
-echo "  • commands/ant-*.md ($(ls -1 "$SCRIPT_DIR/user-level/commands/"*.md | wc -l | tr -d ' ') commands)"
+echo "  • commands/ant-*.md (4 commands)"
 echo ""
 echo "🐜 Available Commands:"
-echo "  /ant-init                  Scout and establish colony"
-echo "  /ant-validate              Check installation health"
-echo "  /ant-upgrade               Upgrade framework"
-echo "  /ant-commit                Automated commit with docs"
-echo "  /ant-migrate               Migrate README → ANT-SURFACE"
-echo "  /ant-refresh-doc           Refresh specific doc"
-echo "  /ant-review-suggestions    Review pending suggestions"
-echo "  /ant-check-consistency     Run all guardians"
-echo "  /ant-validation-report     Show metrics & ROI"
+echo "  /ant-init       Initialize alexANTria in project"
+echo "  /ant-validate   Check documentation health and drift"
+echo "  /ant-suggest    Analyze changes and propose doc updates"
+echo "  /ant-capture    Capture intent during commits"
 echo ""
 echo "Next steps:"
 echo "  1. Restart Claude Code (if currently running)"
 echo "  2. cd into any project"
-echo "  3. Run /ant-init to establish the colony"
+echo "  3. Run /ant-init to scaffold structure"
+echo ""
+echo "Documentation: https://github.com/hoop71/alexANTria"
 echo ""
 echo "Done."

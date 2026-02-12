@@ -1,199 +1,165 @@
 ---
-description: Check installation health
+description: Check documentation health and drift
 allowed-tools: Read, Glob, Grep, Bash
 ---
 
-# 🐜 Ant Validate: Check Installation Health
+# 🐜 Ant Validate: Health Check
 
-Verify that alexANTria is properly installed and configured in the current project.
+Check for drift between documentation and code. Fully automated health check.
 
-**Scope:** Installation health + RLM validation (files exist, structure correct, selective loading working)
-**Not in scope:** Pattern consistency, rule violations (use `/ant-check-consistency` for that)
+**What it checks:**
+- Files referenced in ANT-PROGRAMMATIC.md actually exist
+- Patterns claimed in ANT-TOKENIZED.md are actually used in code
+- New files exist that aren't documented in SURFACE
+- Core structure is intact
+
+**Not in scope:** Performance metrics, complex validations (keep it simple)
+
+---
 
 ## Instructions
 
 When the user runs `/ant-validate`:
 
-### Step 1: Run RLM Validation Tests
+### Step 1: Check Core Structure
 
-First, run the automated RLM test suite:
-
-```bash
-./test-suite-rlm.sh 2>&1 | tee /tmp/rlm-validation.txt
-```
-
-Parse results to extract:
-- Tests passed/failed count
-- Which test suites passed
-
-### Step 2: Gather Installation Data
-
-Use a **single consolidated bash command** to check all file existence:
+Use a single consolidated bash command to verify alexANTria is installed:
 
 ```bash
 {
-  echo "=== CORE ==="
-  test -f CLAUDE.md && echo "CLAUDE.md=exists" || echo "CLAUDE.md=missing"
-  test -d .claude/rules && echo "rules=exists" || echo "rules=missing"
-  test -d .alexantria && echo "alexantria=exists" || echo "alexantria=missing"
+  echo "=== CORE STRUCTURE ==="
+  test -f CLAUDE.md && echo "✓ CLAUDE.md" || echo "✗ CLAUDE.md MISSING"
+  test -d .claude/rules && echo "✓ .claude/rules/" || echo "✗ .claude/rules/ MISSING"
+  test -d .alexantria && echo "✓ .alexantria/" || echo "✗ .alexantria/ MISSING"
 
-  echo "=== RULES ==="
-  ls -1 .claude/rules/*.md 2>/dev/null | wc -l | xargs echo "rule_count="
-
-  echo "=== CONFIG ==="
-  test -f .alexantria/config.json && jq -e '.version,.scope,.validation' .alexantria/config.json >/dev/null 2>&1 && echo "config=valid" || echo "config=invalid"
-
-  echo "=== MANIFEST ==="
-  test -f .alexantria/manifest.json && jq -e '.version,.repo,.changes' .alexantria/manifest.json >/dev/null 2>&1 && echo "manifest=valid" || echo "manifest=invalid"
-  jq '.changes | length' .alexantria/manifest.json 2>/dev/null | xargs echo "commit_count=" || echo "commit_count=0"
+  echo ""
+  echo "=== ANT DOCS ==="
+  test -f .alexantria/ANT-PROGRAMMATIC.md && echo "✓ ANT-PROGRAMMATIC.md" || echo "✗ ANT-PROGRAMMATIC.md missing"
+  test -f .alexantria/ANT-TOKENIZED.md && echo "✓ ANT-TOKENIZED.md" || echo "? ANT-TOKENIZED.md missing (optional)"
+  test -f .alexantria/ANT-INTENTIONAL.md && echo "✓ ANT-INTENTIONAL.md" || echo "? ANT-INTENTIONAL.md missing (optional)"
 }
 ```
 
-### Step 3: Calculate RLM Metrics
+If critical files are missing (CLAUDE.md, .alexantria/), stop here and report:
+```
+❌ alexANTria not installed. Run /ant-init first.
+```
 
-Calculate context efficiency:
+### Step 2: Validate ANT-PROGRAMMATIC.md References
+
+Read .alexantria/ANT-PROGRAMMATIC.md and extract file paths mentioned in it.
+
+For each path mentioned:
+- Check if file exists: `test -f <path>`
+- Report: `✓ path/to/file.md` or `✗ path/to/file.md (referenced but doesn't exist)`
+
+### Step 3: Check for Undocumented Files
+
+Find markdown and important files that exist but aren't in ANT-PROGRAMMATIC.md:
 
 ```bash
-{
-  TOTAL=$(find . -name "*.md" -not -path "./node_modules/*" -not -path "./docs/*" -exec cat {} \; | wc -c)
-  ACTIVE=$(($(wc -c < CLAUDE.md) + $(cat .claude/rules/*.md 2>/dev/null | wc -c || echo 0)))
-  RATIO=$(echo "scale=0; $TOTAL/$ACTIVE" | bc)
-
-  echo "total_docs=$TOTAL"
-  echo "active_context=$ACTIVE"
-  echo "reduction_ratio=$RATIO"
-}
+# Find markdown files (excluding node_modules, .git, etc.)
+find . -name "*.md" \
+  -not -path "./node_modules/*" \
+  -not -path "./.git/*" \
+  -not -path "./dist/*" \
+  -not -path "./build/*" \
+  | sort
 ```
 
-### Step 4: Read Critical Files
+Compare this list against files mentioned in ANT-PROGRAMMATIC.md.
 
-Use Read tool (silent, no output to user) to check:
-- CLAUDE.md structure (grep for layer emojis, sections)
-- .alexantria/config.json (parse JSON)
-- .alexantria/manifest.json (parse JSON)
+Report files that exist but aren't documented:
+```
+? new-file.md (exists but not in SURFACE)
+? docs/guide.md (exists but not in SURFACE)
+```
 
-### Step 5: Validate Structure
+### Step 4: Validate ANT-TOKENIZED.md Patterns (Optional)
 
-Check CLAUDEMD content for:
-- All 5 layer emojis present (👑 🐜 🏛️ 🚇 🌱)
-- "When to Read" section exists
-- "After Completing Work" section exists
+If ANT-TOKENIZED.md exists:
+- Read it and extract pattern claims (e.g., "We use X pattern", "All Y files follow Z convention")
+- For each specific, verifiable claim, try to validate:
+  - Example: "All API routes in src/api/" → check if src/api/ exists and has files
+  - Example: "Using TypeScript" → check for .ts files or tsconfig.json
 
-### Step 6: Output Formatted Report
+This is best-effort. Don't over-engineer. Just catch obvious drift.
 
-**IMPORTANT:** After gathering all data, output a **single formatted report** to the user. Do NOT show individual bash commands or file reads. The user sees only the final report:
+### Step 5: Output Report
+
+Show a formatted report:
 
 ```
-🐜 Colony Health Report
-━━━━━━━━━━━━━━━━━━━━━━━━
+🐜 Documentation Health Check
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 📁 Core Structure
   [✓] CLAUDE.md
-  [✓] .claude/rules/ (3 files)
-  [✓] .alexantria/ directory
+  [✓] .claude/rules/
+  [✓] .alexantria/
 
-📋 CLAUDE.md
-  [✓] All 5 layers present
-  [✓] "When to Read" section
-  [✓] "After Completing Work" section
+📄 Referenced Files (from ANT-PROGRAMMATIC.md)
+  [✓] README.md
+  [✓] RLM-ARCHITECTURE.md
+  [✗] PATTERNS.md (missing)
+  [✓] ANT-FRAMEWORK.md
 
-⚙️  Configuration
-  [✓] config.json valid
-  [✓] manifest.json valid
-  [✓] 6 commits tracked
+📝 Undocumented Files
+  [?] new-feature.md (not in SURFACE)
+  [?] docs/migration-guide.md (not in SURFACE)
 
-🔬 RLM Validation
-  [✓] Automated tests: 21/21 passed
-  [✓] Context reduction: 43x
-  [✓] Active context: 6.5 KB (2.3%)
-  [✓] Selective loading: WORKING
-  [✓] Three-pool separation: VERIFIED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Status: DRIFT DETECTED ⚠️
 
-━━━━━━━━━━━━━━━━━━━━━━━━
-Status: HEALTHY ✓
+Issues Found:
+  • 1 referenced file missing
+  • 2 undocumented files
 
-Exit Code: 0
+Run /ant-suggest to get update proposals
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-Use these symbols:
-- `[✓]` Pass (green conceptually)
-- `[✗]` Fail (red conceptually)
-- `[?]` Warning (yellow conceptually)
-- `[i]` Info
-
-### Step 7: Exit Codes
+### Step 6: Exit Codes
 
 Determine status:
-- **0 (HEALTHY)**: All critical components present
-- **1 (DEGRADED)**: Missing optional components
-- **2 (BROKEN)**: Missing critical files
+- **Exit 0 (HEALTHY)**: No missing references, no (or few) undocumented files
+- **Exit 1 (DRIFT)**: Missing references OR multiple undocumented files
+- **Exit 2 (BROKEN)**: Core structure missing (not installed)
 
-## Output Format Template
-
-```
-🐜 Colony Health Report
-━━━━━━━━━━━━━━━━━━━━━━━━
-
-Core Structure:
-  [✓] CLAUDE.md exists
-  [✓] .claude/rules/ exists (3 rules found)
-  [✓] .alexantria/ exists
-
-CLAUDE.md Validation:
-  [✓] Contains "The Anthill" section
-  [✓] All 5 layers present
-  [✓] "When to Read" table found
-  [✓] "After Completing Work" section found
-
-Rules Validation:
-  [✓] frontend.md (2 paths configured)
-  [✓] backend.md (1 path configured)
-  [?] templates.md (no paths in frontmatter - is this intentional?)
-
-Manifest Validation:
-  [✓] .alexantria/manifest.json exists
-  [✓] Valid JSON structure
-  [✓] Required fields present
-  [✓] 5 commit entries recorded
-
-Overall Status: HEALTHY
-
-Notes:
-  - Use /ant-commit for commits (includes worker ant)
-  - Git hooks not required (handled by /ant-commit)
-```
+---
 
 ## Visual Guidelines
 
 **Symbols:**
-- `[✓]` Pass (green conceptually)
-- `[✗]` Fail (red conceptually)
-- `[?]` Warning (yellow conceptually)
-- `[i]` Info/suggestion
+- `[✓]` Pass
+- `[✗]` Fail
+- `[?]` Warning/Info
 
-**Exit Codes:**
-- **0 (HEALTHY)**: All critical components present
-- **1 (DEGRADED)**: Missing optional components
-- **2 (BROKEN)**: Missing critical files, run /ant-init
+**Statuses:**
+- HEALTHY ✅ — All good
+- DRIFT DETECTED ⚠️ — Docs out of sync
+- BROKEN ❌ — Not installed
+
+---
 
 ## Implementation Notes
 
 **DO:**
-- Consolidate all file checks into ONE bash command
-- Use Read/Grep tools silently (don't show to user)
-- Process and validate data internally
-- Output ONE formatted report at the end
-- Use emojis and box drawing for visual appeal
+- Keep it simple — file existence checks and basic pattern matching
+- Use single consolidated bash command for file checks
+- Read ANT-PROGRAMMATIC.md and parse file references
+- Find undocumented files
+- Output clear, visual report
 
 **DON'T:**
-- Show individual bash commands (ls, test, grep, etc.)
-- Show raw file reads
-- Show intermediate validation steps
-- Output multiple times during execution
+- Make this complicated (no simulated metrics, no fake tests)
+- Show raw bash output to user (consolidate into report)
+- Claim to validate things you can't actually validate
+- Try to validate complex semantic claims
 
-The user should see:
-1. Your initial message ("Running health check...")
-2. ONE consolidated bash command (if needed for data gathering)
-3. The final formatted report
+**Key Principle:** This is a *drift detector*, not a comprehensive validator. It catches obvious issues:
+- Files that should exist but don't
+- Files that exist but aren't documented
+- Basic structural problems
 
-That's it. Clean, visual, professional.
+That's it. Simple, useful, honest.

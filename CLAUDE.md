@@ -11,49 +11,53 @@ Meta-repo: framework documents itself using RLM three-pool architecture.
 
 ## Implementation Docs (Using the Pattern)
 
-**RLM:** Programmatic (code) → Tokenized (attention) → Intentional (intent)
+**RLM:** Programmatic → Tokenized → Intentional
 
 Higher levels constrain lower levels.
 
-### Level 1: Programmatic
+### Programmatic
 
-**Surface** — [user-level/commands/ANT-SURFACE.md](./user-level/commands/ANT-SURFACE.md), [templates/ANT-SURFACE.md](./templates/ANT-SURFACE.md)
+[.alexantria/ANT-PROGRAMMATIC.md](./.alexantria/ANT-PROGRAMMATIC.md)
 
-Code-adjacent. Agents discover by reading files.
+What exists and where to find it. File index. Agents read on demand.
 
-### Level 2: Tokenized
+### Tokenized
 
-**Docs** — [.alexantria/ANT-DOCS.md](./.alexantria/ANT-DOCS.md)
+[.alexantria/ANT-TOKENIZED.md](./.alexantria/ANT-TOKENIZED.md)
 
-Active in attention. System structure, patterns, conventions. Selective RAG.
+Patterns, conventions, system structure. Loaded selectively into attention.
 
-### Level 3: Intentional
+### Intentional
 
-**Strategy** — [.alexantria/ANT-STRATEGY.md](./.alexantria/ANT-STRATEGY.md)
+[.alexantria/ANT-INTENTIONAL.md](./.alexantria/ANT-INTENTIONAL.md)
 
-Our intent. Why we do this, who for, core principles. Human-only.
+Why decisions were made, who this is for, core principles. Human knowledge.
 
 ## Quick Reference
 
-| Working on... | Read | Level |
+| Working on... | Read | Pool |
 |--------------|------|-------|
 | RLM foundation | RLM-ARCHITECTURE.md | — |
 | Pattern itself | ANT-FRAMEWORK.md, ANT-SCHEMA.md | — |
-| Commands/surface docs | ANT-SURFACE.md | Programmatic |
-| System structure/patterns | ANT-DOCS.md | Tokenized |
-| Strategy/why/who | ANT-STRATEGY.md | Intentional |
+| Understanding project | ANT-PROGRAMMATIC.md | Programmatic |
+| Following patterns | ANT-TOKENIZED.md | Tokenized |
+| Making decisions | ANT-INTENTIONAL.md | Intentional |
 
-## Committing
+## Commands
 
-**Use `/ant-commit "message"`** — Worker ant validates, updates docs, manifests, commits atomically.
+**Core commands:**
+- `/ant-init` — Scaffold structure in new projects
+- `/ant-validate` — Check documentation health and drift
+- `/ant-suggest` — Analyze changes and propose doc updates
+- `/ant-capture` — Capture intent during commits (replaces plain git commit)
 
 ## After Changes
 
 Update docs if you changed:
 - **RLM/pattern itself** → Meta docs (RLM-ARCHITECTURE.md, ANT-FRAMEWORK.md, ANT-SCHEMA.md)
-- **Commands/surface** → Surface (ANT-SURFACE.md) [Programmatic]
-- **System/patterns** → Docs (ANT-DOCS.md) [Tokenized]
-- **Strategy/why/who** → Strategy (ANT-STRATEGY.md) [Intentional]
+- **Files/structure** → ANT-PROGRAMMATIC.md
+- **Patterns/conventions** → ANT-TOKENIZED.md
+- **Decisions/principles** → ANT-INTENTIONAL.md
 
 ## Naming
 
