@@ -1,3 +1,8 @@
+---
+title: "Guardrails for Gas Town: Why Orchestration Needs Context Infrastructure"
+description: "Why multi-agent orchestration needs context infrastructure. Work memory (Beads) tracks what to do. Context memory (alexANTria) tracks how and why — using RLM three-pool architecture."
+---
+
 # Guardrails for Gas Town: Why Orchestration Needs Context Infrastructure
 
 **Or: How to Run 30 Agents Without Burning Down Production**
