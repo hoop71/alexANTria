@@ -6,15 +6,10 @@ Slash commands for alexANTria. These get installed to `~/.claude/commands/` and 
 
 | Command | Purpose |
 |---------|---------|
-| `/ant-init` | Scout and establish colony structure in a project |
-| `/ant-validate` | Verify alexANTria installation health (files exist) |
-| `/ant-upgrade` | Upgrade alexANTria framework to latest version |
-| `/ant-check-consistency` | Validate pattern and rule consistency (guardian agents) |
-| `/ant-validation-report` | Show validation metrics, violations caught, cost, ROI |
-| `/ant-commit` | Automated commit with worker ant (agent commits) |
-| `/ant-migrate` | Migrate README.md to ANT-SURFACE.md |
-| `/ant-refresh-doc` | Refresh a specific ANT-* doc based on recent changes |
-| `/ant-review-suggestions` | Review and apply higher-layer doc suggestions |
+| `/ant-init` | Initialize alexANTria structure in a project |
+| `/ant-validate` | Check documentation health and drift |
+| `/ant-suggest` | Analyze changes and propose doc updates |
+| `/ant-capture` | Capture intent during commits |
 
 ## Command Structure
 
@@ -45,125 +40,59 @@ The body is instructions for the agent. Write it like you're telling another dev
 - Describe decision points
 - Define what success looks like
 
-## ant-init
+## Core Commands
 
-The scout ant. Enters a new project and establishes the colony:
+### ant-init
 
-1. **Crawl** - Find existing documentation and code structure
-2. **Classify** - Map docs to the RLM 3-pool architecture
-3. **Configure** - Ask about starting_level, adoption mode, scope
-4. **Generate** - Create CLAUDE.md, .claude/rules/, .alexantria/, ANT-* files
-5. **Hook** - Install smart pre-commit hook
-6. **Checklist** - Present team adoption checklist
+Initialize alexANTria documentation structure in your project.
 
-## ant-upgrade
+**What it does:**
+- Creates CLAUDE.md (hierarchy map)
+- Creates .alexantria/ directory with RLM three-pool docs:
+  - ANT-PROGRAMMATIC.md (file index)
+  - ANT-TOKENIZED.md (patterns/conventions)
+  - ANT-INTENTIONAL.md (strategy/decisions)
+- Creates .claude/rules/ for path-based context loading
+- Scaffolds basic structure
 
-Upgrade alexANTria framework to latest version:
+**Simple, not magical.** Just creates files. You edit them to fit your project.
 
-1. **Check version** - Compare current to latest available
-2. **Show changelog** - What's new, breaking changes, improvements
-3. **Select components** - Ask which parts to upgrade (commands, guardians, templates)
-4. **Backup** - Save current version to .alexantria/backup/
-5. **Upgrade** - Update selected components
-6. **Migrate config** - Handle schema changes, preserve customizations
-7. **Validate** - Run health check on upgraded installation
-8. **Report** - Show results and next steps
+### ant-validate
 
-## commit
+Check documentation health and drift.
 
-Agent-only command. Wraps the entire commit workflow:
+**What it checks:**
+- Files referenced in ANT-PROGRAMMATIC.md actually exist
+- Patterns claimed in ANT-TOKENIZED.md are used in code
+- New files exist that aren't documented
+- Core structure is intact
 
-1. **Stage** - Check and stage modified files
-2. **Spawn worker ant** - Blocking Task tool call
-3. **Worker ant** - Updates ANT-* docs, detects impacts, stages changes
-4. **Commit** - Create commit with code + docs + manifest
-5. **Verify** - Show commit results
+**Fully automated health check.** Catches obvious drift between docs and code.
 
-## ant-migrate
+### ant-suggest
 
-Migrate existing README.md to ANT-SURFACE.md:
+Analyze changes and propose documentation updates.
 
-1. **Validate** - Check if README.md exists
-2. **Analyze** - Identify what content belongs in ANT-SURFACE.md
-3. **Generate** - Create ANT-SURFACE.md from template
-4. **Show diff** - Present changes to user
-5. **Execute** - Write ANT-SURFACE.md, remove README.md, update manifest
-6. **Stage** - Stage all changes for commit
+**What it does:**
+- Detects changes since last commit
+- Analyzes which ANT-* docs might need updates
+- Proposes specific changes
+- Shows diffs for review
 
-## ant-refresh-doc
+**Agent-assisted, human-approved.** Helps maintain docs without being intrusive.
 
-Refresh a specific ANT-* doc based on recent changes:
+### ant-capture
 
-1. **Read config** - Check starting_level and scope
-2. **Read manifest** - Find suggested_reviews for this doc
-3. **Analyze** - Check recent changes affecting this doc
-4. **Generate updates** - Update relevant sections
-5. **Show diff** - Present changes to user
-6. **Apply** - Write updates, mark suggestions as applied
-7. **Stage** - Stage doc and manifest
+Capture intent during commits (replaces plain git commit).
 
-## ant-review-suggestions
+**What it does:**
+- Stages changes
+- Analyzes what changed and why
+- Captures intent and context
+- Creates commit with documentation updates
+- Updates ANT-INTENTIONAL.md decision log if appropriate
 
-Review all pending higher-layer suggestions:
-
-1. **Read manifest** - Find all pending suggested_reviews
-2. **Group** - By doc and layer
-3. **Present** - Show summary with options (apply all/review individually/dismiss all)
-4. **Process** - Run /ant-refresh-doc for each doc or mark as dismissed
-5. **Report** - Show results and suggest commit
-
-## ant-check-consistency
-
-On-demand validation via guardian agents:
-
-1. **Read config** - Check if validation enabled
-2. **Gather context** - Scan recent changes and relevant files
-3. **Spawn guardians** - Run all 5 guardian agents in parallel (Haiku)
-4. **Collect reports** - Parse results from each guardian
-5. **Aggregate** - Generate comprehensive report
-6. **Update manifest** - Record consistency check
-
-## ant-validation-report
-
-Analyze validation log for metrics and ROI:
-
-1. **Read validation log** - Parse all validation entries from manifest
-2. **Calculate metrics** - Violations caught, cost incurred, value score
-3. **Analyze by guardian** - Which guardians catch most issues
-4. **Trend analysis** - Is system improving/stable/degrading over time
-5. **Generate report** - Overall summary, guardian performance, recommendations
-6. **Cost projection** - Estimate monthly/yearly cost
-
-## Guardian System
-
-alexANTria uses specialized Haiku agents to validate consistency at each layer:
-
-- **Service Guardian (Programmatic)** - Naming conventions (ant-*, ANT-*.md), file structure
-- **Architecture Guardian (Programmatic)** - Config schema, command structure, architecture coherence
-- **Patterns Guardian (Tokenized)** - Pattern consistency, duplication detection, cross-cutting conventions
-- **Product Guardian (Intentional)** - Adoption stages, workflows, product alignment
-- **Strategy Guardian (Intentional)** - Core principles, strategic constraints, ANT-* only enforcement
-
-Guardians are:
-- **Opt-in** (validation.enabled = false by default)
-- **Specialized** (each knows one layer deeply)
-- **Autonomous** (run independently, report violations)
-- **Cheap** (Haiku model, $0.002-0.005 per guardian)
-- **Fast** (run in parallel, complete in seconds)
-
-They run at two checkpoints:
-1. **pre_commit** - Worker ant consults affected guardians
-2. **on_demand** - /ant-check-consistency runs all guardians
-
-## ant-validate
-
-The scout ant health check. Verifies alexANTria installation:
-
-1. **Check structure** - Verify CLAUDE.md, .claude/rules/, .alexantria/ exist
-2. **Validate content** - Check CLAUDE.md has RLM 3-pool hierarchy
-3. **Check rules** - Verify frontmatter and path globs in rule files
-4. **Validate manifest** - Check JSON structure and required fields
-5. **Report health** - Generate pass/fail report with recommendations
+**Preserves the "why" automatically.** Intent captured at commit time, not reconstructed later.
 
 ## Writing New Commands
 
@@ -196,3 +125,13 @@ Philosophy and context...
 ```
 
 Run `./install.sh` to deploy your new command.
+
+## RLM Three-Pool Architecture
+
+Commands maintain three documentation pools:
+
+1. **Programmatic** (ANT-PROGRAMMATIC.md) - File index, what exists, where to find it
+2. **Tokenized** (ANT-TOKENIZED.md) - Patterns, conventions, what can't be inferred from code
+3. **Intentional** (ANT-INTENTIONAL.md) - Why decisions were made, principles, strategy
+
+Higher levels constrain lower levels. Commands help keep all three synchronized with code.

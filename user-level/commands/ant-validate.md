@@ -21,6 +21,28 @@ Check for drift between documentation and code. Fully automated health check.
 
 When the user runs `/ant-validate`:
 
+### Step 0: Check for Quiet Mode
+
+Check if invoked with `--quiet` flag (used by automatic hooks):
+
+```bash
+if [[ "$1" == "--quiet" ]]; then
+  QUIET_MODE=true
+else
+  QUIET_MODE=false
+fi
+```
+
+**Quiet mode behavior:**
+- Only output if issues found
+- Concise messages (one-line summaries)
+- Exit silently if all healthy
+
+**Normal mode behavior:**
+- Always output full report
+- Visual formatting
+- Detailed status
+
 ### Step 1: Check Core Structure
 
 Use a single consolidated bash command to verify alexANTria is installed:

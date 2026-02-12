@@ -70,4 +70,27 @@
 
 ---
 
-**Note:** This level is maintained manually. Worker ant will suggest updates but never auto-applies them. Changes here require human judgment.
+## Decision Log
+
+Major decisions and their context. Link to external sources when relevant.
+
+**External context sources:**
+- Issues: Jira, Linear, GitHub Issues
+- Design docs: Confluence, Notion, Google Docs
+- Discussions: Slack threads, Discord channels, email archives
+
+### Example Decision (Remove this)
+
+**Date:** 2026-02-11
+**Context:** Brief description or link to external context
+**External Refs:**
+  - Issue: [JIRA-123](https://jira.company.com/browse/JIRA-123)
+  - Design: [RFC-45](https://docs.company.com/rfc-45)
+  - Discussion: [Slack thread](https://company.slack.com/archives/C123/p456)
+**Decision:** What we decided
+**Why:** Reasoning and trade-offs
+**Alternatives Considered:** What we didn't choose and why
+
+---
+
+**Note:** This level is maintained semi-automatically. `/ant-capture` adds decision log entries during commits. Strategic sections require manual updates.

@@ -28,18 +28,19 @@ test -f CLAUDE.md && echo "exists" || echo "missing"
 test -d .alexantria && echo "exists" || echo "missing"
 ```
 
-If CLAUDE.md or .alexantria/ already exist:
+If .alexantria/ already exists:
 ```
 ⚠️  alexANTria already initialized here.
 
 Found:
-  • CLAUDE.md
   • .alexantria/
 
 Run /ant-validate to check health, or manually edit these files.
 ```
 
 Stop here. Don't overwrite existing setup.
+
+**Note:** If CLAUDE.md exists but .alexantria/ doesn't, continue with initialization (preserve existing CLAUDE.md).
 
 ### Step 2: Discover Project Structure
 
@@ -67,9 +68,16 @@ mkdir -p .alexantria
 mkdir -p .claude/rules
 ```
 
-### Step 4: Create CLAUDE.md
+### Step 4: Create CLAUDE.md (If Needed)
 
-Write CLAUDE.md to project root. Use template:
+**Check if CLAUDE.md already exists:**
+```bash
+test -f CLAUDE.md && echo "exists" || echo "missing"
+```
+
+**If CLAUDE.md exists:** Skip creating it (preserve existing file). Note this for the final output.
+
+**If CLAUDE.md doesn't exist:** Write CLAUDE.md to project root. Use template:
 
 ```markdown
 # alexANTria – Context
@@ -260,23 +268,124 @@ Before making changes, read:
 Follow the project's established patterns.
 ```
 
-### Step 9: Confirm
+### Step 9: Install Git Hook (Automatic)
+
+If .git/ directory exists, install pre-commit hook automatically:
+
+```bash
+if [ -d .git ]; then
+  cat > .git/hooks/pre-commit <<'EOF'
+#!/bin/bash
+# alexANTria: Automatic documentation maintenance
+# Runs /ant-capture before every commit
+
+if [ -f .alexantria/ANT-PROGRAMMATIC.md ]; then
+  if command -v claude &> /dev/null; then
+    # Run ant-capture to maintain docs
+    claude /ant-capture
+  else
+    echo ""
+    echo "⚠️  alexANTria installed but Claude not in PATH"
+    echo "    Documentation will not be updated automatically."
+    echo ""
+    echo "Continue commit without doc updates? [Y/n]"
+    read -r response
+    if [[ "$response" =~ ^[Nn]$ ]]; then
+      echo "Commit cancelled. Fix PATH and try again."
+      exit 1
+    fi
+  fi
+fi
+EOF
+  chmod +x .git/hooks/pre-commit
+  echo "✅ Git pre-commit hook installed (runs /ant-capture automatically)"
+else
+  echo "⚠️  No .git directory found. Git hook not installed."
+  echo "    Initialize git repo first: git init"
+fi
+```
+
+### Step 10: Confirm
+
+**If CLAUDE.md was created (didn't exist before):**
 
 ```
-✅ alexANTria initialized
+✅ alexANTria structure created
 
 Created:
   • CLAUDE.md — Hierarchy map
-  • .alexantria/ANT-PROGRAMMATIC.md — File index
-  • .alexantria/ANT-TOKENIZED.md — Patterns
-  • .alexantria/ANT-INTENTIONAL.md — Strategy
+  • .alexantria/ANT-PROGRAMMATIC.md — File index and code structure
+  • .alexantria/ANT-TOKENIZED.md — Patterns and conventions
+  • .alexantria/ANT-INTENTIONAL.md — Strategic decisions and principles
   • .claude/rules/codebase.md — Path-based rules
+  • .git/hooks/pre-commit — Automatic doc maintenance
+
+🤖 Automatic Features Enabled:
+  • Commits will automatically run /ant-capture (via git hook)
+  • Project open will validate docs health
+  • Commands run proactively when needed
 
 Next steps:
-  1. Edit the ANT-* files to match your project
-  2. Run /ant-validate to check health
-  3. Use /ant-capture for commits (captures intent)
-  4. Use /ant-suggest after major changes (proposes doc updates)
+  1. Review the ANT-* files and customize them for your needs
+  2. Make a commit - /ant-capture runs automatically
+  3. Run /ant-validate anytime to check health
+  4. Run /ant-suggest after major changes for proposals
+
+Documentation: https://github.com/hoop71/alexANTria
+```
+
+**If CLAUDE.md already existed (was preserved):**
+
+```
+✅ alexANTria structure created
+
+Created:
+  • .alexantria/ANT-PROGRAMMATIC.md — File index and code structure
+  • .alexantria/ANT-TOKENIZED.md — Patterns and conventions
+  • .alexantria/ANT-INTENTIONAL.md — Strategic decisions and principles
+  • .claude/rules/codebase.md — Path-based rules for [detected language] files
+  • .git/hooks/pre-commit — Automatic doc maintenance
+
+Note: Your existing CLAUDE.md was preserved (not overwritten) since it contains custom project documentation.
+
+🤖 Automatic Features Enabled:
+  • Commits will automatically run /ant-capture (via git hook)
+  • Project open will validate docs health
+  • Commands run proactively when needed
+
+---
+Integration Suggestion
+
+You have two options:
+
+Option 1: Add alexANTria hierarchy to existing CLAUDE.md
+
+Add this section to your existing CLAUDE.md:
+
+## alexANTria Documentation Hierarchy
+
+**RLM:** Programmatic → Tokenized → Intentional
+
+- [ANT-PROGRAMMATIC.md](./.alexantria/ANT-PROGRAMMATIC.md) — File index and structure
+- [ANT-TOKENIZED.md](./.alexantria/ANT-TOKENIZED.md) — Patterns and conventions
+- [ANT-INTENTIONAL.md](./.alexantria/ANT-INTENTIONAL.md) — Strategic decisions
+
+When making changes:
+- New files/structure → Update ANT-PROGRAMMATIC.md
+- New patterns → Update ANT-TOKENIZED.md
+- Strategic decisions → Update ANT-INTENTIONAL.md
+
+Option 2: Keep separate
+
+Leave CLAUDE.md as-is (detailed technical guide) and use the ANT-* files for higher-level documentation organization.
+
+---
+Next Steps
+
+1. Review the ANT-* files and customize them for your needs
+2. Run /ant-validate to check documentation health
+3. Use /ant-capture during commits to capture intent
+4. Use /ant-suggest after major changes for doc update proposals
 
 Documentation: https://github.com/hoop71/alexANTria
 ```

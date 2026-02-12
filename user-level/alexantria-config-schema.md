@@ -1,76 +1,33 @@
 # alexANTria Config Schema
 
-`.alexantria/config.json` - Project-level configuration for scope, updates, and adoption stage.
+`.alexantria/config.json` - Project-level configuration for alexANTria documentation system.
 
 ## Schema
 
 ```json
 {
-  "version": "0.1",
-  "worker_ant": {
-    "enabled": boolean,
-    "mode": "auto" | "agent-only" | "manual"
-  },
+  "version": "0.2",
   "scope": {
     "managed_paths": string[],
-    "exclude_paths": string[],
-    "starting_level": "surface" | "docs" | "strategy",
-    "graduated_files": {
-      "<native-filename>": {
-        "graduated_from": string,
-        "graduated_at": string,
-        "auto_maintain": boolean,
-        "pool": "programmatic" | "tokenized" | "intentional",
-        "native_target": string
-      }
-    }
+    "exclude_paths": []
   },
-  "auto_update": {
-    "ant_files": boolean
-  },
-  "commit_tracking": {
-    "enabled": boolean
-  },
-  "validation": {
-    "enabled": boolean,
-    "level": "critical" | "full",
-    "checkpoints": {
-      "pre_commit": boolean,
-      "on_demand": boolean
-    }
-  },
-  "adoption_stage": "pilot" | "active" | "full",
-  "collaboration": {
-    "mode": "local_only" | "team_shared",
-    "gitignored_at": string | null,
-    "published_at": string | null
-  }
+  "adoption_stage": "pilot" | "active" | "full"
 }
 ```
 
+**Note:** alexANTria is automatic by default. If `.alexantria/` exists, documentation maintenance is active.
+
 ## Fields
 
-### `worker_ant.enabled`
-- **Type:** boolean
-- **Default:** true
-- **Description:** Master switch. If false, all worker ant behavior disabled.
-
-### `worker_ant.mode`
+### `version`
 - **Type:** string
-- **Options:** "auto", "agent-only", "manual"
-- **Default:** "auto"
-- **Description:** How worker ant triggers
-
-| Mode | Agent Commits | Human Commits |
-|------|---------------|---------------|
-| **auto** | Spawns worker ant | Hook warns/tries to spawn |
-| **agent-only** | Spawns worker ant | Hook warns to use agent |
-| **manual** | Manual /ant-update | Manual /ant-update |
+- **Current:** "0.2"
+- **Description:** Config schema version
 
 ### `scope.managed_paths`
 - **Type:** string[] (glob patterns)
 - **Default:** ["**"]
-- **Description:** Which directories worker ant manages. Use globs.
+- **Description:** Which paths worker ant manages
 - **Examples:**
   - `["src/**"]` - Only src/
   - `["src/auth/**", "src/api/**"]` - Specific modules
@@ -79,120 +36,10 @@
 ### `scope.exclude_paths`
 - **Type:** string[] (glob patterns)
 - **Default:** []
-- **Description:** Paths to never touch, even if in managed_paths
+- **Description:** Paths to never touch
 - **Examples:**
   - `["src/legacy/**"]` - Don't touch legacy code
   - `["**/vendor/**", "**/node_modules/**"]` - Exclude deps
-
-### `scope.starting_level`
-- **Type:** string
-- **Options:** "surface", "docs", "strategy"
-- **Default:** "surface"
-- **Description:** Highest level worker ant auto-maintains. At or below = automated, above = suggestions only.
-- **Levels:**
-  - **surface** - Only ANT-SURFACE.md (programmatic - code-adjacent)
-  - **docs** - ANT-SURFACE.md + ANT-DOCS.md (tokenized - system structure & patterns)
-  - **strategy** - All levels (intentional - strategic context, rarely used)
-- **Note:** ANT-STRATEGY.md typically requires manual updates. starting_level="strategy" means full automation (use with caution).
-
-### `scope.graduated_files`
-- **Type:** object (optional)
-- **Default:** {}
-- **Description:** Tracks files that have graduated from ANT-* to native names. Once graduated, worker ant maintains the native file directly.
-- **Schema:**
-```json
-{
-  "<native-filename>": {
-    "graduated_from": string,     // Original ANT-* filename
-    "graduated_at": string,        // ISO 8601 timestamp
-    "auto_maintain": boolean,      // Whether worker ant maintains this
-    "pool": string,                // "programmatic" | "tokenized" | "intentional"
-    "native_target": string        // Native filename (same as key)
-  }
-}
-```
-- **Example:**
-```json
-{
-  "README.md": {
-    "graduated_from": "ANT-README.md",
-    "graduated_at": "2026-02-10T12:00:00Z",
-    "auto_maintain": true,
-    "pool": "programmatic",
-    "native_target": "README.md"
-  },
-  "ARCHITECTURE.md": {
-    "graduated_from": "ANT-ARCHITECTURE.md",
-    "graduated_at": "2026-02-10T13:00:00Z",
-    "auto_maintain": true,
-    "pool": "tokenized",
-    "native_target": "ARCHITECTURE.md"
-  }
-}
-```
-- **Note:** After graduation, worker ant looks for native files (README.md) instead of ANT-* files in graduated directories
-
-### `auto_update.ant_files`
-- **Type:** boolean
-- **Default:** true
-- **Description:** Auto-update ANT-* files at or below starting_level
-- **Note:** Worker ant only touches ANT-* files. README.md and other docs require explicit migration via /ant-migrate
-
-### `commit_tracking.enabled`
-- **Type:** boolean
-- **Default:** true
-- **Description:** Track commits in manifest
-
-### `validation.enabled`
-- **Type:** boolean
-- **Default:** false
-- **Description:** Enable guardian agent validation system (opt-in)
-- **Note:** When enabled, worker ant consults guardian agents to validate consistency
-
-### `validation.level`
-- **Type:** string
-- **Options:** "critical", "full"
-- **Default:** "critical"
-- **Description:** Validation thoroughness level
-- **Levels:**
-  - **critical:** Only naming conventions and structural violations (fast, ~$0.005/check)
-  - **full:** Everything including coherence, cross-references, duplication (comprehensive, ~$0.01-0.02/check)
-
-### `validation.checkpoints.pre_commit`
-- **Type:** boolean
-- **Default:** true
-- **Description:** Run guardians before commits (worker ant consults them)
-- **Note:** Only runs guardians for affected layers (cost scales with changes)
-
-### `validation.checkpoints.on_demand`
-- **Type:** boolean
-- **Default:** true
-- **Description:** Allow /ant-check-consistency command
-- **Note:** Runs all 5 guardians for comprehensive validation
-
-### `collaboration.mode`
-- **Type:** string
-- **Options:** "local_only", "team_shared"
-- **Default:** "team_shared"
-- **Description:** Collaboration mode - determines file visibility
-- **Modes:**
-  - **local_only:** All alexANTria files (except config.json) gitignored. Test privately before sharing with team.
-  - **team_shared:** All alexANTria files tracked in git. Team sees all ANT-* docs.
-- **Note:** Transition from local_only to team_shared via /ant-publish (one-way)
-
-### `collaboration.gitignored_at`
-- **Type:** string | null
-- **Default:** null
-- **Description:** ISO 8601 timestamp when local-only mode was enabled
-- **Example:** "2026-02-11T10:30:00Z"
-- **Note:** Set by /ant-init when choosing local-only mode. Preserved after publishing (historical record).
-
-### `collaboration.published_at`
-- **Type:** string | null
-- **Default:** null
-- **Description:** ISO 8601 timestamp when published to team
-- **Example:** "2026-02-11T11:45:00Z"
-- **Note:** Set by /ant-publish when transitioning to team-shared mode. Null if never published or always team-shared.
 
 ### `adoption_stage`
 - **Type:** string
@@ -200,115 +47,65 @@
 - **Default:** "pilot"
 - **Description:** Adoption stage (informational, affects defaults)
 
-## Adoption Stages
 
-### Pilot (Prove It Works)
-**Goal:** Test in single directory with minimal risk
+## Example Configurations
+
+### Pilot (Test in One Directory)
 ```json
 {
+  "version": "0.2",
   "scope": {
-    "managed_paths": ["src/auth/**"],
-    "starting_level": "surface"
-  },
-  "auto_update": {
-    "ant_files": true
+    "managed_paths": ["src/auth/**"]
   },
   "adoption_stage": "pilot"
 }
 ```
-**Result:**
-- ANT-SURFACE.md auto-maintained in src/auth/
-- Higher layers (tunnels, chambers, nest, queen) get suggestions only
-- README.md untouched (use /ant-migrate to convert later)
+
+**Result:** Documentation maintained for src/auth/ only.
 
 ### Active (Expanding Scope)
-**Goal:** Multiple directories, begin architecture docs
 ```json
 {
+  "version": "0.2",
   "scope": {
     "managed_paths": ["src/**", "lib/**"],
-    "exclude_paths": ["src/legacy/**"],
-    "starting_level": "surface"
-  },
-  "auto_update": {
-    "ant_files": true
+    "exclude_paths": ["src/legacy/**"]
   },
   "adoption_stage": "active"
 }
 ```
-**Result:**
-- ANT-SURFACE.md auto-maintained across src/ and lib/
-- Optionally upgrade starting_level: "docs" to auto-maintain ANT-ARCHITECTURE.md
-- Can migrate README.md → ANT-SURFACE.md directory-by-directory
+
+**Result:** Documentation maintained across src/ and lib/, excluding legacy code.
 
 ### Full (Complete Automation)
-**Goal:** Entire repo, potentially including architecture layer
 ```json
 {
+  "version": "0.2",
   "scope": {
-    "managed_paths": ["**"],
-    "starting_level: "docs"
-  },
-  "auto_update": {
-    "ant_files": true
+    "managed_paths": ["**"]
   },
   "adoption_stage": "full"
 }
 ```
-**Result:**
-- ANT-SURFACE.md auto-maintained everywhere
-- ANT-ARCHITECTURE.md auto-maintained (architecture)
-- ANT-PATTERNS.md, ANT-PRODUCT.md, ANT-STRATEGY.md get suggestions only
-- All README.md files migrated to ANT-SURFACE.md
 
-## Migration Paths
+**Result:** Documentation maintained for entire repository.
 
-### Path 1: New Repo (Greenfield)
-```
-1. Run /ant-init
-2. Choose "ANT-only" mode
-3. Choose starting_level: "surface" (recommended)
-4. ANT-SURFACE.md created in all directories
-5. Fully automated from day 1
-```
+## RLM Three-Pool Architecture
 
-### Path 2: Existing Repo (Brownfield - Cautious)
-```
-1. Run /ant-init
-2. Choose "Hybrid-to-ANT" mode
-3. Set managed_paths: ["src/auth/**"] (single directory pilot)
-4. Set starting_level: "surface"
-5. ANT-SURFACE.md created, README.md stays
-6. Test for 5-10 commits
-7. Run /ant-migrate src/auth (README → ANT-SURFACE)
-8. Expand scope to src/**
-9. Repeat migration per directory
-10. Eventually: full adoption
-```
+alexANTria implements the three-pool RLM architecture:
 
-### Path 3: Existing Repo (Brownfield - Aggressive)
-```
-1. Run /ant-init
-2. Choose "ANT-only" mode
-3. Set managed_paths: ["src/**"]
-4. Set starting_level: "surface"
-5. Manually migrate existing READMEs:
-   for dir in $(find src -type f -name README.md); do
-     /ant-migrate $(dirname $dir)
-   done
-6. Full automation across src/
-```
+1. **Programmatic Pool** - File index, discoverable from code
+2. **Tokenized Pool** - Patterns and conventions, must be documented
+3. **Intentional Pool** - Strategy and principles, human knowledge
 
-### Path 4: Rip It Out
+Higher levels constrain lower levels. The `starting_level` determines automation boundary.
+
+## Migration and Removal
+
+### Remove alexANTria
 ```bash
-git rm -r ANT-*.md .alexantria/ .claude/
-git rm .git/hooks/pre-commit
+git rm -r .alexantria/ .claude/ CLAUDE.md
 git commit -m "Remove alexANTria"
 ```
+
 Clean removal. No trace left.
-
-## Team Adoption
-
-**Critical:** All team members must have the same config. This file is committed to git.
-
-**Scope control prevents partial adoption issues** - if src/auth/ is managed, ALL commits to src/auth/ get worker ant processing (via hook detection).

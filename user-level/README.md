@@ -6,10 +6,12 @@ Files here install to `~/.claude/` and apply to **all projects**.
 
 ```
 user-level/
-├── CLAUDE.md          # Universal philosophy
+├── CLAUDE.md              # Universal philosophy
 └── commands/
-    ├── ant-init.md    # /ant-init
-    └── ant-update.md  # /ant-update
+    ├── ant-init.md        # /ant-init
+    ├── ant-validate.md    # /ant-validate
+    ├── ant-suggest.md     # /ant-suggest
+    └── ant-capture.md     # /ant-capture
 ```
 
 ## Install

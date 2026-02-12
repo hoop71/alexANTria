@@ -21,20 +21,20 @@ Every session starts from scratch. You re-explain architecture, context bloats, 
 
 ## The Solution
 
-**alexANTria extends RLMs with a third intentional pool** and provides **tooling to maintain all three:**
+**alexANTria extends RLMs with a third intentional pool** and provides **automatic maintenance:**
 
 1. **Programmatic** — What exists and where to find it (file index)
 2. **Tokenized** — Patterns and conventions that must be documented
 3. **Intentional** — Why decisions were made, principles, context
 
-**Commands to maintain them:**
+**How it works:**
 
-- `/ant-validate` — Check documentation health and drift
-- `/ant-suggest` — Analyze changes and propose doc updates
-- `/ant-capture` — Capture intent during commits
-- Auto-loading rules — Deliver relevant context based on file paths
+- **Automatic:** Git pre-commit hook runs `/ant-capture` before every commit
+- **Proactive:** `/ant-validate` checks health when you open projects
+- **Assisted:** `/ant-suggest` proposes updates after major changes
+- **Contextual:** Auto-loads relevant docs based on file paths you're editing
 
-**Goal:** Layered documentation that survives sessions, stays synchronized, and scales with your team.
+**Goal:** Documentation that maintains itself, survives sessions, and scales with your team.
 
 ---
 
@@ -44,9 +44,12 @@ Every session starts from scratch. You re-explain architecture, context bloats, 
 curl -fsSL https://raw.githubusercontent.com/hoop71/alexANTria/main/install.sh | bash
 # Restart Claude Code
 cd your-project/ && /ant-init
+# Done - commits now maintain docs automatically
 ```
 
-**Teams:** Each dev installs commands locally. Project structure (CLAUDE.md, ANT-* files) lives in git.
+**Automatic by default:** `/ant-init` installs git pre-commit hook that runs `/ant-capture` before every commit.
+
+**Teams:** Each dev installs commands locally. Project structure (CLAUDE.md, ANT-* files, git hook) lives in git.
 
 ---
 
@@ -73,19 +76,18 @@ When agents edit files, `.claude/rules/*.md` auto-loads based on path patterns, 
 
 ## Commands
 
-- `/ant-init` — Scaffold initial structure
-- `/ant-validate` — Check documentation health and drift
-- `/ant-suggest` — Analyze changes and propose doc updates
-- `/ant-capture` — Capture intent during commits
+- `/ant-init` — Scaffold structure + install git hook (one-time setup)
+- `/ant-capture` — Capture intent during commits (runs automatically via git hook)
+- `/ant-validate` — Check documentation health (runs on project open)
+- `/ant-suggest` — Analyze changes and propose doc updates (manual)
 
-Pattern: Structure → Validate → Maintain
+**Pattern:** Setup once → Automatic maintenance → Manual refinement when needed
 
 ---
 
 ## Documentation
 
 - **[RLM-ARCHITECTURE.md](./RLM-ARCHITECTURE.md)** — Three-pool architecture explained
-- **[RLM-THEORY.md](./RLM-THEORY.md)** — Theory and design rationale
 - **[ANT-FRAMEWORK.md](./ANT-FRAMEWORK.md)** — How the pools coordinate
 - **[ANT-SCHEMA.md](./ANT-SCHEMA.md)** — Documentation pattern
 - **[CLAUDE.md](./CLAUDE.md)** — This project's hierarchy map

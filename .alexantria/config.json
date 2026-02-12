@@ -1,34 +1,10 @@
 {
-  "version": "0.1",
-  "worker_ant": {
-    "enabled": true,
-    "mode": "auto"
-  },
+  "version": "0.2",
   "scope": {
     "managed_paths": [
       "**"
     ],
-    "exclude_paths": [],
-    "starting_level": "service"
+    "exclude_paths": []
   },
-  "auto_update": {
-    "ant_files": true
-  },
-  "commit_tracking": {
-    "enabled": true
-  },
-  "validation": {
-    "enabled": false,
-    "level": "critical",
-    "checkpoints": {
-      "pre_commit": true,
-      "on_demand": true
-    }
-  },
-  "adoption_stage": "full",
-  "collaboration": {
-    "mode": "team_shared",
-    "gitignored_at": null,
-    "published_at": null
-  }
+  "adoption_stage": "full"
 }

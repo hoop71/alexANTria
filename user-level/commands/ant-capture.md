@@ -5,14 +5,19 @@ allowed-tools: Read, Glob, Grep, Bash, Write, Edit
 
 # 🐜 Ant Capture: Capture Intent During Commits
 
-Wrapper around `git commit` that captures human intent to appropriate documentation layers.
+Automatically captures human intent to appropriate documentation layers during commits.
 
-**Human-in-loop:** Agent analyzes staged changes → prompts for "why" → captures to right layer → commits atomically.
+**How it works:**
+- Runs automatically via git pre-commit hook (installed by `/ant-init`)
+- Analyzes staged changes
+- Updates relevant ANT-* documentation
+- Creates commit with code + docs together
 
-**When to use:**
-- Every commit (instead of plain `git commit`)
-- When changes introduce new patterns
-- When changes affect strategic areas (auth, architecture, core modules)
+**Execution modes:**
+1. **Automatic (default):** Runs via `.git/hooks/pre-commit` before every commit
+2. **Manual:** Run `/ant-capture` directly if needed
+
+**Human-in-loop:** Agent analyzes → captures to right layer → commits atomically.
 
 ---
 
