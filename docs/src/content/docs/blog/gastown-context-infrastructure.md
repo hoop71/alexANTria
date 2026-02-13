@@ -9,9 +9,9 @@ description: "Why multi-agent orchestration needs context infrastructure. Work m
 
 ---
 
-**Version:** 0.1.0 (January 20, 2026)
-**Status:** Early exploration - sharing what we've learned so far
-**Last Updated:** 2026-01-20
+**Version:** 0.2.0 (February 11, 2026)
+**Status:** Active development - three-pool architecture validated
+**Last Updated:** 2026-02-11
 **Discussions:** [GitHub Issues](https://github.com/hoop71/alexANTria/issues) | [Changelog](#changelog)
 
 ---
@@ -114,8 +114,8 @@ Your 20 agents ship fast. Tests pass. Merge conflicts resolve. But users see:
 
 **Code chaos self-corrects.** Bugs get fixed, redundancy gets refactored. **UX chaos accumulates.** Users adapt to broken patterns. New features build on inconsistent foundations. **At agent speed, you can destroy product-market fit in a week.**
 
-**Layer 1 prevents catastrophic technical chaos.** (Never force-push, never commit secrets)
-**Layer 2 prevents user experience chaos.** (Who is this for? What problem does it solve? How should it feel?)
+**The Tokenized pool prevents catastrophic technical chaos.** (Never force-push, never commit secrets — patterns every agent follows.)
+**The Intentional pool prevents user experience chaos.** (Who is this for? What problem does it solve? How should it feel? — strategy only humans can capture.)
 
 ### The RLM Foundation: Why Context Infrastructure Is Structural
 
@@ -129,15 +129,15 @@ Recent research into RLMs (Retrieval-Augmented Language Models) reveals why cont
 
 Models intelligently filter what moves from programmatic to tokenized space, preventing attention degradation.
 
-**At Project Scale:** alexANTria applies the same principle:
+**At Project Scale:** alexANTria extends the two-pool model with a critical third pool:
 
-| RLM Architecture | alexANTria Implementation |
-|-----------------|---------------------------|
-| Programmatic pool | Your codebase (code reality) |
-| Tokenized pool | ANT-* docs (how we work) |
-| **Third pool** | Human knowledge (why we decided) |
+| RLM Pool | What It Holds | alexANTria Implementation |
+|----------|--------------|---------------------------|
+| **Programmatic** | Code reality — what exists | Your codebase (agents discover this) |
+| **Tokenized** | Patterns — how we work | ANT-* docs (agents need this written down) |
+| **Intentional** | Strategy — why we decided | Human knowledge (only humans can capture this) |
 
-The insight: codebases have a **third pool** that RLMs don't address—**intentional context**. Strategic decisions, product rationale, and business constraints can't be inferred from code or docs. Humans must capture them.
+The insight: codebases have a **third pool** that RLMs don't address—**intentional context**. Strategic decisions, product rationale, and business constraints can't be inferred from code or docs. Humans must capture them. (See [Three Pools or Nothing](/blog/three-pools-or-nothing) for a deep dive on why all three pools are the minimum viable shape.)
 
 **The Knowledge Spectrum:**
 
@@ -152,11 +152,13 @@ This explains why alexANTria has five layers: they map from code-adjacent realit
 **Why This Matters for Gas Town:**
 
 At 30 agents, you have:
-- **30 agents reading code** (programmatic pool) ✓
-- **30 agents reading docs** (tokenized pool) ✓ with Beads
-- **30 agents needing strategy** (intentional pool) ✗ stuck in Steve's head
+- **30 agents reading code** (Programmatic pool) ✓
+- **30 agents reading docs** (Tokenized pool) ✓ with Beads
+- **30 agents needing strategy** (Intentional pool) ✗ stuck in Steve's head
 
-Beads solves work memory. Gas Town solves orchestration. **alexANTria solves the intentional pool**—capturing why decisions were made so agents don't need Steve to explain architecture, constraints, and product direction every convoy.
+Beads solves work memory. Gas Town solves orchestration. **alexANTria solves the Intentional pool**—capturing why decisions were made so agents don't need Steve to explain architecture, constraints, and product direction every convoy.
+
+**The Intentional pool is the irreducible core.** Agents can discover code. Agents can follow documented patterns. But agents cannot infer product strategy, business constraints, or the "why" behind architectural choices. That requires human feedback — and it's the part most teams skip.
 
 See [The Potential of RLMs](https://www.dbreunig.com/2026/02/09/the-potential-of-rlms.html) for the research foundation.
 
@@ -191,18 +193,17 @@ alexANTria: Polecat 5 discovers "API changed to /v2/auth", updates context. Pole
 
 Steve's pain: "Execs don't know what was built. Product can't influence."
 
-alexANTria's 5-layer structure enables product steering:
-- Layer 1: Philosophy (execs)
-- Layer 2: Product/Business (product managers)
-- Layer 3: Architecture (tech leads)
-- Layers 4-5: Implementation (developers, agents)
+alexANTria's three-pool structure enables product steering:
+- **Intentional pool:** Strategy and product direction (execs, product managers)
+- **Tokenized pool:** Patterns and architecture (tech leads, developers)
+- **Programmatic pool:** Code reality (developers, agents)
 
 ### How They Work Together
 
 When a polecat claims a convoy in Gas Town:
 
 1. **Reads Beads:** "What's my task?" → `bd-a7f3: Implement login form`
-2. **Reads alexANTria:** "How do we do this?" → Loads `.claude/rules/frontend.md`, reads Layer 1 philosophy, Layer 2 product spec
+2. **Reads alexANTria:** "How do we do this?" → Loads `.claude/rules/frontend.md`, reads Intentional pool (product strategy), Tokenized pool (patterns)
 3. **Executes** using both memories → Implements correctly first time
 4. **Repairs trails** → Updates `frontend/README.md` if pattern is new
 
@@ -231,15 +232,15 @@ alexANTria provides the on-ramp from day one through to swarm scale.
 
 ### The Adoption Ramp
 
-Not everyone will run Gas Town. Most developers are at Stage 4-6 (1-5 concurrent sessions, hand-managed). But they still feel context pain.
+Not everyone will run Gas Town. Most developers use 1-5 concurrent sessions, hand-managed. But they still feel context pain.
 
 **alexANTria provides the on-ramp:**
 
-| Stage | Setup | What alexANTria Provides |
-|-------|-------|--------------------------|
-| **Stage 4-5** | 1-2 Claude sessions | Persistent context across sessions |
-| **Stage 6-7** | 3-10 concurrent agents | Shared context, reduced prompt bloat |
-| **Stage 8** | Gas Town orchestration | Context infrastructure beneath orchestration |
+| Setup | What alexANTria Provides |
+|-------|--------------------------|
+| 1-2 Claude sessions | Persistent context across sessions |
+| 3-10 concurrent agents | Shared context, reduced prompt bloat |
+| Gas Town orchestration | Context infrastructure beneath orchestration |
 
 You don't need Gas Town to need alexANTria. But when you're ready for Gas Town, alexANTria slots right in.
 
@@ -341,11 +342,11 @@ We're actively working on these. Each has an open discussion—please share your
 
 **Problem:** New project, empty alexANTria. How do you prime it without creating garbage?
 
-**Exploring:** `/ant-init` scaffolds from discovered docs. Convention-based layering. Humans write Layer 1, agents draft Layers 2-4.
+**Current approach:** `/ant-init` scaffolds the three-pool structure. Start with the Intentional pool (humans write strategy — four paragraphs is enough). Agents help maintain Programmatic and Tokenized pools from there. Local-only mode lets you test privately before team adoption.
 
-**Open question:** Can agents bootstrap Layer 1 from interviews? What's minimum viable context? How do you bootstrap Layer 2 for user-facing products (personas, UX principles)?
+**Remaining question:** Can agents help draft the Intentional pool through interviews? What's minimum viable context for each pool?
 
-**Status:** 🔴 Unknown
+**Status:** 🔶 Exploring
 
 ---
 
@@ -358,13 +359,28 @@ We're actively working on these. Each has an open discussion—please share your
 
 ## Changelog
 
+### Version 0.2.0 (2026-02-11)
+**Three-pool alignment and practical adoption**
+
+**What changed:**
+- Aligned all terminology with RLM three-pool architecture (Programmatic / Tokenized / Intentional)
+- Emphasized the Intentional pool as the irreducible core — human feedback that agents cannot infer
+- Updated Challenge 5 (Cold Start) from 🔴 Unknown to 🔶 Exploring — `/ant-init` scaffolds three-pool structure, local-only mode enables private testing
+- Added cross-link to [Three Pools or Nothing](/blog/three-pools-or-nothing) for the practical adoption guide
+
+**Status of challenges:**
+- 🔶 Exploring: Challenges 1, 2, 4, 5
+- 🔴 Unknown: Challenge 3
+
+---
+
 ### Version 0.1.0 (2026-01-20)
 **Initial position paper**
 
-**What we're sharing:**
+**What we shared:**
 - Work memory ≠ context memory as core insight
 - Three kinds of chaos: acceptable, catastrophic, user experience drift
-- Layer 2 prevents UX chaos (agents building incoherent products)
+- Intentional pool prevents UX chaos (agents building incoherent products)
 - 5 known challenges, actively exploring
 
 **Status of challenges:**
@@ -384,6 +400,9 @@ _This changelog tracks how our understanding evolves. The blog post itself is li
 - Works with Claude Code, Cursor, Windsurf
 - 5-minute setup: `/ant-init` scaffolds your project
 
+**Read next:**
+- [Three Pools or Nothing](/blog/three-pools-or-nothing) — Why three pools is the minimum viable shape, and how to adopt it
+
 **Explore the stack:**
 - [Gas Town](https://steve-yegge.medium.com/welcome-to-gas-town-4f25ee16dd04) - Orchestration (Steve Yegge)
 - [Beads](https://steve-yegge.medium.com/introducing-beads-a-coding-agent-memory-system-637d7d92514a) - Work memory (Steve Yegge)
@@ -392,7 +411,7 @@ _This changelog tracks how our understanding evolves. The blog post itself is li
 **Join the conversation:**
 - What context problems are you hitting?
 - How are you managing institutional memory?
-- Ready for Stage 8, or building the foundation first?
+- Have you captured your Intentional pool yet?
 
 ---
 
